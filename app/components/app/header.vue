@@ -13,23 +13,22 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active">
+          <li :class="{ 'active': $route.name == 'index' }">
             <nuxt-link to="/">Home</nuxt-link>
           </li>
-          <li class="dropdown">
+          <li :class="['dropdown', {active: isGroupMenu('services')}]">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+              <li class="dropdown-header">People API</li>
+              <li>
+                <nuxt-link to="/services/people-get">Get info for a specific person</nuxt-link>
+              </li>
               <li role="separator" class="divider"></li>
-              <li class="dropdown-header">Nav header</li>
               <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
             </ul>
           </li>
-          <li>
+          <li :class="{ 'active': $route.name == 'bootstrap' }">
             <nuxt-link to="/bootstrap">Bootstrap</nuxt-link>
           </li>
         </ul>
@@ -40,6 +39,21 @@
 
 <script>
   export default {
-
+    methods: {
+      isGroupMenu: function (item) {
+        switch (item) {
+          case 'services':
+            return this.$route.path === '/services/people-get'
+          default:
+            return false
+        }
+      }
+    }
   }
 </script>
+
+<style>
+  .navbar-brand {
+    color: white !important;
+  }
+</style>

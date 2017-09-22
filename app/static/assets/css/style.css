@@ -6,6 +6,8 @@ body {
   padding-bottom: 30px;
 }
 
+/* NAV-BAR */
+
 .theme-dropdown .dropdown-menu {
   position: static;
   display: block;
@@ -31,5 +33,36 @@ body {
   color: black;
   text-shadow: 0 3px 3px #bdbdbd;
   font-family: playball, sans-serif;
+}
+
+/* Blockquotes */
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.bs-callout-info {
+  border-left-color: #1b809e;
+}
+
+.bs-callout-info h4 {
+  color: #1b809e;
+}
+
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.bs-callout p {
+  margin: 0 0 10px;
+}
+
+.bs-callout p:last-child {
+  margin-bottom: 0;
 }
 

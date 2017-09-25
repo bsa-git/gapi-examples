@@ -22,7 +22,8 @@
             <ul class="dropdown-menu">
               <li class="dropdown-header">People API</li>
               <li>
-                <nuxt-link to="/services/people-get">Get info for a specific person</nuxt-link>
+                <nuxt-link to="/services/people-about">About</nuxt-link>
+                <nuxt-link to="/services/people-get">People.get</nuxt-link>
               </li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Separated link</a></li>
@@ -43,7 +44,8 @@
       isGroupMenu: function (item) {
         switch (item) {
           case 'services':
-            return this.$route.path === '/services/people-get'
+            return this.$route.path === '/services/people-get' ||
+              this.$route.path === '/services/people-about'
           default:
             return false
         }

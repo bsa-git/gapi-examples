@@ -69,9 +69,11 @@
         // Load/Init Google API
         this.apiGoogle.loadGoogleAPI()
           .then(() => {
+            console.log('loadGoogleAPI - OK')
             return this.apiGoogle.init()
           })
           .then(() => {
+            console.log('apiGoogle.init - OK')
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
             this.apiGoogle.listenSignedIn(this.updateSigninStatus.bind(this))
           })
@@ -84,6 +86,7 @@
     },
     methods: {
       updateSigninStatus: function (isSignedIn) {
+        console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
           this.makeApiCall()
@@ -97,8 +100,9 @@
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           self.myName = 'Hello, ' + name + '!'
+          console.log('people.get - OK. ', `Hello, ${name}!`)
         }, (error) => {
-          console.log('Error gapi.client.people.people.get: ', error)
+          console.log('people.get - Error. ', `Error: ${error}`)
           alert(error)
         })
       }

@@ -23,8 +23,11 @@
 
     <div class="jumbotron text-center">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click.native="apiGoogle.handleSignoutClick">Sign Out</button>
-      <button type="button" class="btn btn-primary" v-else @click.native="apiGoogle.handleAuthClick">Authorize</button>
+      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
+      <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
+
+
+      <!--<button type="button" class="btn btn-primary" v-on:click="btnClick">Click Button</button>-->
 
       <div class="lead" v-if="isSignedIn">My name is - {{ myName }}</div>
 
@@ -85,6 +88,9 @@
       })
     },
     methods: {
+      btnClick: function () {
+        alert('btnClick')
+      },
       updateSigninStatus: function (isSignedIn) {
         console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
         this.isSignedIn = isSignedIn

@@ -67,7 +67,6 @@
       this.apiGoogle = new ApiGoogle(options)
     },
     mounted: function () {
-      const self = this
       this.$nextTick(function () {
         // Load/Init Google API
         this.apiGoogle.loadGoogleAPI()
@@ -81,13 +80,6 @@
             if (this.config.debug) {
               console.log('apiGoogle.init - OK')
             }
-            // self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
-            // this.apiGoogle.listenSignedIn(isSignedIn => {
-            // self.isSignedIn = isSignedIn
-            // if (isSignedIn) {
-            // self.makeApiCall()
-            // }
-            // })
             let onSignedIn = this.updateSigninStatus.bind(this)
             this.apiGoogle.listenSignedIn(onSignedIn)
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
@@ -101,10 +93,9 @@
     },
     methods: {
       updateSigninStatus: function (isSignedIn) {
-        console.log('updateSigninStatus: ', this)
-        // if (this.config.debug) {
-        console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
-        // }
+        if (this.config.debug) {
+          console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+        }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
           this.makeApiCall()
@@ -118,14 +109,14 @@
           // 'personFields': 'names'
         }).then((resp) => {
           const name = resp.result.names[0].givenName
-          self.myName = 'Hello, ' + name + '!'
-          console.log('makeApiCall: ', `config=${self.config}!`)
-          // if (self.config.debug) {
-          console.log('people.get - OK. ', `Hello, ${name}!`)
-          // }
+          this.myName = 'Hello, ' + name + '!'
+
+          if (this.config.debug) {
+            console.log('people.get - OK. ', `Hello, ${name}!`)
+          }
         }, (error) => {
           console.log('people.get - Error. ', `Error: ${error}`)
-          alert(error)
+          alert(`Error: ${error}`)
         })
       }
     }

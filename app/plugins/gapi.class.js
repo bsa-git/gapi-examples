@@ -66,11 +66,7 @@ class ApiGoogle {
   }
 
   isSignedIn () {
-    const isSignedIn = window.gapi.auth2.getAuthInstance().isSignedIn.get()
-    if (this.debug) {
-      console.log('isSignedIn: ', `${isSignedIn}; `)
-    }
-    return isSignedIn
+    return window.gapi.auth2.getAuthInstance().isSignedIn.get()
   }
 
   listenSignedIn (onSigninStatus) {

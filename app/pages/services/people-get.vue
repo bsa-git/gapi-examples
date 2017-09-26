@@ -67,21 +67,22 @@
       this.apiGoogle = new ApiGoogle(options)
     },
     mounted: function () {
+      const self = this
       this.$nextTick(function () {
         // Load/Init Google API
-        this.apiGoogle.loadGoogleAPI()
+        self.apiGoogle.loadGoogleAPI()
           .then(() => {
-            if (this.config.debug) {
+            if (self.config.debug) {
               console.log('loadGoogleAPI - OK')
             }
-            return this.apiGoogle.init()
+            return self.apiGoogle.init()
           })
           .then(() => {
-            if (this.config.debug) {
+            if (self.config.debug) {
               console.log('apiGoogle.init - OK')
             }
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
-            this.apiGoogle.listenSignedIn(this.updateSigninStatus.bind(this))
+            self.updateSigninStatus(self.apiGoogle.isSignedIn())
+            self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
           })
       })
     },

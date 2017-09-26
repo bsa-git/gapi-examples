@@ -15,7 +15,7 @@ class ApiGoogle {
     this.name = 'load-google-api'
     this.error = null
     this.debug = !!options.debug
-    console.log('ApiGoogle.constructor: ', `options=${options};`)
+    console.log('ApiGoogle.constructor: options=', options)
   }
 
   /**
@@ -58,11 +58,8 @@ class ApiGoogle {
         scope: this._scope
       }).then(resolve, (error) => {
         this.error = error
-        if (this.debug) {
-          console.error('Gapi.client.init - Error', error)
-        }
         console.error('Gapi.client.init - Error', error)
-        reject(error)
+        alert(`Error: ${error.error}\n Details: ${error.details}`)
       })
     })
 

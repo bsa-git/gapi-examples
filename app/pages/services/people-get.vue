@@ -83,10 +83,9 @@
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
             this.apiGoogle.listenSignedIn(this.updateSigninStatus.bind(this))
           })
-          .catch(error => {
-
-            alert(`Error: ${error.error}\n Details: ${error.details}`) // Error
-          })
+          // .catch(error => {
+          //  alert(`Error: ${error.error}\n Details: ${error.details}`) // Error
+          // })
       })
     },
     computed: {

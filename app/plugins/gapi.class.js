@@ -15,7 +15,6 @@ class ApiGoogle {
     this.name = 'load-google-api'
     this.error = null
     this.debug = !!options.debug
-    console.log('ApiGoogle.constructor: options=', options)
   }
 
   /**

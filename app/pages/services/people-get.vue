@@ -109,9 +109,10 @@
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           self.myName = 'Hello, ' + name + '!'
-          if (self.config.debug) {
-            console.log('people.get - OK. ', `Hello, ${name}!`)
-          }
+          console.log('makeApiCall: ', `config=${self.config}!`)
+          // if (self.config.debug) {
+          console.log('people.get - OK. ', `Hello, ${name}!`)
+          // }
         }, (error) => {
           console.log('people.get - Error. ', `Error: ${error}`)
           alert(error)

@@ -88,7 +88,7 @@
                 self.makeApiCall()
               }
             })
-            self.updateSigninStatus(self.apiGoogle.isSignedIn())
+            self.updateSigninStatus.apply(self, [self.apiGoogle.isSignedIn()])
           })
       })
     },

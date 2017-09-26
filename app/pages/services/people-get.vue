@@ -83,9 +83,6 @@
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
             this.apiGoogle.listenSignedIn(this.updateSigninStatus.bind(this))
           })
-          // .catch(error => {
-          //  alert(`Error: ${error.error}\n Details: ${error.details}`) // Error
-          // })
       })
     },
     computed: {
@@ -112,14 +109,12 @@
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           self.myName = 'Hello, ' + name + '!'
-          if (this.config.debug) {
+          if (self.config.debug) {
             console.log('people.get - OK. ', `Hello, ${name}!`)
           }
         }, (error) => {
-          if (this.config.debug) {
-            console.log('people.get - Error. ', `Error: ${error}`)
-            alert(error)
-          }
+          console.log('people.get - Error. ', `Error: ${error}`)
+          alert(error)
         })
       }
     }

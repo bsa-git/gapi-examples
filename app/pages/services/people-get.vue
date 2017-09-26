@@ -105,8 +105,8 @@
         const self = this
         window.gapi.client.people.people.get({
           'resourceName': 'people/me',
-          'requestMask.includeField': 'person.names'
-          // 'personFields': 'names'
+          // 'requestMask.includeField': 'person.names'
+          'personFields': 'names'
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           this.myName = 'Hello, ' + name + '!'

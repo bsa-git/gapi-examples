@@ -84,11 +84,13 @@
             // self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
             // this.apiGoogle.listenSignedIn(isSignedIn => {
             // self.isSignedIn = isSignedIn
-              // if (isSignedIn) {
-                // self.makeApiCall()
-              // }
+            // if (isSignedIn) {
+            // self.makeApiCall()
+            // }
             // })
-            this.updateSigninStatus.apply(this, [this.apiGoogle.isSignedIn()])
+            let onSignedIn = this.updateSigninStatus.bind(this)
+            this.apiGoogle.listenSignedIn(onSignedIn)
+            this.updateSigninStatus(this.apiGoogle.isSignedIn())
           })
       })
     },
@@ -98,7 +100,7 @@
       })
     },
     methods: {
-      updateSigninStatus: isSignedIn => {
+      updateSigninStatus: function (isSignedIn) {
         console.log('updateSigninStatus: ', this)
         // if (this.config.debug) {
         console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
@@ -108,7 +110,7 @@
           this.makeApiCall()
         }
       },
-      makeApiCall: () => {
+      makeApiCall: function () {
         const self = this
         window.gapi.client.people.people.get({
           'resourceName': 'people/me',

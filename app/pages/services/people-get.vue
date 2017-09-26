@@ -106,13 +106,14 @@
         window.gapi.client.people.people.get({
           'resourceName': 'people/me',
           // 'requestMask.includeField': 'person.names'
-          'personFields': 'names'
+          'personFields': 'names,birthdays'
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           this.myName = 'Hello, ' + name + '!'
 
           if (this.config.debug) {
-            console.log('people.get - OK. ', `Hello, ${name}!`)
+            // console.log('people.get - OK. ', `Hello, ${name}!`)
+            console.log('people.get - OK. ', resp.result)
           }
         }, (error) => {
           console.log('people.get - Error. ', `Error: ${error}`)

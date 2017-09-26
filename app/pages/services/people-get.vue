@@ -92,9 +92,10 @@
     },
     methods: {
       updateSigninStatus: isSignedIn => {
-        if (this.config.debug) {
-          console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
-        }
+        console.log('updateSigninStatus: ', `config=${this.config}!`)
+        // if (this.config.debug) {
+        console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+        // }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
           this.makeApiCall()

@@ -70,25 +70,25 @@
       const self = this
       this.$nextTick(function () {
         // Load/Init Google API
-        self.apiGoogle.loadGoogleAPI()
+        this.apiGoogle.loadGoogleAPI()
           .then(() => {
-            if (self.config.debug) {
+            if (this.config.debug) {
               console.log('loadGoogleAPI - OK')
             }
-            return self.apiGoogle.init()
+            return this.apiGoogle.init()
           })
           .then(() => {
-            if (self.config.debug) {
+            if (this.config.debug) {
               console.log('apiGoogle.init - OK')
             }
             // self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
-            self.apiGoogle.listenSignedIn(isSignedIn => {
-              self.isSignedIn = isSignedIn
-              if (isSignedIn) {
-                self.makeApiCall()
-              }
-            })
-            self.updateSigninStatus.apply(self, [self.apiGoogle.isSignedIn()])
+            // this.apiGoogle.listenSignedIn(isSignedIn => {
+            // self.isSignedIn = isSignedIn
+              // if (isSignedIn) {
+                // self.makeApiCall()
+              // }
+            // })
+            this.updateSigninStatus.apply(this, [this.apiGoogle.isSignedIn()])
           })
       })
     },
@@ -99,7 +99,7 @@
     },
     methods: {
       updateSigninStatus: isSignedIn => {
-        console.log('updateSigninStatus: ', `config=${this}`)
+        console.log('updateSigninStatus: ', this)
         // if (this.config.debug) {
         console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
         // }

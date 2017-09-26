@@ -99,7 +99,7 @@
     },
     methods: {
       updateSigninStatus: isSignedIn => {
-        console.log('updateSigninStatus: ', `config=${this.config}!`)
+        console.log('updateSigninStatus: ', `config=${this}`)
         // if (this.config.debug) {
         console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
         // }

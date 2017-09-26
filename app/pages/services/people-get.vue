@@ -81,8 +81,14 @@
             if (self.config.debug) {
               console.log('apiGoogle.init - OK')
             }
+            // self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
+            self.apiGoogle.listenSignedIn(isSignedIn => {
+              self.isSignedIn = isSignedIn
+              if (isSignedIn) {
+                self.makeApiCall()
+              }
+            })
             self.updateSigninStatus(self.apiGoogle.isSignedIn())
-            self.apiGoogle.listenSignedIn(self.updateSigninStatus.bind(self))
           })
       })
     },

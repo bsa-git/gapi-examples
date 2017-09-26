@@ -3,6 +3,7 @@
 export default {
   app_env: 'testing', // development, production, testing
   global: {
+    debug: true,
     gapi: {
       apiKey: 'AIzaSyAks3ZH_qSivh8UhA0V94Cy_60Q_-W524Y',
       clientId: '311979767912-l8upval51s4evdt43gonavi99ucjbpkg.apps.googleusercontent.com'

@@ -14,6 +14,7 @@ class ApiGoogle {
     this._scope = options.scope.join(' ')
     this.name = 'load-google-api'
     this.error = null
+    this.debug = !!options.debug
   }
 
   /**
@@ -56,8 +57,10 @@ class ApiGoogle {
         scope: this._scope
       }).then(resolve, (error) => {
         this.error = error
-        console.log('Error window.gapi.client.init: ', error)
-        alert(error.details)
+        if (this.debug) {
+          console.error('Gapi.client.init - Error', error)
+        }
+        reject(error)
       })
     })
 
@@ -66,22 +69,26 @@ class ApiGoogle {
 
   isSignedIn () {
     const isSignedIn = window.gapi.auth2.getAuthInstance().isSignedIn.get()
-    console.log('isSignedIn: ', `${isSignedIn}; `)
+    if (this.debug) {
+      console.log('isSignedIn: ', `${isSignedIn}; `)
+    }
     return isSignedIn
   }
 
   listenSignedIn (onSigninStatus) {
     // Listen for sign-in state changes.
-    console.log('listenSignedIn - OK')
+    if (this.debug) {
+      console.log('listenSignedIn - OK')
+    }
     window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
   }
 
-  handleAuthClick (event) {
+  handleAuthClick () {
     console.log('handleAuthClick - OK')
     window.gapi.auth2.getAuthInstance().signIn()
   }
 
-  handleSignoutClick (event) {
+  handleSignoutClick () {
     console.log('handleSignoutClick - OK')
     window.gapi.auth2.getAuthInstance().signOut()
   }

@@ -23,7 +23,8 @@
 
     <div class="jumbotron text-center">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
+      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
+      </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
 
       <div class="lead" v-if="isSignedIn">{{ myName }}</div>
@@ -57,10 +58,11 @@
     created: function () {
       // Create apiGoogle data
       const options = {
-        apiKey: this.configGapi.apiKey,
-        clientId: this.configGapi.clientId,
-        discoveryDocs: this.configGapi.services.people.discoveryDocs,
-        scope: this.configGapi.services.people.scope
+        debug: this.config.debug,
+        apiKey: this.config.gapi.apiKey,
+        clientId: this.config.gapi.clientId,
+        discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+        scope: this.config.gapi.services.people.scope
       }
       this.apiGoogle = new ApiGoogle(options)
     },
@@ -69,44 +71,55 @@
         // Load/Init Google API
         this.apiGoogle.loadGoogleAPI()
           .then(() => {
-            console.log('loadGoogleAPI - OK')
+            if (this.config.debug) {
+              console.log('loadGoogleAPI - OK')
+            }
             return this.apiGoogle.init()
           })
           .then(() => {
-            console.log('apiGoogle.init - OK')
+            if (this.config.debug) {
+              console.log('apiGoogle.init - OK')
+            }
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
             this.apiGoogle.listenSignedIn(this.updateSigninStatus.bind(this))
+          })
+          .catch(error => {
+            alert(`Error: ${error.error}\n Details: ${error.details}`) // Error
           })
       })
     },
     computed: {
       ...mapGetters({
-        configGapi: 'getConfigGapi'
+        config: 'getConfig'
       })
     },
     methods: {
-      btnClick: function () {
-        alert('btnClick')
-      },
-      updateSigninStatus: function (isSignedIn) {
-        console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+      updateSigninStatus: isSignedIn => {
+        if (this.config.debug) {
+          console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+        }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
           this.makeApiCall()
         }
       },
-      makeApiCall: function () {
+      makeApiCall: () => {
         const self = this
         window.gapi.client.people.people.get({
           'resourceName': 'people/me',
           'requestMask.includeField': 'person.names'
+          // 'personFields': 'names'
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           self.myName = 'Hello, ' + name + '!'
-          console.log('people.get - OK. ', `Hello, ${name}!`)
+          if (this.config.debug) {
+            console.log('people.get - OK. ', `Hello, ${name}!`)
+          }
         }, (error) => {
-          console.log('people.get - Error. ', `Error: ${error}`)
-          alert(error)
+          if (this.config.debug) {
+            console.log('people.get - Error. ', `Error: ${error}`)
+            alert(error)
+          }
         })
       }
     }

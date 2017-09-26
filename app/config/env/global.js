@@ -1,5 +1,6 @@
 // Global values for application"
 export default {
+  debug: false,
   gapi: {
     apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',

@@ -23,10 +23,11 @@
 
     <div class="jumbotron text-center">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
+      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
+      </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
 
-      <div class="lead" v-if="isSignedIn">Hellow {{ gapi.people_my.names.givenName }}!</div>
+      <div id="content" class="lead" v-if="isSignedIn"></div>
 
     </div>
   </section>
@@ -39,8 +40,8 @@
   export default {
     data: function () {
       return {
-        title: 'Method: people.get',
-        description: 'Provides information about a person by specifying a resource name',
+        title: 'Method: people.connections.list',
+        description: 'Provides a list of the authenticated user\'s contacts',
         apiGoogle: null,
         isSignedIn: false,
       }
@@ -60,7 +61,7 @@
         apiKey: this.config.gapi.apiKey,
         clientId: this.config.gapi.clientId,
         discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-        scope: this.config.gapi.services.people.scopes.get
+        scope: this.config.gapi.services.people.scopes.connections
       }
       this.apiGoogle = new ApiGoogle(options)
     },
@@ -97,8 +98,37 @@
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
-          this.$store.dispatch('receivePeopleMyNames')
+          // this.$store.dispatch('receivePeopleMyNames')
+          this.listConnectionNames()
         }
+      },
+      appendPre: function (message) {
+        const pre = document.getElementById('content')
+        const textContent = document.createTextNode(message + '\n')
+        pre.appendChild(textContent)
+      },
+      listConnectionNames: function () {
+        gapi.client.people.people.connections.list({
+          'resourceName': 'people/me',
+          'pageSize': 10,
+          'personFields': 'names,emailAddresses',
+        }).then(function (response) {
+          const connections = response.result.connections
+          this.appendPre('Connections:')
+
+          if (connections.length > 0) {
+            for (i = 0; i < connections.length; i++) {
+              const person = connections[i]
+              if (person.names && person.names.length > 0) {
+                this.appendPre(person.names[0].displayName)
+              } else {
+                this.appendPre('No display name found for connection.')
+              }
+            }
+          } else {
+            this.appendPre('No upcoming events found.')
+          }
+        })
       }
     }
   }

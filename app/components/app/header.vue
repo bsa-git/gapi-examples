@@ -24,6 +24,7 @@
               <li>
                 <nuxt-link to="/services/people-about">About</nuxt-link>
                 <nuxt-link to="/services/people-get">People.get</nuxt-link>
+                <nuxt-link to="/services/people-connections">People.connections.list</nuxt-link>
               </li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Separated link</a></li>

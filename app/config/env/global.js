@@ -9,9 +9,10 @@ export default {
         discoveryDocs: [
           'https://people.googleapis.com/$discovery/rest?version=v1'
         ],
-        scope: [
-          'profile'
-        ]
+        scopes: {
+          get: ['profile'],
+          connections: ['https://www.googleapis.com/auth/contacts.readonly']
+        }
       },
       gmail: {
         discoveryDocs: [

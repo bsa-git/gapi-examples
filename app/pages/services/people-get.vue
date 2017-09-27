@@ -42,7 +42,7 @@
         title: 'Method: people.get',
         description: 'Provides information about a person by specifying a resource name',
         apiGoogle: null,
-        isSignedIn: false,
+        isSignedIn: false
       }
     },
     head () {

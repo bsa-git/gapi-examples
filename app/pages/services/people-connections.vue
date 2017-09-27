@@ -27,7 +27,12 @@
       </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
 
-      <div id="content" class="lead" v-if="isSignedIn"></div>
+      <div id="content" class="lead" v-if="isSignedIn">
+        <p class="lead">Connections:</p>
+        <ul>
+          <li v-for="connection in myConnections">{{ connection }}</li>
+        </ul>
+      </div>
 
     </div>
   </section>
@@ -44,6 +49,7 @@
         description: 'Provides a list of the authenticated user\'s contacts',
         apiGoogle: null,
         isSignedIn: false,
+        myConnections: []
       }
     },
     head () {
@@ -115,19 +121,22 @@
           'personFields': 'names,emailAddresses',
         }).then(function (response) {
           const connections = response.result.connections
-          self.appendPre('Connections:')
+          // self.appendPre('Connections:')
 
           if (connections.length > 0) {
             for ( let i = 0; i < connections.length; i++) {
               const person = connections[i]
               if (person.names && person.names.length > 0) {
-                self.appendPre(person.names[0].displayName)
+                // self.appendPre(person.names[0].displayName)
+                self.myConnections[i] = person.names[0].displayName
               } else {
-                self.appendPre('No display name found for connection.')
+                // self.appendPre('No display name found for connection.')
+                self.myConnections[i] = 'No display name found for connection.'
               }
             }
           } else {
-            self.appendPre('No upcoming events found.')
+            // self.appendPre('No upcoming events found.')
+            self.myConnections[0] = 'No upcoming events found.'
           }
         })
       }

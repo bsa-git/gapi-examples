@@ -10,8 +10,8 @@ const receivePeopleMyNames = function (context) {
     context.commit('SET_PEOPLE_MY_NAMES', names)
 
     if (context.state.config.debug) {
-      // console.log('people.get - OK. ', `Hello, ${name}!`)
-      console.log('people.get - OK. ', resp.result)
+      console.log('people.get - OK. ', names)
+      console.log('story.gapi ', context.state.gapi)
     }
   }, (error) => {
     console.log('people.get - Error. ', `Error: ${error}`)

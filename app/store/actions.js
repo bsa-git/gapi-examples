@@ -6,11 +6,11 @@ const receivePeopleMyNames = function (context) {
     'resourceName': 'people/me',
     'personFields': 'names'
   }).then((resp) => {
-    const names = _.initial(resp.result.names[0])
+    const names = resp.result.names[0]
     context.commit('SET_PEOPLE_MY_NAMES', names)
 
     if (context.state.config.debug) {
-      console.log('people.get - OK. ', names)
+      console.log('people.get - OK. ', resp.result.names[0])
       console.log('story.gapi ', context.state.gapi)
     }
   }, (error) => {

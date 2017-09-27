@@ -62,8 +62,8 @@
   export default {
     data: function () {
       return {
-        title: 'People API',
-        description: 'The People API lets you  retrieve profile information and manage the authenticated user\'s Contacts'
+        title: 'Google People API',
+        description: 'Provides access to information about profiles and contacts.'
       }
     },
     head () {

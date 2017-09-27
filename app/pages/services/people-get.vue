@@ -27,7 +27,7 @@
       </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
 
-      <div class="lead" v-if="isSignedIn">{{ myName }}</div>
+      <div class="lead" v-if="isSignedIn">{{ gapi.people_my.names.givenName }}</div>
 
     </div>
   </section>
@@ -88,7 +88,8 @@
     },
     computed: {
       ...mapGetters({
-        config: 'getConfig'
+        config: 'getConfig',
+        gapi: 'getGapi'
       })
     },
     methods: {
@@ -98,15 +99,15 @@
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
-          this.makeApiCall()
+          // this.makeApiCall()
+          this.$store.dispatch('receivePeopleMyNames')
         }
       },
       makeApiCall: function () {
-        const self = this
         window.gapi.client.people.people.get({
           'resourceName': 'people/me',
           // 'requestMask.includeField': 'person.names'
-          'personFields': 'names,birthdays'
+          'personFields': 'names'
         }).then((resp) => {
           const name = resp.result.names[0].givenName
           this.myName = 'Hello, ' + name + '!'

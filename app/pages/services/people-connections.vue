@@ -7,17 +7,17 @@
     </div>
 
     <div class="bs-callout-info bs-callout">
-      <h4>Method: people.get</h4>
+      <h4>Method: people.connections.list</h4>
       <p>
-        Provides information about a person by specifying a resource name. Use <code>people/me</code> to indicate the
-        authenticated user. <br> The request throws a 400 error if 'personFields' is not specified.
+        Provides a list of the authenticated user's contacts merged with any connected profiles.
+        The request throws a 400 error if 'personFields' is not specified.
       </p>
       <strong>HTTP request</strong>
-      <p><code>GET https://people.googleapis.com/v1/{resourceName=people/*}</code></p>
+      <p><code>GET https://people.googleapis.com/v1/{resourceName=people/*}/connections</code></p>
       <p>The URL uses <a href="https://github.com/googleapis/googleapis/blob/master/google/api/http.proto"
                          target="_blank">Google API HTTP annotation</a> syntax.</p>
 
-      <p class="lead">Details can be found <a href="https://developers.google.com/people/api/rest/v1/people/get"
+      <p class="lead">Details can be found <a href="https://developers.google.com/people/api/rest/v1/people.connections/list"
                                               target="_blank">here</a>.</p>
     </div>
 
@@ -108,25 +108,26 @@
         pre.appendChild(textContent)
       },
       listConnectionNames: function () {
+        const self = this
         gapi.client.people.people.connections.list({
           'resourceName': 'people/me',
           'pageSize': 10,
           'personFields': 'names,emailAddresses',
         }).then(function (response) {
           const connections = response.result.connections
-          this.appendPre('Connections:')
+          self.appendPre('Connections:')
 
           if (connections.length > 0) {
             for (i = 0; i < connections.length; i++) {
               const person = connections[i]
               if (person.names && person.names.length > 0) {
-                this.appendPre(person.names[0].displayName)
+                self.appendPre(person.names[0].displayName)
               } else {
-                this.appendPre('No display name found for connection.')
+                self.appendPre('No display name found for connection.')
               }
             }
           } else {
-            this.appendPre('No upcoming events found.')
+            self.appendPre('No upcoming events found.')
           }
         })
       }

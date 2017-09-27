@@ -21,19 +21,17 @@
                                               target="_blank">here</a>.</p>
     </div>
 
-    <div class="jumbotron text-center">
-
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
-      </button>
-      <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
-
+    <div class="jumbotron">
+      <div text-center>
+        <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
+        <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
+      </div>
       <div id="content" class="lead" v-if="isSignedIn">
         <p class="lead">Connections:</p>
         <ul>
           <li v-for="connection in myConnections">{{ connection }}</li>
         </ul>
       </div>
-
     </div>
   </section>
 </template>
@@ -120,22 +118,18 @@
           'pageSize': 10,
           'personFields': 'names,emailAddresses',
         }).then(function (response) {
+          self.myConnections = []
           const connections = response.result.connections
-          // self.appendPre('Connections:')
-
           if (connections.length > 0) {
             for ( let i = 0; i < connections.length; i++) {
               const person = connections[i]
               if (person.names && person.names.length > 0) {
-                // self.appendPre(person.names[0].displayName)
                 self.myConnections.push(person.names[0].displayName)
               } else {
-                // self.appendPre('No display name found for connection.')
                 self.myConnections.push('No display name found for connection.')
               }
             }
           } else {
-            // self.appendPre('No upcoming events found.')
             self.myConnections.push('No upcoming events found.')
           }
         })

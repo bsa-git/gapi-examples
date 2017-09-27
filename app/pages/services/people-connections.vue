@@ -29,7 +29,7 @@
       <div id="content" class="lead" v-if="isSignedIn">
         <p class="lead">Connections:</p>
         <ul>
-          <li v-for="connection in myConnections">{{ connection }}</li>
+          <li v-for="connection in gapi.people_my.connections">{{ connection }}</li>
         </ul>
       </div>
     </div>
@@ -102,8 +102,8 @@
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
-          // this.$store.dispatch('receivePeopleMyNames')
-          this.listConnectionNames()
+          this.$store.dispatch('receivePeopleMyConnections')
+          // this.listConnectionNames()
         }
       },
       appendPre: function (message) {
@@ -113,10 +113,10 @@
       },
       listConnectionNames: function () {
         const self = this
-        gapi.client.people.people.connections.list({
+        window.gapi.client.people.people.connections.list({
           'resourceName': 'people/me',
           'pageSize': 10,
-          'personFields': 'names,emailAddresses',
+          'personFields': 'names',
         }).then(function (response) {
           self.myConnections = []
           const connections = response.result.connections

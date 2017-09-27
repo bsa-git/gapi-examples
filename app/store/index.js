@@ -7,6 +7,7 @@ const store = () => new Vuex.Store({
     config: {},
     gapi: {
       people_my: {
+        connections: [],
         names: {
           displayName: '',
           displayNameLastFirst: '',
@@ -24,6 +25,9 @@ const store = () => new Vuex.Store({
     },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.gapi.people_my.names = names
+    },
+    SET_PEOPLE_MY_CONNECTIONS (state, connections) {
+      state.gapi.people_my.connections = connections
     }
   }
 })

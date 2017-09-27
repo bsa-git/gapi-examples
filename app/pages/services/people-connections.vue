@@ -128,15 +128,15 @@
               const person = connections[i]
               if (person.names && person.names.length > 0) {
                 // self.appendPre(person.names[0].displayName)
-                self.myConnections[i] = person.names[0].displayName
+                self.myConnections.push(person.names[0].displayName)
               } else {
                 // self.appendPre('No display name found for connection.')
-                self.myConnections[i] = 'No display name found for connection.'
+                self.myConnections.push('No display name found for connection.')
               }
             }
           } else {
             // self.appendPre('No upcoming events found.')
-            self.myConnections[0] = 'No upcoming events found.'
+            self.myConnections.push('No upcoming events found.')
           }
         })
       }

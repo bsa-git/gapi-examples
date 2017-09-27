@@ -118,7 +118,7 @@
           self.appendPre('Connections:')
 
           if (connections.length > 0) {
-            for (i = 0; i < connections.length; i++) {
+            for ( let i = 0; i < connections.length; i++) {
               const person = connections[i]
               if (person.names && person.names.length > 0) {
                 self.appendPre(person.names[0].displayName)

@@ -5,14 +5,19 @@ import ApiGoogle from '~/plugins/gapi.class'
 export default async function (context) {
   try {
     // Set config for context and store
-    if (context.store.state.config === null) {
-      context.config = config
-      context.store.commit('SET_CONFIG', config)
-    }
+    context.config = config
+    context.store.commit('SET_CONFIG', config)
 
     // Set Google Api to store
     if (context.isClient && context.store.state.google.api === null) {
-      context.store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
+      const options = {
+        debug: config.debug,
+        apiKey: config.gapi.apiKey,
+        clientId: config.gapi.clientId,
+        discoveryDocs: config.gapi.services.people.discoveryDocs,
+        scope: config.gapi.services.people.scopes.get
+      }
+      context.store.commit('SET_GOOGLE_API', new ApiGoogle(options))
     }
 
   } catch (e) {

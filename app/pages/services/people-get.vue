@@ -66,10 +66,11 @@
         }
         store.commit('SET_GOOGLE_API', new ApiGoogle(options))
       }
-      */
+
       if (config.debug) {
         console.log('people-get.fetch - OK.')
       }
+      */
     },
     created: function () {
       // Create apiGoogle

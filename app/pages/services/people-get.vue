@@ -69,6 +69,14 @@
         scope: this.config.gapi.services.people.scopes.get
       }
       this.apiGoogle = new ApiGoogle(options)
+      if (this.config.debug) {
+        console.log('people-get.created - OK')
+      }
+    },
+    beforeDestroy: function () {
+      if (this.config.debug) {
+        console.log('people-get.beforeDestroy - OK')
+      }
     },
     mounted: function () {
       this.$nextTick(function () {

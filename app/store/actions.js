@@ -1,12 +1,5 @@
 import _ from 'lodash'
 
-// --- System --- //
-const nuxtServerInit = function (context) {
-  if (context.state.config.debug) {
-    console.log('nuxtServerInit - OK.')
-  }
-}
-
 // --- Gapi People --- //
 const receivePeopleMyNames = function (context) {
   window.gapi.client.people.people.get({
@@ -54,8 +47,6 @@ const receivePeopleMyConnections = function (context) {
 }
 
 export default {
-  // --- System --- //
-  nuxtServerInit,
   // --- Gapi People --- //
   receivePeopleMyNames,
   receivePeopleMyConnections

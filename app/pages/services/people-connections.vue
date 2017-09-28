@@ -58,8 +58,8 @@
         ]
       }
     },
-    async fetch ({store, config}) {
-      if (config.debug) {
+    async fetch ({store, isClient, config }) {
+      if (config.debug && isClient) {
         console.log('people-connections.fetch - OK.')
       }
     },
@@ -103,41 +103,12 @@
     methods: {
       updateSigninStatus: function (isSignedIn) {
         if (this.config.debug) {
-          console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+          console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
           this.$store.dispatch('receivePeopleMyConnections')
-          // this.listConnectionNames()
         }
-      },
-      appendPre: function (message) {
-        const pre = document.getElementById('content')
-        const textContent = document.createTextNode(message + '\n')
-        pre.appendChild(textContent)
-      },
-      listConnectionNames: function () {
-        const self = this
-        window.gapi.client.people.people.connections.list({
-          'resourceName': 'people/me',
-          'pageSize': 10,
-          'personFields': 'names',
-        }).then(function (response) {
-          self.myConnections = []
-          const connections = response.result.connections
-          if (connections.length > 0) {
-            for ( let i = 0; i < connections.length; i++) {
-              const person = connections[i]
-              if (person.names && person.names.length > 0) {
-                self.myConnections.push(person.names[0].displayName)
-              } else {
-                self.myConnections.push('No display name found for connection.')
-              }
-            }
-          } else {
-            self.myConnections.push('No upcoming events found.')
-          }
-        })
       }
     }
   }

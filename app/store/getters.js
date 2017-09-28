@@ -3,7 +3,7 @@ const getConfig = function (state) {
 }
 
 const getGapi = function (state) {
-  return state.gapi
+  return state.google
 }
 
 export default {

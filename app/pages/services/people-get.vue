@@ -54,8 +54,8 @@
         ]
       }
     },
-    async fetch ({store, config}) {
-      if (config.debug) {
+    async fetch ({store, isClient, config}) {
+      if (config.debug && isClient) {
         console.log('people-get.fetch - OK.')
       }
     },
@@ -99,7 +99,7 @@
     methods: {
       updateSigninStatus: function (isSignedIn) {
         if (this.config.debug) {
-          console.log('updateSigninStatus: ', `isSignedIn=${isSignedIn}; `)
+          console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {

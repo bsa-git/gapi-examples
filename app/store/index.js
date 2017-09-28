@@ -5,7 +5,8 @@ import actions from '~/store/actions'
 const store = () => new Vuex.Store({
   state: {
     config: {},
-    gapi: {
+    google: {
+      api: null,
       people_my: {
         connections: [],
         names: {
@@ -24,10 +25,10 @@ const store = () => new Vuex.Store({
       state.config = config
     },
     SET_PEOPLE_MY_NAMES (state, names) {
-      state.gapi.people_my.names = names
+      state.google.people_my.names = names
     },
     SET_PEOPLE_MY_CONNECTIONS (state, connections) {
-      state.gapi.people_my.connections = connections
+      state.google.people_my.connections = connections
     }
   }
 })

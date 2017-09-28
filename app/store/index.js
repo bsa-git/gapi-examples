@@ -4,7 +4,7 @@ import actions from '~/store/actions'
 
 const store = () => new Vuex.Store({
   state: {
-    config: {},
+    config: null,
     google: {
       api: null,
       loadedClient: false,

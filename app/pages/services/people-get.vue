@@ -55,6 +55,7 @@
       }
     },
     async fetch ({store, isClient, config}) {
+      /*
       if (isClient && store.state.google.api === null) {
         const options = {
           debug: config.debug,
@@ -64,21 +65,8 @@
           scope: config.gapi.services.people.scopes.get
         }
         store.commit('SET_GOOGLE_API', new ApiGoogle(options))
-        /*
-        store.state.google.api.loadGoogleAPI()
-          .then(() => {
-            if (config.debug) {
-              console.log('loadGoogleAPI - OK')
-            }
-            return store.state.google.api.loadGapiClient()
-          })
-          .then(() => {
-            if (config.debug) {
-              console.log('loadGapiClient - OK')
-            }
-          })
-        */
       }
+      */
       if (config.debug) {
         console.log('people-get.fetch - OK.')
       }

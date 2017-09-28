@@ -58,10 +58,10 @@
       if (isClient && store.state.google.api === null) {
         const options = {
           debug: config.debug,
-          apiKey: config.google.apiKey,
-          clientId: config.google.clientId,
-          discoveryDocs: config.google.services.people.discoveryDocs,
-          scope: config.google.services.people.scopes.get
+          apiKey: config.gapi.apiKey,
+          clientId: config.gapi.clientId,
+          discoveryDocs: config.gapi.services.people.discoveryDocs,
+          scope: config.gapi.services.people.scopes.get
         }
         store.commit('SET_GOOGLE_API', new ApiGoogle(options))
       }
@@ -89,11 +89,6 @@
       */
       if (this.config.debug) {
         console.log('people-get.created - OK')
-      }
-    },
-    beforeDestroy: function () {
-      if (this.config.debug) {
-        console.log('people-get.beforeDestroy - OK')
       }
     },
     /*
@@ -133,10 +128,10 @@
               console.log('loadGapiClient - OK')
             }
             return this.google.api.iniGapiClient({
-              apiKey: this.config.google.apiKey,
-              clientId: this.config.google.clientId,
-              discoveryDocs: this.config.google.services.people.discoveryDocs,
-              scope: this.config.google.services.people.scopes.get
+              apiKey: this.config.gapi.apiKey,
+              clientId: this.config.gapi.clientId,
+              discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+              scope: this.config.gapi.services.people.scopes.get
             })
           })
           .then(() => {

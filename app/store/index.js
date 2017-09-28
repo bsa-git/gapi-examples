@@ -27,9 +27,15 @@ const store = () => new Vuex.Store({
     },
     SET_GOOGLE_API (state, api) {
       state.google.api = api
+      if (state.config.debug) {
+        console.log('SET_GOOGLE_API.store - OK.')
+      }
     },
-    SET_GOOGLE_CLIENT (state) {
+    SET_LOADED_GOOGLE_CLIENT (state) {
       state.google.loadedClient = true
+      if (state.config.debug) {
+        console.log('SET_LOADED_GOOGLE_CLIENT.store - OK.')
+      }
     },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.google.people_my.names = names

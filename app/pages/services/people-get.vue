@@ -157,6 +157,7 @@
               if (this.config.debug) {
                 console.log('loadGapiClient - OK')
               }
+              this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
               return this.google.api.iniGapiClient({
                 apiKey: this.config.gapi.apiKey,
                 clientId: this.config.gapi.clientId,

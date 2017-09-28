@@ -77,8 +77,8 @@
       if (this.config.debug) {
         console.log('people-get.beforeDestroy - OK')
       }
-      window.gapi = null
     },
+    /*
     mounted: function () {
       this.$nextTick(function () {
         // Load/Init Google API
@@ -92,6 +92,38 @@
           .then(() => {
             if (this.config.debug) {
               console.log('apiGoogle.init - OK')
+            }
+            let onSignedIn = this.updateSigninStatus.bind(this)
+            this.apiGoogle.listenSignedIn(onSignedIn)
+            this.updateSigninStatus(this.apiGoogle.isSignedIn())
+          })
+      })
+    },
+    */
+    mounted: function () {
+      this.$nextTick(function () {
+        // Load/Init Google API
+        this.apiGoogle.loadGoogleAPI()
+          .then(() => {
+            if (this.config.debug) {
+              console.log('loadGoogleAPI - OK')
+            }
+            return this.apiGoogle.loadGapiClient()
+          })
+          .then(() => {
+            if (this.config.debug) {
+              console.log('loadGapiClient - OK')
+            }
+            return this.apiGoogle.iniGapiClient({
+              apiKey: this.config.gapi.apiKey,
+              clientId: this.config.gapi.clientId,
+              discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+              scope: this.config.gapi.services.people.scopes.get
+            })
+          })
+          .then(() => {
+            if (this.config.debug) {
+              console.log('iniGapiClient - OK')
             }
             let onSignedIn = this.updateSigninStatus.bind(this)
             this.apiGoogle.listenSignedIn(onSignedIn)

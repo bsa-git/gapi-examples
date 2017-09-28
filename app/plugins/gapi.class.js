@@ -65,6 +65,27 @@ class ApiGoogle {
     return Promise.all([loadGapiClient, login])
   }
 
+  loadGapiClient () {
+    return new Promise((resolve, reject) => {
+      window.gapi.load('client:auth2', resolve)
+    })
+  }
+
+  iniGapiClient (params) {
+    return new Promise((resolve, reject) => {
+      window.gapi.client.init({
+        apiKey: params.apiKey,
+        clientId: params.clientId,
+        discoveryDocs: params.discoveryDocs,
+        scope: params.scope.join(' ')
+      }).then(resolve, (error) => {
+        this.error = error
+        console.error('Gapi.client.init - Error', error)
+        alert(`Error: ${error.error}\n Details: ${error.details}`)
+      })
+    })
+  }
+
   isSignedIn () {
     return window.gapi.auth2.getAuthInstance().isSignedIn.get()
   }

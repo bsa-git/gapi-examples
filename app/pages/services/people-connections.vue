@@ -81,7 +81,6 @@
       if (this.config.debug) {
         console.log('people-connections.beforeDestroy - OK')
       }
-      window.gapi = null
     },
     mounted: function () {
       this.$nextTick(function () {

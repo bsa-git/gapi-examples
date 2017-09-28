@@ -45,8 +45,9 @@
       isGroupMenu: function (item) {
         switch (item) {
           case 'services':
-            return this.$route.path === '/services/people-get' ||
-              this.$route.path === '/services/people-about'
+            return this.$route.path === '/services/people-about' ||
+              this.$route.path === '/services/people-get' ||
+              this.$route.path === '/services/people-connections'
           default:
             return false
         }

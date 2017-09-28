@@ -23,7 +23,8 @@
 
     <div class="jumbotron text-center">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
+      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
+      </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
 
       <div class="lead" v-if="isSignedIn">Hellow {{ gapi.people_my.names.givenName }}!</div>
@@ -51,6 +52,11 @@
         meta: [
           {hid: 'description', name: 'description', content: this.description}
         ]
+      }
+    },
+    async fetch ({store, config}) {
+      if (config.debug) {
+        console.log('people-get.fetch - OK.')
       }
     },
     created: function () {

@@ -1,5 +1,12 @@
 import _ from 'lodash'
 
+// --- System --- //
+const nuxtServerInit = function (context) {
+  if (context.state.config.debug) {
+    console.log('nuxtServerInit - OK.')
+  }
+}
+
 // --- Gapi People --- //
 const receivePeopleMyNames = function (context) {
   window.gapi.client.people.people.get({
@@ -10,7 +17,7 @@ const receivePeopleMyNames = function (context) {
     context.commit('SET_PEOPLE_MY_NAMES', names)
 
     if (context.state.config.debug) {
-      console.log('people.get - OK. ')
+      console.log('people.get - OK.')
     }
   }, (error) => {
     console.log('people.get - Error. ', `Error: ${error}`)
@@ -22,12 +29,12 @@ const receivePeopleMyConnections = function (context) {
   window.gapi.client.people.people.connections.list({
     'resourceName': 'people/me',
     'pageSize': 10,
-    'personFields': 'names',
+    'personFields': 'names'
   }).then(function (response) {
     let myConnections = []
     const connections = response.result.connections
     if (connections.length > 0) {
-      for ( let i = 0; i < connections.length; i++) {
+      for (let i = 0; i < connections.length; i++) {
         const person = connections[i]
         if (person.names && person.names.length > 0) {
           myConnections.push(person.names[0].displayName)
@@ -47,6 +54,8 @@ const receivePeopleMyConnections = function (context) {
 }
 
 export default {
+  // --- System --- //
+  nuxtServerInit,
   // --- Gapi People --- //
   receivePeopleMyNames,
   receivePeopleMyConnections

@@ -58,6 +58,11 @@
         ]
       }
     },
+    async fetch ({store, config}) {
+      if (config.debug) {
+        console.log('people-connections.fetch - OK.')
+      }
+    },
     created: function () {
       // Create apiGoogle data
       const options = {

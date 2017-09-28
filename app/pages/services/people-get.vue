@@ -55,26 +55,38 @@
       }
     },
     async fetch ({store, isClient, config}) {
-      if (config.debug && isClient) {
+      if (isClient && store.state.google.api === null) {
+        const options = {
+          debug: config.debug,
+          apiKey: config.google.apiKey,
+          clientId: config.google.clientId,
+          discoveryDocs: config.google.services.people.discoveryDocs,
+          scope: config.google.services.people.scopes.get
+        }
+        store.commit('SET_GOOGLE_API', new ApiGoogle(options))
+      }
+      if (config.debug) {
         console.log('people-get.fetch - OK.')
       }
     },
     created: function () {
       // Create apiGoogle
+      /*
       if(!this.$isServer){
-        const options = {
-          debug: this.config.debug,
-          apiKey: this.config.google.apiKey,
-          clientId: this.config.google.clientId,
-          discoveryDocs: this.config.google.services.people.discoveryDocs,
-          scope: this.config.google.services.people.scopes.get
-        }
         if(this.google.api === null){
+          const options = {
+            debug: this.config.debug,
+            apiKey: this.config.google.apiKey,
+            clientId: this.config.google.clientId,
+            discoveryDocs: this.config.google.services.people.discoveryDocs,
+            scope: this.config.google.services.people.scopes.get
+          }
+          // const apiGoogle = new ApiGoogle(options)
           this.$store.commit('SET_GOOGLE_API', new ApiGoogle(options))
         }
         // this.apiGoogle = this.google.api
       }
-
+      */
       if (this.config.debug) {
         console.log('people-get.created - OK')
       }

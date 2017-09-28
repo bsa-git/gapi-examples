@@ -55,7 +55,6 @@
       }
     },
     async fetch ({store, isClient, config}) {
-      /*
       if (isClient && store.state.google.api === null) {
         const options = {
           debug: config.debug,
@@ -70,7 +69,6 @@
       if (config.debug) {
         console.log('people-get.fetch - OK.')
       }
-      */
     },
     created: function () {
       // Create apiGoogle

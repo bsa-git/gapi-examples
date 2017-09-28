@@ -9,16 +9,16 @@ export default async function (context) {
     context.store.commit('SET_CONFIG', config)
 
     // Set Google Api to store
-    if (context.isClient && context.store.state.google.api === null) {
-      const options = {
-        debug: config.debug,
-        apiKey: config.gapi.apiKey,
-        clientId: config.gapi.clientId,
-        discoveryDocs: config.gapi.services.people.discoveryDocs,
-        scope: config.gapi.services.people.scopes.get
-      }
-      context.store.commit('SET_GOOGLE_API', new ApiGoogle(options))
-    }
+    // if (context.isClient && context.store.state.google.api === null) {
+    //   const options = {
+    //     debug: config.debug,
+    //     apiKey: config.gapi.apiKey,
+    //     clientId: config.gapi.clientId,
+    //     discoveryDocs: config.gapi.services.people.discoveryDocs,
+    //     scope: config.gapi.services.people.scopes.get
+    //   }
+    //   context.store.commit('SET_GOOGLE_API', new ApiGoogle(options))
+    // }
 
   } catch (e) {
     context.error(e)

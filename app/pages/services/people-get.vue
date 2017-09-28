@@ -23,11 +23,11 @@
 
     <div class="jumbotron text-center">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
+      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="google.api.handleSignoutClick">Sign Out
       </button>
-      <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
+      <button type="button" class="btn btn-primary" v-else @click="google.api.handleAuthClick">Authorize</button>
 
-      <div class="lead" v-if="isSignedIn">Hellow {{ gapi.people_my.names.givenName }}!</div>
+      <div class="lead" v-if="isSignedIn">Hellow {{ google.people_my.names.givenName }}!</div>
 
     </div>
   </section>
@@ -42,7 +42,7 @@
       return {
         title: 'Method: people.get',
         description: 'Provides information about a person by specifying a resource name',
-        apiGoogle: null,
+        // apiGoogle: null,
         isSignedIn: false
       }
     },
@@ -60,15 +60,21 @@
       }
     },
     created: function () {
-      // Create apiGoogle data
-      const options = {
-        debug: this.config.debug,
-        apiKey: this.config.gapi.apiKey,
-        clientId: this.config.gapi.clientId,
-        discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-        scope: this.config.gapi.services.people.scopes.get
+      // Create apiGoogle
+      if(!this.$isServer){
+        const options = {
+          debug: this.config.debug,
+          apiKey: this.config.google.apiKey,
+          clientId: this.config.google.clientId,
+          discoveryDocs: this.config.google.services.people.discoveryDocs,
+          scope: this.config.google.services.people.scopes.get
+        }
+        if(this.google.api === null){
+          this.$store.commit('SET_GOOGLE_API', new ApiGoogle(options))
+        }
+        // this.apiGoogle = this.google.api
       }
-      this.apiGoogle = new ApiGoogle(options)
+
       if (this.config.debug) {
         console.log('people-get.created - OK')
       }
@@ -103,22 +109,22 @@
     mounted: function () {
       this.$nextTick(function () {
         // Load/Init Google API
-        this.apiGoogle.loadGoogleAPI()
+        this.google.api.loadGoogleAPI()
           .then(() => {
             if (this.config.debug) {
               console.log('loadGoogleAPI - OK')
             }
-            return this.apiGoogle.loadGapiClient()
+            return this.google.api.loadGapiClient()
           })
           .then(() => {
             if (this.config.debug) {
               console.log('loadGapiClient - OK')
             }
-            return this.apiGoogle.iniGapiClient({
-              apiKey: this.config.gapi.apiKey,
-              clientId: this.config.gapi.clientId,
-              discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-              scope: this.config.gapi.services.people.scopes.get
+            return this.google.api.iniGapiClient({
+              apiKey: this.config.google.apiKey,
+              clientId: this.config.google.clientId,
+              discoveryDocs: this.config.google.services.people.discoveryDocs,
+              scope: this.config.google.services.people.scopes.get
             })
           })
           .then(() => {
@@ -126,15 +132,15 @@
               console.log('iniGapiClient - OK')
             }
             let onSignedIn = this.updateSigninStatus.bind(this)
-            this.apiGoogle.listenSignedIn(onSignedIn)
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
+            this.google.api.listenSignedIn(onSignedIn)
+            this.updateSigninStatus(this.google.api.isSignedIn())
           })
       })
     },
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        gapi: 'getGapi'
+        google: 'getGapi'
       })
     },
     methods: {

@@ -24,6 +24,9 @@ const store = () => new Vuex.Store({
     SET_CONFIG (state, config) {
       state.config = config
     },
+    SET_GOOGLE_API (state, api) {
+      state.google.api = api
+    },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.google.people_my.names = names
     },

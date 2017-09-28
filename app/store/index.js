@@ -7,6 +7,7 @@ const store = () => new Vuex.Store({
     config: {},
     google: {
       api: null,
+      loadedClient: false,
       people_my: {
         connections: [],
         names: {
@@ -26,6 +27,9 @@ const store = () => new Vuex.Store({
     },
     SET_GOOGLE_API (state, api) {
       state.google.api = api
+    },
+    SET_GOOGLE_CLIENT (state) {
+      state.google.loadedClient = true
     },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.google.people_my.names = names

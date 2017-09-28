@@ -77,6 +77,7 @@
       if (this.config.debug) {
         console.log('people-get.beforeDestroy - OK')
       }
+      window.gapi = null
     },
     mounted: function () {
       this.$nextTick(function () {

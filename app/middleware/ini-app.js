@@ -8,6 +8,8 @@ export default async function (context) {
     context.config = config
     context.store.commit('SET_CONFIG', config)
 
+    console.log('ini-app: - OK', config)
+
     // Set Google Api to store
     // if (context.isClient && context.store.state.google.api === null) {
     //   const options = {

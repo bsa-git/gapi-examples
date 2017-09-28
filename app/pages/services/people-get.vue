@@ -131,6 +131,10 @@
       this.$nextTick(function () {
         // Load/Init Google API
         if (this.google.loadedClient) {
+
+          this.runPeopleGet()
+
+          /*
           this.google.api.iniGapiClient({
             apiKey: this.config.gapi.apiKey,
             clientId: this.config.gapi.clientId,
@@ -145,6 +149,7 @@
               this.google.api.listenSignedIn(onSignedIn)
               this.updateSigninStatus(this.google.api.isSignedIn())
             })
+            */
         } else {
           this.google.api.loadGoogleAPI()
             .then(() => {
@@ -153,6 +158,16 @@
               }
               return this.google.api.loadGapiClient()
             })
+            .then(() => {
+              if (this.config.debug) {
+                console.log('loadGapiClient - OK')
+              }
+              this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
+              this.runPeopleGet()
+            })
+
+
+            /*
             .then(() => {
               if (this.config.debug) {
                 console.log('loadGapiClient - OK')
@@ -173,6 +188,7 @@
               this.google.api.listenSignedIn(onSignedIn)
               this.updateSigninStatus(this.google.api.isSignedIn())
             })
+            */
         }
       })
     },
@@ -193,6 +209,22 @@
         if (isSignedIn) {
           this.$store.dispatch('receivePeopleMyNames')
         }
+      },
+      runPeopleGet: function () {
+        return this.google.api.iniGapiClient({
+          apiKey: this.config.gapi.apiKey,
+          clientId: this.config.gapi.clientId,
+          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+          scope: this.config.gapi.services.people.scopes.get
+        })
+          .then(() => {
+            if (this.config.debug) {
+              console.log('iniGapiClient - OK')
+            }
+            let onSignedIn = this.updateSigninStatus.bind(this)
+            this.google.api.listenSignedIn(onSignedIn)
+            this.updateSigninStatus(this.google.api.isSignedIn())
+          })
       }
     }
   }

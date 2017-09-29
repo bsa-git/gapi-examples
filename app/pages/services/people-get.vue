@@ -67,9 +67,9 @@
       if (this.config.debug) {
         console.log('people-get.created - OK')
       }
-      if (this.google.api === null) {
+//      if (this.google.api === null) {
         this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
-      }
+//      }
     },
     mounted: function () {
       this.$nextTick(function () {

@@ -62,13 +62,11 @@
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
     },
-    created: function () {
-      if (this.config.debug) {
-        console.log('people-get.created - OK')
-      }
-    },
     mounted: function () {
       this.$nextTick(function () {
+        if (this.config.debug) {
+          console.log('people-get.mounted - OK')
+        }
         // Load/Init Google API
         if (this.google.loadedClient) {
           this.runPeopleGet()

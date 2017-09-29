@@ -66,22 +66,11 @@
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
     },
-    created: function () {
-      // Create apiGoogle data
-//      const options = {
-//        debug: this.config.debug,
-//        apiKey: this.config.gapi.apiKey,
-//        clientId: this.config.gapi.clientId,
-//        discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-//        scope: this.config.gapi.services.people.scopes.connections
-//      }
-//      this.apiGoogle = new ApiGoogle(options)
-      if (this.config.debug) {
-        console.log('people-connections.created - OK')
-      }
-    },
     mounted: function () {
       this.$nextTick(function () {
+        if (this.config.debug) {
+          console.log('people-connections.mounted - OK')
+        }
         if (this.google.loadedClient) {
           this.runPeopleConnections()
         } else {

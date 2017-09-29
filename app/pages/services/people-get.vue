@@ -54,22 +54,17 @@
         ]
       }
     },
-    fetch ({store, isClient, config}) {
-      if (config.debug) {
+    fetch ({store, isClient, config }) {
+      if (isClient && config.debug) {
         console.log('people-get.fetch - OK.')
+        location.reload(true)
       }
-//      if (store.state.google.api === null) {
-//        store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
-//      }
-
     },
     created: function () {
-      if (this.config.debug) {
+      if (!this.$isServer && this.config.debug) {
         console.log('people-get.created - OK')
-      }
-//      if (this.google.api === null) {
         this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
-//      }
+      }
     },
     mounted: function () {
       this.$nextTick(function () {

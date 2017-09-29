@@ -62,9 +62,17 @@
       if (config.debug) {
         console.log('people-connections.fetch - OK.')
       }
-      if (store.state.google.api === null) {
-        store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
+//      if (store.state.google.api === null) {
+//        store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
+//      }
+    },
+    created: function () {
+      if (this.config.debug) {
+        console.log('people-connections.created - OK')
       }
+//      if (this.google.api === null) {
+      this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
+//      }
     },
     mounted: function () {
       this.$nextTick(function () {

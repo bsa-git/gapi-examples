@@ -62,7 +62,7 @@
       if (config.debug && isClient) {
         console.log('people-connections.fetch - OK.')
       }
-      if (isClient && store.state.google.api === null) {
+      if (store.state.google.api === null) {
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
     },

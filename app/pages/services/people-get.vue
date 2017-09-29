@@ -68,9 +68,9 @@
         if (this.config.debug) {
           console.log('people-get.mounted - OK', this.google.api)
         }
-        if (this.google.api === null) {
-          this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
-        }
+//        if (this.google.api === null) {
+//          this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
+//        }
         // Load/Init Google API
         if (this.google.loadedClient) {
           this.runPeopleGet()

@@ -59,7 +59,7 @@
       }
     },
     fetch ({store, isClient, config }) {
-      if (config.debug && isClient) {
+      if (config.debug) {
         console.log('people-connections.fetch - OK.')
       }
       if (store.state.google.api === null) {

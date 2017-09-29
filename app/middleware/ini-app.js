@@ -12,9 +12,9 @@ export default async function (context) {
     context.store.commit('SET_CONFIG', config)
 
     // Set Google Api to store
-    if (context.store.state.google.api === null) {
-      context.store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
-    }
+    // if (context.store.state.google.api === null) {
+    //   context.store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
+    // }
   } catch (e) {
     context.error(e)
   }

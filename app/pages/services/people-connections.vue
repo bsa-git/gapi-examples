@@ -23,13 +23,13 @@
 
     <div class="jumbotron">
       <div text-center>
-        <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out</button>
-        <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
+        <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="google.api.handleSignoutClick">Sign Out</button>
+        <button type="button" class="btn btn-primary" v-else @click="google.api.handleAuthClick">Authorize</button>
       </div>
       <div id="content" class="lead" v-if="isSignedIn">
         <p class="lead">Connections:</p>
         <ul>
-          <li v-for="connection in gapi.people_my.connections">{{ connection }}</li>
+          <li v-for="connection in google.people_my.connections">{{ connection }}</li>
         </ul>
       </div>
     </div>
@@ -59,53 +59,53 @@
       }
     },
     async fetch ({store, isClient, config }) {
-      if (config.debug && isClient) {
-        console.log('people-connections.fetch - OK.')
+      if (isClient && store.state.google.api === null) {
+        if (config.debug && isClient) {
+          console.log('people-connections.fetch - OK.')
+        }
+        store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
     },
     created: function () {
       // Create apiGoogle data
-      const options = {
-        debug: this.config.debug,
-        apiKey: this.config.gapi.apiKey,
-        clientId: this.config.gapi.clientId,
-        discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-        scope: this.config.gapi.services.people.scopes.connections
-      }
-      this.apiGoogle = new ApiGoogle(options)
+//      const options = {
+//        debug: this.config.debug,
+//        apiKey: this.config.gapi.apiKey,
+//        clientId: this.config.gapi.clientId,
+//        discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+//        scope: this.config.gapi.services.people.scopes.connections
+//      }
+//      this.apiGoogle = new ApiGoogle(options)
       if (this.config.debug) {
         console.log('people-connections.created - OK')
       }
     },
-    beforeDestroy: function () {
-      if (this.config.debug) {
-        console.log('people-connections.beforeDestroy - OK')
-      }
-    },
     mounted: function () {
       this.$nextTick(function () {
-        // Load/Init Google API
-        this.apiGoogle.loadGoogleAPI()
-          .then(() => {
-            if (this.config.debug) {
-              console.log('loadGoogleAPI - OK')
-            }
-            return this.apiGoogle.init()
-          })
-          .then(() => {
-            if (this.config.debug) {
-              console.log('apiGoogle.init - OK')
-            }
-            let onSignedIn = this.updateSigninStatus.bind(this)
-            this.apiGoogle.listenSignedIn(onSignedIn)
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
-          })
+        if (this.google.loadedClient) {
+          this.runPeopleConnections()
+        } else {
+          this.google.api.loadGoogleAPI()
+            .then(() => {
+              if (this.config.debug) {
+                console.log('loadGoogleAPI - OK')
+              }
+              return this.google.api.loadGapiClient()
+            })
+            .then(() => {
+              if (this.config.debug) {
+                console.log('loadGapiClient - OK')
+              }
+              this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
+              this.runPeopleConnections()
+            })
+        }
       })
     },
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        gapi: 'getGapi'
+        google: 'getGapi'
       })
     },
     methods: {
@@ -117,6 +117,22 @@
         if (isSignedIn) {
           this.$store.dispatch('receivePeopleMyConnections')
         }
+      },
+      runPeopleConnections: function () {
+        return this.google.api.iniGapiClient({
+          apiKey: this.config.gapi.apiKey,
+          clientId: this.config.gapi.clientId,
+          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+          scope: this.config.gapi.services.people.scopes.connections
+        })
+          .then(() => {
+            if (this.config.debug) {
+              console.log('iniGapiClient - OK')
+            }
+            let onSignedIn = this.updateSigninStatus.bind(this)
+            this.google.api.listenSignedIn(onSignedIn)
+            this.updateSigninStatus(this.google.api.isSignedIn())
+          })
       }
     }
   }

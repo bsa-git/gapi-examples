@@ -56,10 +56,10 @@
     },
     fetch ({store, isClient, config}) {
       if (isClient && store.state.google.api === null) {
+        if (config.debug) {
+          console.log('people-get.fetch - OK.')
+        }
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
-      }
-      if (config.debug) {
-        console.log('people-get.fetch - OK.')
       }
     },
     created: function () {

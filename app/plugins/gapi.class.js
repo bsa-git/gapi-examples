@@ -11,7 +11,7 @@ class ApiGoogle {
     this._apiKey = options.apiKey
     this._clientId = options.clientId
     this._discoveryDocs = options.discoveryDocs
-    this._scope = options.scope.join(' ')
+    this._scope = options.scope ? options.scope.join(' ') : ''
     this.name = 'load-google-api'
     this.error = null
     this.debug = !!options.debug

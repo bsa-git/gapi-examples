@@ -54,89 +54,24 @@
         ]
       }
     },
-    async fetch ({store, isClient, config}) {
+    fetch ({store, isClient, config}) {
       if (isClient && store.state.google.api === null) {
-        const options = {
-          debug: config.debug,
-          apiKey: config.gapi.apiKey,
-          clientId: config.gapi.clientId,
-          discoveryDocs: config.gapi.services.people.discoveryDocs,
-          scope: config.gapi.services.people.scopes.get
-        }
-        store.commit('SET_GOOGLE_API', new ApiGoogle(options))
+        store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
-
       if (config.debug) {
         console.log('people-get.fetch - OK.')
       }
     },
     created: function () {
-      // Create apiGoogle
-      /*
-      if(!this.$isServer){
-        if(this.google.api === null){
-          const options = {
-            debug: this.config.debug,
-            apiKey: this.config.google.apiKey,
-            clientId: this.config.google.clientId,
-            discoveryDocs: this.config.google.services.people.discoveryDocs,
-            scope: this.config.google.services.people.scopes.get
-          }
-          // const apiGoogle = new ApiGoogle(options)
-          this.$store.commit('SET_GOOGLE_API', new ApiGoogle(options))
-        }
-        // this.apiGoogle = this.google.api
-      }
-      */
       if (this.config.debug) {
         console.log('people-get.created - OK')
       }
     },
-    /*
-    mounted: function () {
-      this.$nextTick(function () {
-        // Load/Init Google API
-        this.apiGoogle.loadGoogleAPI()
-          .then(() => {
-            if (this.config.debug) {
-              console.log('loadGoogleAPI - OK')
-            }
-            return this.apiGoogle.init()
-          })
-          .then(() => {
-            if (this.config.debug) {
-              console.log('apiGoogle.init - OK')
-            }
-            let onSignedIn = this.updateSigninStatus.bind(this)
-            this.apiGoogle.listenSignedIn(onSignedIn)
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
-          })
-      })
-    },
-    */
     mounted: function () {
       this.$nextTick(function () {
         // Load/Init Google API
         if (this.google.loadedClient) {
-
           this.runPeopleGet()
-
-          /*
-          this.google.api.iniGapiClient({
-            apiKey: this.config.gapi.apiKey,
-            clientId: this.config.gapi.clientId,
-            discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-            scope: this.config.gapi.services.people.scopes.get
-          })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('iniGapiClient - OK')
-              }
-              let onSignedIn = this.updateSigninStatus.bind(this)
-              this.google.api.listenSignedIn(onSignedIn)
-              this.updateSigninStatus(this.google.api.isSignedIn())
-            })
-            */
         } else {
           this.google.api.loadGoogleAPI()
             .then(() => {
@@ -152,30 +87,6 @@
               this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
               this.runPeopleGet()
             })
-
-
-            /*
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGapiClient - OK')
-              }
-              this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
-              return this.google.api.iniGapiClient({
-                apiKey: this.config.gapi.apiKey,
-                clientId: this.config.gapi.clientId,
-                discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-                scope: this.config.gapi.services.people.scopes.get
-              })
-            })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('iniGapiClient - OK')
-              }
-              let onSignedIn = this.updateSigninStatus.bind(this)
-              this.google.api.listenSignedIn(onSignedIn)
-              this.updateSigninStatus(this.google.api.isSignedIn())
-            })
-            */
         }
       })
     },

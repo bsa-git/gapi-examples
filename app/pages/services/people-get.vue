@@ -56,7 +56,7 @@
     },
     fetch ({store, isClient, config}) {
       if (config.debug) {
-        console.log('people-get.fetch - OK.', store.state.google.api)
+        console.log('people-get.fetch - OK.')
       }
       if (store.state.google.api === null) {
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))

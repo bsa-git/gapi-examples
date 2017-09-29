@@ -61,12 +61,18 @@
     fetch ({store, isClient, config }) {
       if (isClient && config.debug) {
         console.log('people-connections.fetch - OK.')
+      }
+      if (isClient) {
+        // Force reloading the current page from the server
+        // It is necessary that you can earn a downloadable Google service API
         location.reload(true)
       }
     },
     created: function () {
       if (!this.$isServer && this.config.debug) {
         console.log('people-connections.created - OK')
+      }
+      if (!this.$isServer) {
         this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
       }
     },

@@ -58,11 +58,11 @@
         ]
       }
     },
-    async fetch ({store, isClient, config }) {
+    fetch ({store, isClient, config }) {
+      if (config.debug && isClient) {
+        console.log('people-connections.fetch - OK.')
+      }
       if (isClient && store.state.google.api === null) {
-        if (config.debug && isClient) {
-          console.log('people-connections.fetch - OK.')
-        }
         store.commit('SET_GOOGLE_API', new ApiGoogle({debug: config.debug}))
       }
     },

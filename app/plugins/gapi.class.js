@@ -5,16 +5,16 @@ class ApiGoogle {
    *
    * @memberOf ApiGoogle
    */
-  constructor (options) {
+  constructor (params) {
     this._callbackName = '__googleApiOnLoadCallback'
     this._clientURL = `https://apis.google.com/js/client.js?onload=${this._callbackName}`
-    this._apiKey = options.apiKey
-    this._clientId = options.clientId
-    this._discoveryDocs = options.discoveryDocs
-    this._scope = options.scope ? options.scope.join(' ') : ''
+    this._apiKey = params.apiKey
+    this._clientId = params.clientId
+    this._discoveryDocs = params.discoveryDocs
+    this._scope = params.scope ? params.scope.join(' ') : ''
     this.name = 'load-google-api'
     this.error = null
-    this.debug = !!options.debug
+    this.debug = !!params.debug
   }
 
   /**

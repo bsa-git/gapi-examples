@@ -73,9 +73,7 @@
           discoveryDocs: this.config.gapi.services.people.discoveryDocs,
           scope: this.config.gapi.services.people.scopes.get
         }
-
         this.apiGoogle = new ApiGoogle(params)
-//        this.$store.commit('SET_GOOGLE_API', new ApiGoogle({debug: this.config.debug}))
       }
     },
     mounted: function () {
@@ -99,27 +97,6 @@
             this.apiGoogle.listenSignedIn(onSignedIn)
             this.updateSigninStatus(this.apiGoogle.isSignedIn())
           })
-
-        /*
-        if (this.google.loadedClient) {
-          this.runPeopleGet()
-        } else {
-          this.apiGoogle.loadGoogleAPI()
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGoogleAPI - OK')
-              }
-              return this.apiGoogle.loadGapiClient()
-            })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGapiClient - OK')
-              }
-              this.$store.commit('SET_LOADED_GOOGLE_CLIENT')
-              this.runPeopleGet()
-            })
-        }
-        */
       })
     },
     computed: {
@@ -139,22 +116,6 @@
         if (isSignedIn) {
           this.$store.dispatch('receivePeopleMyNames')
         }
-      },
-      runPeopleGet: function () {
-        return this.apiGoogle.iniGapiClient({
-          apiKey: this.config.gapi.apiKey,
-          clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.get
-        })
-          .then(() => {
-            if (this.config.debug) {
-              console.log('iniGapiClient - OK')
-            }
-            let onSignedIn = this.updateSigninStatus.bind(this)
-            this.apiGoogle.listenSignedIn(onSignedIn)
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
-          })
       }
     }
   }

@@ -11,7 +11,7 @@ const receivePeopleMyNames = function (context) {
     context.commit('SET_PEOPLE_MY_NAMES', names)
 
     if (context.state.config.debug) {
-      console.log('people.get - OK.', resp.result)
+      console.log('people.get - OK.')
     }
   }, (error) => {
     console.log('people.get - Error. ', `Error: ${error}`)
@@ -42,7 +42,7 @@ const receivePeopleMyConnections = function (context) {
     context.commit('SET_PEOPLE_MY_CONNECTIONS', myConnections)
 
     if (context.state.config.debug) {
-      console.log('people.connections.list - OK.', connections)
+      console.log('people.connections.list - OK.')
     }
   })
 }

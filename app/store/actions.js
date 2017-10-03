@@ -28,7 +28,7 @@ const receivePeopleMyNames = function ({commit, state}) {
 
 const receivePeopleMyConnections = function (context) {
   let connections = []
-  if (state.config.isStatic) {
+  if (context.state.config.isStatic) {
     window.gapi.client.people.people.connections.list({
       'resourceName': 'people/me',
       'pageSize': 10,
@@ -41,7 +41,6 @@ const receivePeopleMyConnections = function (context) {
     connections = data.connections
     _getPersonInfoFromConnections(context, connections)
   }
-
 }
 
 const _getPersonInfoFromConnections = function ({ commit, state }, connections) {

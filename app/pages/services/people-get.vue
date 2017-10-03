@@ -61,7 +61,7 @@
       if (isClient && isStatic) {
         // Force reloading the current page from the server
         // It is necessary that you can earn a downloadable Google service API
-        // location.reload(true)
+        location.reload(true)
       }
     },
     created: function () {
@@ -85,9 +85,7 @@
           console.log('people-get.mounted - OK: ', `appEnv.testing=${this.config.app_env === 'testing'}`)
         }
         // Load/Init Google API
-        if (this.config.app_env === 'testing') {
-          this.updateSigninStatus(true)
-        } else {
+        if (this.config.isStatic) {
           this.apiGoogle.loadGoogleAPI()
             .then(() => {
               if (this.config.debug) {
@@ -103,6 +101,8 @@
               this.apiGoogle.listenSignedIn(onSignedIn)
               this.updateSigninStatus(this.apiGoogle.isSignedIn())
             })
+        } else {
+          this.updateSigninStatus(true)
         }
       })
     },

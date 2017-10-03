@@ -43,6 +43,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    devtool: 'eval-source-map', // eval-source-map inline-source-map
     vendor: [
       'lodash'
     ],

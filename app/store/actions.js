@@ -1,22 +1,33 @@
 import _ from 'lodash'
+import config from '~/config/env/index'
+import data from '~/store/data/people'
 
-// --- Gapi People --- //
+// Get env
+const env = config.app_env
+
+// --- Google People API --- //
 
 const receivePeopleMyNames = function (context) {
-  window.gapi.client.people.people.get({
-    'resourceName': 'people/me',
-    'personFields': 'names,emailAddresses'
-  }).then((resp) => {
-    const names = _.omit(resp.result.names[0], ['metadata'])
+  let names = null
+  if (env === 'testing') {
+    names = data.names[0]
     context.commit('SET_PEOPLE_MY_NAMES', names)
+  } else {
+    window.gapi.client.people.people.get({
+      'resourceName': 'people/me',
+      'personFields': 'names,emailAddresses'
+    }).then((resp) => {
+      names = _.omit(resp.result.names[0], ['metadata'])
+      context.commit('SET_PEOPLE_MY_NAMES', names)
 
-    if (context.state.config.debug) {
-      console.log('people.get - OK.')
-    }
-  }, (error) => {
-    console.log('people.get - Error. ', `Error: ${error}`)
-    alert(`Error: ${error}`)
-  })
+      if (context.state.config.debug) {
+        console.log('people.get - OK.')
+      }
+    }, (error) => {
+      console.log('people.get - Error. ', `Error: ${error}`)
+      alert(`Error: ${error}`)
+    })
+  }
 }
 
 const receivePeopleMyConnections = function (context) {

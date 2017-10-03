@@ -6,14 +6,16 @@ class ApiGoogle {
    * @memberOf ApiGoogle
    */
   constructor (params) {
+    this.name = 'load-google-api'
     this._callbackName = '__googleApiOnLoadCallback'
     this._clientURL = `https://apis.google.com/js/client.js?onload=${this._callbackName}`
     this._apiKey = params.apiKey
     this._clientId = params.clientId
     this._discoveryDocs = params.discoveryDocs
     this._scope = params.scope ? params.scope.join(' ') : ''
-    this.name = 'load-google-api'
+    // Error
     this.error = null
+    // Debug
     this.debug = !!params.debug
   }
 
@@ -98,14 +100,22 @@ class ApiGoogle {
     window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
   }
 
-  handleAuthClick () {
-    console.log('handleAuthClick - OK')
-    window.gapi.auth2.getAuthInstance().signIn()
+  handleAuthClick (self) {
+    if (self.debug) {
+      console.log('handleAuthClick - OK')
+    }
+    if (window.gapi) {
+      window.gapi.auth2.getAuthInstance().signIn()
+    }
   }
 
-  handleSignoutClick () {
-    console.log('handleSignoutClick - OK')
-    window.gapi.auth2.getAuthInstance().signOut()
+  handleSignoutClick (self) {
+    if (self.debug) {
+      console.log('handleSignoutClick - OK')
+    }
+    if (window.gapi) {
+      window.gapi.auth2.getAuthInstance().signOut()
+    }
   }
 }
 

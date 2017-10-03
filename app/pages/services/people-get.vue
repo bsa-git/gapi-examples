@@ -56,8 +56,10 @@
         ]
       }
     },
-    fetch ({isClient, isStatic}) {
-      console.log(`isClient: ${isClient}; `, `isStatic: ${isStatic};`)
+    fetch ({isClient, isStatic, config}) {
+      if (config.debug) {
+        console.log(`isClient: ${isClient}; `, `isStatic: ${isStatic};`)
+      }
       if (isClient && isStatic) {
         // Force reloading the current page from the server
         // It is necessary that you can earn a downloadable Google service API
@@ -82,7 +84,7 @@
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
-          console.log('people-get.mounted - OK: ', `appEnv.testing=${this.config.app_env === 'testing'}`)
+          console.log('people-get.mounted - OK: ', `isStatic=${this.config.isStatic}`)
         }
         // Load/Init Google API
         if (this.config.isStatic) {

@@ -24,9 +24,11 @@
 
     <div class="jumbotron">
       <div text-center>
-        <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick">Sign Out
+        <button type="button" class="btn btn-primary" v-if="isSignedIn"
+                @click="apiGoogle.handleSignoutClick(apiGoogle)">Sign Out
         </button>
-        <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick">Authorize</button>
+        <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick(apiGoogle)">Authorize
+        </button>
       </div>
       <div id="content" class="lead" v-if="isSignedIn">
         <p class="lead">Connections:</p>
@@ -59,16 +61,19 @@
         ]
       }
     },
-    fetch ({store, isClient, config}) {
-      if (isClient) {
+    fetch ({isClient, isStatic, config}) {
+      if (config.debug) {
+        console.log(`isClient: ${isClient}; `, `isStatic: ${isStatic};`)
+      }
+      if (isClient && isStatic) {
         // Force reloading the current page from the server
         // It is necessary that you can earn a downloadable Google service API
         location.reload(true)
       }
     },
     created: function () {
-      if (!this.$isServer && this.config.debug) {
-        console.log('people-connections.created - OK')
+      if (this.config.debug) {
+        console.log('people-connections.created - OK: ', `isServer=${this.$isServer}`)
       }
       if (!this.$isServer) {
         const params = {
@@ -84,25 +89,29 @@
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
-          console.log('people-connections.mounted - OK')
+          console.log('people-connections.mounted - OK: ', `isStatic=${this.config.isStatic}`)
         }
 
         // Load/Init Google API
-        this.apiGoogle.loadGoogleAPI()
-          .then(() => {
-            if (this.config.debug) {
-              console.log('loadGoogleAPI - OK')
-            }
-            return this.apiGoogle.init()
-          })
-          .then(() => {
-            if (this.config.debug) {
-              console.log('apiGoogle.init - OK')
-            }
-            let onSignedIn = this.updateSigninStatus.bind(this)
-            this.apiGoogle.listenSignedIn(onSignedIn)
-            this.updateSigninStatus(this.apiGoogle.isSignedIn())
-          })
+        if (this.config.isStatic) {
+          this.apiGoogle.loadGoogleAPI()
+            .then(() => {
+              if (this.config.debug) {
+                console.log('loadGoogleAPI - OK')
+              }
+              return this.apiGoogle.init()
+            })
+            .then(() => {
+              if (this.config.debug) {
+                console.log('apiGoogle.init - OK')
+              }
+              let onSignedIn = this.updateSigninStatus.bind(this)
+              this.apiGoogle.listenSignedIn(onSignedIn)
+              this.updateSigninStatus(this.apiGoogle.isSignedIn())
+            })
+        } else {
+          this.updateSigninStatus(true)
+        }
       })
     },
     computed: {

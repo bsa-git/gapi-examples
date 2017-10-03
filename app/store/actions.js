@@ -26,8 +26,7 @@ const receivePeopleMyNames = function ({commit, state}) {
   }
 }
 
-const receivePeopleMyConnections = function ({commit, state}) {
-  let myConnections = []
+const receivePeopleMyConnections = function (context) {
   let connections = []
   if (state.config.isStatic) {
     window.gapi.client.people.people.connections.list({
@@ -36,10 +35,17 @@ const receivePeopleMyConnections = function ({commit, state}) {
       'personFields': 'names,emailAddresses'
     }).then(function (response) {
       connections = response.result.connections
+      _getPersonInfoFromConnections(context, connections)
     })
   } else {
     connections = data.connections
+    _getPersonInfoFromConnections(context, connections)
   }
+
+}
+
+const _getPersonInfoFromConnections = function ({ commit, state }, connections) {
+  let myConnections = []
   if (connections.length > 0) {
     for (let i = 0; i < connections.length; i++) {
       const person = connections[i]

@@ -61,7 +61,7 @@
       if (isClient && isStatic) {
         // Force reloading the current page from the server
         // It is necessary that you can earn a downloadable Google service API
-        location.reload(true)
+        // location.reload(true)
       }
     },
     created: function () {

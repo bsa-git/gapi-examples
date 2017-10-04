@@ -7,7 +7,7 @@
     </div>
 
     <div class="bs-callout-info bs-callout">
-      <h4>The People API</h4>
+      <h4>Google People API</h4>
       <p>
         The People API lets you list and manage the authenticated user's
         <a href="https://www.google.com/contacts" target="_blank">Contacts</a> and retrieve profile information for
@@ -51,8 +51,9 @@
     <div class="jumbotron">
       <p class="lead">Examples:</p>
       <dl>
-        <dt>People API</dt>
+        <dt>Google People API</dt>
         <dd><nuxt-link to="/services/people-get">People.get</nuxt-link> - Provides information about a person by specifying a resource name.</dd>
+        <dd><nuxt-link to="/services/people-connections">People.connections.list</nuxt-link> - Provides a list of the authenticated user's contacts.</dd>
       </dl>
     </div>
   </section>
@@ -77,7 +78,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

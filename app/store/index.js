@@ -14,6 +14,9 @@ const store = () => new Vuex.Store({
           familyName: '',
           givenName: ''
         }
+      },
+      gmail: {
+        messages_list: []
       }
     }
   },
@@ -28,6 +31,9 @@ const store = () => new Vuex.Store({
     },
     SET_PEOPLE_MY_CONNECTIONS (state, connections) {
       state.google.people_my.connections = connections
+    },
+    SET_GMAIL_MY_MESSAGES_LIST (state, messages) {
+      state.google.gmail.messages_list = messages
     }
   }
 })

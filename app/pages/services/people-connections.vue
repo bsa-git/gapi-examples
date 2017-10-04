@@ -63,7 +63,7 @@
     },
     fetch ({isClient, isStatic, config}) {
       if (config.debug) {
-        console.log(`isClient: ${isClient}; `, `isStatic: ${isStatic};`)
+        console.log('people-connections.fetch - OK: ', `isClient=${isClient}; `, `isStatic=${isStatic};`)
       }
       if (isClient && isStatic) {
         // Force reloading the current page from the server

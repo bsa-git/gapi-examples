@@ -20,14 +20,17 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="dropdown-header">People API</li>
+              <li class="dropdown-header">Google People API</li>
               <li>
                 <nuxt-link to="/services/people-about">About</nuxt-link>
                 <nuxt-link to="/services/people-get">People.get</nuxt-link>
                 <nuxt-link to="/services/people-connections">People.connections.list</nuxt-link>
               </li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
+              <li class="dropdown-header">Google Gmail API</li>
+              <li>
+                <nuxt-link to="/services/gmail-about">About</nuxt-link>
+              </li>
             </ul>
           </li>
           <li :class="{ 'active': $route.name == 'bootstrap' }">
@@ -47,7 +50,9 @@
           case 'services':
             return this.$route.path === '/services/people-about' ||
               this.$route.path === '/services/people-get' ||
-              this.$route.path === '/services/people-connections'
+              this.$route.path === '/services/people-connections' ||
+              this.$route.path === '/services/gmail-about' ||
+              this.$route.path === '/services/gmail-display-inbox'
           default:
             return false
         }

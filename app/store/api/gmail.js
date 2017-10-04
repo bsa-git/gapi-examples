@@ -1,0 +1,37 @@
+import _ from 'lodash'
+import config from '~/config/env/index'
+
+// --- Google Gmail API --- //
+
+const getGmailMyMessages = function () {
+  // Execute this request for 'gmail.users.messages.list'
+  const request = window.gapi.client.gmail.users.messages.list({
+    'userId': 'me',
+    'labelIds': 'INBOX',
+    'maxResults': 10
+  })
+  request.execute(function (response) {
+    if (config.debug) {
+      console.log('api.gmail.users.messages.list - Executed: ', `Messages=${response.messages};`)
+    }
+    _.forEach(response.messages, function (message) {
+      // Execute this request for 'gmail.users.messages.get'
+      const messageRequest = window.gapi.client.gmail.users.messages.get({
+        'userId': 'me',
+        'id': message.id
+      })
+      messageRequest.execute(_appendMessageRow)
+    })
+  })
+}
+
+const _appendMessageRow = function (message) {
+  if (config.debug) {
+    console.log('api.gmail.users.messages.get - Executed: ', `Message=${message};`)
+  }
+  return message
+}
+
+export default {
+  getGmailMyMessages
+}

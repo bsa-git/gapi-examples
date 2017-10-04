@@ -88,6 +88,12 @@ class ApiGoogle {
     })
   }
 
+  loadGmailApi () {
+    return new Promise((resolve, reject) => {
+      window.gapi.client.load('gmail', 'v1', resolve)
+    })
+  }
+
   isSignedIn () {
     return window.gapi.auth2.getAuthInstance().isSignedIn.get()
   }

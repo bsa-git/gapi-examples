@@ -1,4 +1,3 @@
-// --- Mutation types --- //
 import config from '~/config/env/index'
 
 export default async function (context) {

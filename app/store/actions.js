@@ -1,70 +1,65 @@
-import _ from 'lodash'
-import data from '~/store/data/people'
+import apiPeople from '~/store/api/people'
+import apiGmail from '~/store/api/gmail'
+import dataPeople from '~/store/data/people'
+import dataGmail from '~/store/data/gmail'
 
 // --- Google People API --- //
 
 const receivePeopleMyNames = function ({commit, state}) {
   let names = null
   if (state.config.isStatic) {
-    window.gapi.client.people.people.get({
-      'resourceName': 'people/me',
-      'personFields': 'names,emailAddresses'
-    }).then((resp) => {
-      names = _.omit(resp.result.names[0], ['metadata'])
-      commit('SET_PEOPLE_MY_NAMES', names)
-
-      if (state.config.debug) {
-        console.log('people.get - OK.')
-      }
-    }, (error) => {
-      console.log('people.get - Error. ', `Error: ${error}`)
-      alert(`Error: ${error}`)
-    })
-  } else {
-    names = data.names[0]
+    names = apiPeople.getPeopleMyNames()
     commit('SET_PEOPLE_MY_NAMES', names)
-  }
-}
-
-const receivePeopleMyConnections = function (context) {
-  let connections = []
-  if (context.state.config.isStatic) {
-    window.gapi.client.people.people.connections.list({
-      'resourceName': 'people/me',
-      'pageSize': 10,
-      'personFields': 'names,emailAddresses'
-    }).then(function (response) {
-      connections = response.result.connections
-      _getPersonInfoFromConnections(context, connections)
-    })
-  } else {
-    connections = data.connections
-    _getPersonInfoFromConnections(context, connections)
-  }
-}
-
-const _getPersonInfoFromConnections = function ({ commit, state }, connections) {
-  let myConnections = []
-  if (connections.length > 0) {
-    for (let i = 0; i < connections.length; i++) {
-      const person = connections[i]
-      if (person.names && person.names.length > 0) {
-        myConnections.push(person.names[0].displayName)
-      } else {
-        myConnections.push('No display name found for connection.')
-      }
+    if (state.config.debug) {
+      console.log('api.people.get - OK.')
     }
   } else {
-    myConnections.push('No upcoming events found.')
+    names = dataPeople.names[0]
+    commit('SET_PEOPLE_MY_NAMES', names)
+    if (state.config.debug) {
+      console.log('data.people.get - OK.')
+    }
   }
-  commit('SET_PEOPLE_MY_CONNECTIONS', myConnections)
-  if (state.config.debug) {
-    console.log('people.connections.list - OK.')
+}
+
+const receivePeopleMyConnections = function ({commit, state}) {
+  let connections = null
+  if (state.config.isStatic) {
+    connections = apiPeople.getPeopleMyConnections()
+    commit('SET_PEOPLE_MY_CONNECTIONS', connections)
+    if (state.config.debug) {
+      console.log('api.people.connections.list - OK.')
+    }
+  } else {
+    connections = dataPeople.connections
+    commit('SET_PEOPLE_MY_CONNECTIONS', connections)
+    if (state.config.debug) {
+      console.log('data.people.connections.list - OK.')
+    }
+  }
+}
+
+const receiveGmailMyMessages = function ({commit, state}) {
+  let messages = null
+  if (state.config.isStatic) {
+    messages = apiGmail.getGmailMyMessages()
+    commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
+    if (state.config.debug) {
+      console.log('api.gmail.messages.list - OK.')
+    }
+  } else {
+    messages = dataGmail.messages
+    commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
+    if (state.config.debug) {
+      console.log('data.gmail.messages.list - OK.')
+    }
   }
 }
 
 export default {
-  // --- Gapi People --- //
+  // Google People API
   receivePeopleMyNames,
-  receivePeopleMyConnections
+  receivePeopleMyConnections,
+  // Google Gmail API
+  receiveGmailMyMessages
 }

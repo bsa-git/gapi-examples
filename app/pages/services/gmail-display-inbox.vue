@@ -7,26 +7,16 @@
     </div>
 
     <div class="bs-callout-info bs-callout">
-      <h4>Method: people.get</h4>
-      <p>
-        Provides information about a person by specifying a resource name. Use <code>people/me</code> to indicate the
-        authenticated user. <br> The request throws a 400 error if 'personFields' is not specified.
-      </p>
+      <h4>Method: Users.messages.list</h4>
+      <p>Lists the messages in the user's mailbox.</p>
       <strong>HTTP request</strong>
-      <p><code>GET https://people.googleapis.com/v1/{resourceName=people/*}</code></p>
-      <p>The URL uses <a href="https://github.com/googleapis/googleapis/blob/master/google/api/http.proto"
-                         target="_blank">Google API HTTP annotation</a> syntax.</p>
-
-      <p class="lead">Details can be found <a href="https://developers.google.com/people/api/rest/v1/people/get"
-                                              target="_blank">here</a>.</p>
+      <p><code>GET https://www.googleapis.com/gmail/v1/users/userId/messages</code></p>
     </div>
 
-    <div class="jumbotron text-center">
+    <div class="jumbotron">
 
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick(apiGoogle)">
-        Sign Out
-      </button>
-      <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick(apiGoogle)">Authorize
+      <button type="button" class="btn btn-primary" v-if="!isSignedIn" @click="apiGoogle.handleAuthClick(apiGoogle)">
+        Authorize
       </button>
 
       <div class="lead" v-if="isSignedIn">Hellow {{ google.people_my.names.givenName }}!</div>
@@ -42,8 +32,8 @@
   export default {
     data: function () {
       return {
-        title: 'Method: people.get',
-        description: 'Provides information about a person by specifying a resource name',
+        title: 'Method: Users.messages.list',
+        description: 'Lists the messages in the user\'s mailbox.',
         apiGoogle: null,
         isSignedIn: false
       }
@@ -58,7 +48,7 @@
     },
     fetch ({isClient, isStatic, config}) {
       if (config.debug) {
-        console.log('people-get.fetch - OK: ', `isClient=${isClient}; `, `isStatic=${isStatic};`)
+        console.log('gmail-display-inbox.fetch - OK: ', `isClient=${isClient}; `, `isStatic=${isStatic};`)
       }
       if (isClient && isStatic) {
         // Force reloading the current page from the server
@@ -68,15 +58,15 @@
     },
     created: function () {
       if (this.config.debug) {
-        console.log('people-get.created - OK: ', `isServer=${this.$isServer}`)
+        console.log('gmail-display-inbox.created - OK: ', `isServer=${this.$isServer}`)
       }
       if (!this.$isServer) {
         const params = {
           debug: this.config.debug,
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.get
+          discoveryDocs: this.config.gapi.services.gmail.discoveryDocs,
+          scope: this.config.gapi.services.gmail.scopes['messages.list']
         }
         this.apiGoogle = new ApiGoogle(params)
       }
@@ -84,7 +74,7 @@
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
-          console.log('people-get.mounted - OK: ', `isStatic=${this.config.isStatic}`)
+          console.log('gmail-display-inbox.mounted - OK: ', `isStatic=${this.config.isStatic}`)
         }
         // Load/Init Google API
         if (this.config.isStatic) {
@@ -121,7 +111,17 @@
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
-          this.$store.dispatch('receivePeopleMyNames')
+          if (this.config.isStatic) {
+            this.apiGoogle.loadGmailApi()
+              .then(() => {
+                if (this.config.debug) {
+                  console.log('loadGmailApi - OK')
+                }
+                this.$store.dispatch('receiveGmailMyMessages')
+              })
+          } else {
+            this.$store.dispatch('receiveGmailMyMessages')
+          }
         }
       }
     }

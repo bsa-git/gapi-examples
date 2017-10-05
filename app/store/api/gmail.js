@@ -24,15 +24,59 @@ const getGmailMyMessages = function () {
           'id': msg.id
         })
         messageRequest.execute(message => {
-          if (config.debug) {
-            console.log('api.gmail.users.messages.get - Executed: ', message)
-          }
           myMessages.push(message)
         })
       })
+      if (config.debug) {
+        console.log('api.gmail.users.messages.gets - Executed: ', myMessages)
+      }
       resolve(myMessages)
     })
   })
+}
+
+const _getMyMessagesList = function () {
+  // Execute this request for 'gmail.users.messages.list'
+  const request = window.gapi.client.gmail.users.messages.list({
+    'userId': 'me',
+    'labelIds': 'INBOX',
+    'maxResults': 10
+  })
+  return new Promise((resolve, reject) => {
+    request.execute(function (response) {
+      if (config.debug) {
+        console.log('api.gmail.users.messages.list - Executed: ', response.messages)
+      }
+      resolve(response.messages)
+    })
+  })
+}
+
+const _getMessageForId = function (id) {
+  // Execute this request for 'gmail.users.messages.get'
+  const messageRequest = window.gapi.client.gmail.users.messages.get({
+    'userId': 'me',
+    'id': id
+  })
+  return new Promise((resolve, reject) => {
+    messageRequest.execute(message => {
+      if (config.debug) {
+        console.log('api.gmail.users.messages.get - Executed: ', message)
+      }
+      resolve(message)
+    })
+  })
+}
+
+const getMyMessages = function () {
+  let arrPromises = []
+  _getMyMessagesList()
+    .then(list => {
+      _.forEach(list, function (item) {
+        arrPromises.push(_getMessageForId(item.id))
+      })
+      return Promise.all(arrPromises)
+    })
 }
 
 /*
@@ -100,5 +144,6 @@ const _appendMessageRow = function (message) {
 }
 */
 export default {
-  getGmailMyMessages
+  getGmailMyMessages,
+  getMyMessages
 }

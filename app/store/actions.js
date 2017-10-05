@@ -46,11 +46,13 @@ const receivePeopleMyConnections = function ({commit, state}) {
 const receiveGmailMyMessages = function ({commit, state}) {
   let messages = null
   if (state.config.isStatic) {
-    messages = apiGmail.getGmailMyMessages()
-    commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
-    if (state.config.debug) {
-      console.log('api.gmail.messages.list - OK.')
-    }
+    apiGmail.getGmailMyMessages()
+      .then((messages) => {
+        commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
+        if (state.config.debug) {
+          console.log('api.gmail.messages.list - OK.')
+        }
+      })
   } else {
     messages = dataGmail.messages
     commit('SET_GMAIL_MY_MESSAGES_LIST', messages)

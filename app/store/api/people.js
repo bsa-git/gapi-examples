@@ -11,7 +11,7 @@ const getPeopleMyNames = function () {
     }).then((resp) => {
       const names = _.omit(resp.result.names[0], ['metadata'])
       if (config.debug) {
-        console.log('api.people.get - Executed: ', names)
+        console.log('api.people.get - Executed: ')
       }
       resolve(names)
     }, (error) => {
@@ -43,7 +43,7 @@ const getPeopleMyConnections = function () {
         myConnections.push('No upcoming events found.')
       }
       if (config.debug) {
-        console.log('api.people.connections - Executed: ', `Connections=${myConnections};`)
+        console.log('api.people.connections - Executed')
       }
       resolve(myConnections)
     }, (error) => {

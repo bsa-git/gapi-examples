@@ -17,21 +17,6 @@ const getGmailMyMessages = function () {
       if (config.debug) {
         console.log('api.gmail.users.messages.list - Executed: ', response.messages)
       }
-      const id = response.messages[0].id
-      const params = {'userId': 'me', 'id': id}
-      if (config.debug) {
-        console.log('api.gmail.users.messages.get - params: ', params)
-      }
-      const messageRequest = window.gapi.client.gmail.users.messages.get(params)
-      messageRequest.execute(message => {
-        // myMessages.push(message)
-        if (config.debug) {
-          console.log('api.gmail.users.messages.get - Executed: ')
-        }
-        resolve(message)
-      })
-
-      /*
       _.forEach(response.messages, function (msg) {
         // Execute this request for 'gmail.users.messages.get'
         const messageRequest = window.gapi.client.gmail.users.messages.get({
@@ -39,14 +24,13 @@ const getGmailMyMessages = function () {
           'id': msg.id
         })
         messageRequest.execute(message => {
-          myMessages.push(message)
           if (config.debug) {
-            console.log('api.gmail.users.messages.get - Executed: ', `Message.id=${message.id}`)
+            console.log('api.gmail.users.messages.get - Executed: ', message)
           }
+          myMessages.push(message)
         })
       })
-      */
-
+      resolve(myMessages)
     })
   })
 }

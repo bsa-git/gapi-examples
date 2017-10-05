@@ -26,7 +26,7 @@ const getGmailMyMessages = function () {
         messageRequest.execute(message => {
           myMessages.push(message)
           if (config.debug) {
-            console.log('api.gmail.users.messages.get - Executed: ', message)
+            console.log('api.gmail.users.messages.get - Executed: ', `Message.id=${message.id}`)
           }
         })
       })

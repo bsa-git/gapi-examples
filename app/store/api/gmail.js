@@ -70,13 +70,16 @@ const _getMessageForId = function (id) {
 
 const getMyMessages = function () {
   let arrPromises = []
-  _getMyMessagesList()
-    .then(list => {
-      _.forEach(list, function (item) {
-        arrPromises.push(_getMessageForId(item.id))
+  return new Promise((resolve, reject) => {
+    _getMyMessagesList()
+      .then(list => {
+        _.forEach(list, function (item) {
+          arrPromises.push(_getMessageForId(item.id))
+        })
+        const allPromises = Promise.all(arrPromises)
+        resolve(allPromises)
       })
-      return Promise.all(arrPromises)
-    })
+  })
 }
 
 /*

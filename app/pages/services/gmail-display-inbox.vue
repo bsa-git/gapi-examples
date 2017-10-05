@@ -47,8 +47,8 @@
       }
     },
     fetch ({isClient, isStatic, config}) {
-      if (config.debug) {
-        console.log('gmail-display-inbox.fetch - OK: ', `isClient=${isClient}; `, `isStatic=${isStatic};`)
+      if (isClient && config.debug) {
+        console.log('gmail-display-inbox.fetch - OK: ', `isStatic=${isStatic};`)
       }
       if (isClient && isStatic) {
         // Force reloading the current page from the server
@@ -57,8 +57,8 @@
       }
     },
     created: function () {
-      if (this.config.debug) {
-        console.log('gmail-display-inbox.created - OK: ', `isServer=${this.$isServer}`)
+      if (!this.$isServer && this.config.debug) {
+        console.log('gmail-display-inbox.created - OK')
       }
       if (!this.$isServer) {
         const params = {

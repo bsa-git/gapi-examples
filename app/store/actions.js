@@ -12,7 +12,7 @@ const receivePeopleMyNames = function ({commit, state}) {
       .then((names) => {
         commit('SET_PEOPLE_MY_NAMES', names)
         if (state.config.debug) {
-          console.log('api.people.get - OK.', names)
+          console.log('api.people.get - OK.')
         }
       })
   } else {
@@ -27,11 +27,13 @@ const receivePeopleMyNames = function ({commit, state}) {
 const receivePeopleMyConnections = function ({commit, state}) {
   let connections = null
   if (state.config.isStatic) {
-    connections = apiPeople.getPeopleMyConnections()
-    commit('SET_PEOPLE_MY_CONNECTIONS', connections)
-    if (state.config.debug) {
-      console.log('api.people.connections.list - OK.')
-    }
+    apiPeople.getPeopleMyConnections()
+      .then((connections) => {
+        commit('SET_PEOPLE_MY_CONNECTIONS', connections)
+        if (state.config.debug) {
+          console.log('api.people.connections.list - OK.')
+        }
+      })
   } else {
     connections = dataPeople.connections
     commit('SET_PEOPLE_MY_CONNECTIONS', connections)

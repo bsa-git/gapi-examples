@@ -57,8 +57,8 @@
       }
     },
     fetch ({isClient, isStatic, config}) {
-      if (config.debug) {
-        console.log('people-get.fetch - OK: ', `isClient=${isClient}; `, `isStatic=${isStatic};`)
+      if (isClient && config.debug) {
+        console.log('people-get.fetch - OK: ', `isStatic=${isStatic};`)
       }
       if (isClient && isStatic) {
         // Force reloading the current page from the server
@@ -67,8 +67,8 @@
       }
     },
     created: function () {
-      if (this.config.debug) {
-        console.log('people-get.created - OK: ', `isServer=${this.$isServer}`)
+      if (!this.$isServer && this.config.debug) {
+        console.log('people-get.created - OK')
       }
       if (!this.$isServer) {
         const params = {

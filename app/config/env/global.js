@@ -19,11 +19,17 @@ export default {
           'https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'
         ],
         scopes: {
-          'messages.list': [
+          'all': [
             'https://mail.google.com/',
-            'https://www.googleapis.com/auth/gmail.modify',
             'https://www.googleapis.com/auth/gmail.readonly',
-            'https://www.googleapis.com/auth/gmail.metadata'
+            'https://www.googleapis.com/auth/gmail.compose',
+            'https://www.googleapis.com/auth/gmail.send',
+            'https://www.googleapis.com/auth/gmail.insert',
+            'https://www.googleapis.com/auth/gmail.labels',
+            'https://www.googleapis.com/auth/gmail.modify',
+            'https://www.googleapis.com/auth/gmail.metadata',
+            'https://www.googleapis.com/auth/gmail.settings.basic',
+            'https://www.googleapis.com/auth/gmail.settings.sharing'
           ]
         }
       }

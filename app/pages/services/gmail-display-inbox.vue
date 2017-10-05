@@ -66,7 +66,7 @@
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
           discoveryDocs: this.config.gapi.services.gmail.discoveryDocs,
-          scope: this.config.gapi.services.gmail.scopes['messages.list']
+          scope: this.config.gapi.services.gmail.scopes.all
         }
         this.apiGoogle = new ApiGoogle(params)
       }

@@ -11,7 +11,7 @@ const receivePeopleMyNames = function ({commit, state}) {
     names = apiPeople.getPeopleMyNames()
     commit('SET_PEOPLE_MY_NAMES', names)
     if (state.config.debug) {
-      console.log('api.people.get - OK.')
+      console.log('api.people.get - OK.', `Names=${names}`)
     }
   } else {
     names = dataPeople.names[0]

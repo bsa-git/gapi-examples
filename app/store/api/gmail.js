@@ -24,10 +24,11 @@ const getGmailMyMessages = function () {
       }
       const messageRequest = window.gapi.client.gmail.users.messages.get(params)
       messageRequest.execute(message => {
-        myMessages.push(message)
+        // myMessages.push(message)
         if (config.debug) {
-          console.log('api.gmail.users.messages.get - Executed: ', message)
+          console.log('api.gmail.users.messages.get - Executed: ')
         }
+        resolve(message)
       })
 
       /*
@@ -45,7 +46,7 @@ const getGmailMyMessages = function () {
         })
       })
       */
-      resolve(myMessages)
+
     })
   })
 }

@@ -23,8 +23,8 @@
               <li class="dropdown-header">Google People API</li>
               <li>
                 <nuxt-link to="/services/people-about">About</nuxt-link>
-                <nuxt-link to="/services/people-get">People.get</nuxt-link>
-                <nuxt-link to="/services/people-connections">People.connections.list</nuxt-link>
+                <nuxt-link to="/services/people-get">My Information</nuxt-link>
+                <nuxt-link to="/services/people-connections">My Connections</nuxt-link>
               </li>
               <li role="separator" class="divider"></li>
               <li class="dropdown-header">Google Gmail API</li>

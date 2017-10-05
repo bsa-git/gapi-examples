@@ -4,6 +4,7 @@ import config from '~/config/env/index'
 // --- Google People API --- //
 
 const getPeopleMyNames = function () {
+  /*
   window.gapi.client.people.people.get({
     'resourceName': 'people/me',
     'personFields': 'names,emailAddresses'
@@ -16,6 +17,22 @@ const getPeopleMyNames = function () {
   }, (error) => {
     console.log('people.get - Error. ', `Error: ${error}`)
     alert(`Error: ${error}`)
+  })
+  */
+  return new Promise((resolve, reject) => {
+    window.gapi.client.people.people.get({
+      'resourceName': 'people/me',
+      'personFields': 'names,emailAddresses'
+    }).then((resp) => {
+      const names = _.omit(resp.result.names[0], ['metadata'])
+      if (config.debug) {
+        console.log('api.people.get - Executed: ', names)
+      }
+      resolve(names)
+    }, (error) => {
+      console.log('people.get - Error. ', `Error: ${error}`)
+      alert(`Error: ${error}`)
+    })
   })
 }
 

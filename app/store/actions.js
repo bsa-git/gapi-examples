@@ -8,11 +8,13 @@ import dataGmail from '~/store/data/gmail'
 const receivePeopleMyNames = function ({commit, state}) {
   let names = null
   if (state.config.isStatic) {
-    names = apiPeople.getPeopleMyNames()
-    commit('SET_PEOPLE_MY_NAMES', names)
-    if (state.config.debug) {
-      console.log('api.people.get - OK.', `Names=${names}`)
-    }
+    apiPeople.getPeopleMyNames()
+      .then((names) => {
+        commit('SET_PEOPLE_MY_NAMES', names)
+        if (state.config.debug) {
+          console.log('api.people.get - OK.', names)
+        }
+      })
   } else {
     names = dataPeople.names[0]
     commit('SET_PEOPLE_MY_NAMES', names)

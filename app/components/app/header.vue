@@ -30,6 +30,7 @@
               <li class="dropdown-header">Google Gmail API</li>
               <li>
                 <nuxt-link to="/services/gmail-about">About</nuxt-link>
+                <nuxt-link to="/services/gmail-display-inbox">Display My Inbox</nuxt-link>
               </li>
             </ul>
           </li>

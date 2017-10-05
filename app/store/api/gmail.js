@@ -3,35 +3,17 @@ import config from '~/config/env/index'
 
 // --- Google Gmail API --- //
 
-const getGmailMyMessages = function () {
-  let myMessages = []
-  // -------------------
-  // Execute this request for 'gmail.users.messages.list'
-  const request = window.gapi.client.gmail.users.messages.list({
-    'userId': 'me',
-    'labelIds': 'INBOX',
-    'maxResults': 10
-  })
+const getMyMessages = function () {
+  let arrPromises = []
   return new Promise((resolve, reject) => {
-    request.execute(function (response) {
-      if (config.debug) {
-        console.log('api.gmail.users.messages.list - Executed: ', response.messages)
-      }
-      _.forEach(response.messages, function (msg) {
-        // Execute this request for 'gmail.users.messages.get'
-        const messageRequest = window.gapi.client.gmail.users.messages.get({
-          'userId': 'me',
-          'id': msg.id
+    _getMyMessagesList()
+      .then(list => {
+        _.forEach(list, function (item) {
+          arrPromises.push(_getMessageForId(item.id))
         })
-        messageRequest.execute(message => {
-          myMessages.push(message)
-        })
+        const allPromises = Promise.all(arrPromises)
+        resolve(allPromises)
       })
-      if (config.debug) {
-        console.log('api.gmail.users.messages.gets - Executed: ', myMessages)
-      }
-      resolve(myMessages)
-    })
   })
 }
 
@@ -53,6 +35,7 @@ const _getMyMessagesList = function () {
 }
 
 const _getMessageForId = function (id) {
+  let _message = {}
   // Execute this request for 'gmail.users.messages.get'
   const messageRequest = window.gapi.client.gmail.users.messages.get({
     'userId': 'me',
@@ -60,93 +43,56 @@ const _getMessageForId = function (id) {
   })
   return new Promise((resolve, reject) => {
     messageRequest.execute(message => {
+      // Parsing  message
+      _message.id = message.id
+      _message.from = _getHeader(message.payload.headers, 'From')
+      _message.subject = _getHeader(message.payload.headers, 'Subject')
+      _message.date = _getHeader(message.payload.headers, 'Date')
+      _message.reply_to = _getHeader(message.payload.headers, 'Reply-to')
+      _message.message_id = _getHeader(message.payload.headers, 'Message-ID')
+      _message.body = _getBody(message.payload)
       if (config.debug) {
-        console.log('api.gmail.users.messages.get - Executed: ', message)
+        console.log('api.gmail.users.messages.get - Executed: ', _message)
       }
-      resolve(message)
+      resolve(_message)
     })
   })
 }
 
-const getMyMessages = function () {
-  let arrPromises = []
-  return new Promise((resolve, reject) => {
-    _getMyMessagesList()
-      .then(list => {
-        _.forEach(list, function (item) {
-          arrPromises.push(_getMessageForId(item.id))
-        })
-        const allPromises = Promise.all(arrPromises)
-        resolve(allPromises)
-      })
-  })
-}
-
-/*
-const getGmailMyMessages = function () {
-  // Execute this request for 'gmail.users.messages.list'
-  const request = window.gapi.client.gmail.users.messages.list({
-    'userId': 'me',
-    'labelIds': 'INBOX',
-    'maxResults': 10
-  })
-  request.execute(function (response) {
-    if (config.debug) {
-      console.log('api.gmail.users.messages.list - Executed: ', `Messages=${response.messages};`)
+const _getHeader = function (headers, index) {
+  let headerValue = ''
+  _.forEach(headers, function (header) {
+    if (header.name.toLowerCase() === index.toLowerCase()) {
+      headerValue = header.value
     }
-    _.forEach(response.messages, function (message) {
-      // Execute this request for 'gmail.users.messages.get'
-      const messageRequest = window.gapi.client.gmail.users.messages.get({
-        'userId': 'me',
-        'id': message.id
-      })
-      messageRequest.execute(_appendMessageRow)
-    })
   })
+  return headerValue
 }
 
-const getGmailMyMessages = function () {
-  // Execute this request for 'gmail.users.messages.list'
-  const request = window.gapi.client.gmail.users.messages.list({
-    'userId': 'me',
-    'labelIds': 'INBOX',
-    'maxResults': 10
-  })
-  return new Promise((resolve, reject) => {
-    request.execute(resolve)
-      .then(response => {
-        if (config.debug) {
-          console.log('api.gmail.users.messages.list - Executed: ', response.messages)
-        }
-        return new Promise((resolve, reject) => {
-          let myMessages = []
-          _.forEach(response.messages, function (msg) {
-            // Execute this request for 'gmail.users.messages.get'
-            const messageRequest = window.gapi.client.gmail.users.messages.get({
-              'userId': 'me',
-              'id': msg.id
-            })
-            messageRequest.execute(message => {
-              myMessages.push(message)
-              if (config.debug) {
-                console.log('api.gmail.users.messages.get - Executed: ', message)
-              }
-            })
-          })
-          resolve(myMessages)
-        })
-      })
-  })
-}
-
-const _appendMessageRow = function (message) {
-  if (config.debug) {
-    console.log('api.gmail.users.messages.get - Executed: ', `Message=${message};`)
+const _getBody = function (message) {
+  var encodedBody = ''
+  if (typeof message.parts === 'undefined') {
+    encodedBody = message.body.data
+  } else {
+    encodedBody = getHTMLPart(message.parts)
   }
-  return message
+  encodedBody = encodedBody.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '')
+  return decodeURIComponent(_.escape(window.atob(encodedBody)))
 }
-*/
+
+const getHTMLPart = function (arr) {
+  for (var x = 0; x <= arr.length; x++) {
+    if (typeof arr[x].parts === 'undefined') {
+      if (arr[x].mimeType === 'text/html') {
+        return arr[x].body.data
+      }
+    } else {
+      return getHTMLPart(arr[x].parts)
+    }
+  }
+  return ''
+}
+
 export default {
-  getGmailMyMessages,
   getMyMessages
 }

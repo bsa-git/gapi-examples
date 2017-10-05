@@ -19,7 +19,7 @@
         Authorize
       </button>
 
-      <div class="lead" v-if="isSignedIn">Hellow {{ google.people_my.names.givenName }}!</div>
+      <div class="lead" v-if="isSignedIn">My Inbox:</div>
 
     </div>
   </section>

@@ -53,7 +53,7 @@
                 <h4 class="modal-title" id="myModalLabel">{{ message.subject }}</h4>
               </div>
               <div class="modal-body">
-                <iframe :id="`message-iframe-${message.id}`" srcdoc="<p>Loading...</p>"></iframe>
+                <iframe :id="`message-iframe-${message.id}`" :srcdoc="message.body"></iframe>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -19,7 +19,27 @@
         Authorize
       </button>
 
-      <div class="lead" v-if="isSignedIn">My Inbox:</div>
+      <div v-if="isSignedIn">
+        <div class="lead">My Inbox:</div>
+        <table class="table table-striped table-inbox">
+          <thead>
+          <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Date/Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="message in google.gmail.inbox">
+            <tr :key="message.id">
+              <td v-html="message.from"></td>
+              <td><a :href="`#message-modal-${message.id}`" data-toggle="modal" :id="`message-link-${message.id}`" v-html="message.subject"></a></td>
+              <td>{{ message.date }}</td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+      </div>
 
     </div>
   </section>

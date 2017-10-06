@@ -16,7 +16,7 @@ const store = () => new Vuex.Store({
         }
       },
       gmail: {
-        messages_list: []
+        inbox: []
       }
     }
   },
@@ -33,7 +33,7 @@ const store = () => new Vuex.Store({
       state.google.people_my.connections = connections
     },
     SET_GMAIL_MY_MESSAGES_LIST (state, messages) {
-      state.google.gmail.messages_list = messages
+      state.google.gmail.inbox = messages
     }
   }
 })

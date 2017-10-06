@@ -1,11 +1,11 @@
 <template>
-  <section>
-
+  <section class="container">
+    <!-- Page Title and description -->
     <div class="text-center">
       <h2>{{ title }}</h2>
       <p class="lead">{{ description }}</p>
     </div>
-
+    <!-- Short description -->
     <div class="bs-callout-info bs-callout">
       <h4>Method: people.connections.list</h4>
       <p>
@@ -21,7 +21,7 @@
         href="https://developers.google.com/people/api/rest/v1/people.connections/list"
         target="_blank">here</a>.</p>
     </div>
-
+    <!-- Page content -->
     <div class="jumbotron">
       <div text-center>
         <button type="button" class="btn btn-primary" v-if="isSignedIn"

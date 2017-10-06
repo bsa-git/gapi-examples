@@ -1,11 +1,11 @@
 <template>
-  <section>
-
+  <section class="container">
+    <!-- Page Title and description -->
     <div class="text-center">
       <h2>{{ title }}</h2>
       <p class="lead">{{ description }}</p>
     </div>
-
+    <!-- Short description -->
     <div class="bs-callout-info bs-callout">
       <h4>Google Gmail API</h4>
       <p>
@@ -35,7 +35,7 @@
       <p class="lead">Details can be found <a href="https://developers.google.com/gmail/api/guides/" target="_blank">here</a>.
       </p>
     </div>
-
+    <!-- Page content -->
     <div class="jumbotron">
       <p class="lead">Examples:</p>
       <dl>

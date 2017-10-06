@@ -1,44 +1,94 @@
 export default {
-  'messages': [
+  messages: [
     {
-      'id': '15ee5e2b481e7600',
-      'threadId': '15ee5e2b481e7600'
+      id: '15ee5e2b481e7600',
+      from: 'PHP Classes Updatedclasses (list-updatedclasses@phpclasses.org)',
+      subject: '[PHP Classes] Changed file of class "Save and Convert Images": README.md',
+      date: '5 Oct 2017 19:06:35 -0000',
+      body: '<!DOCTYPE HTML>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n' +
+      '<title>Changed file of class "Save and Convert Images": README.md - PHP Classes</title>\n' +
+      '<base href="https://www.phpclasses.org/">\n' +
+      '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<h1 style="text-align: center">Changed file of class "Save and Convert Images": README.md</h1>\n' +
+      '</body>\n' +
+      '</html>'
     },
     {
-      'id': '15ee5ab3147bbd0d',
-      'threadId': '15ee5ab3147bbd0d'
+      id: '15ee5ab3147bbd0d',
+      from: 'PHP Classes Updatedclasses (list-updatedclasses@phpclasses.org)',
+      subject: '[PHP Classes] Updated files of class "Div PHP Nodes"',
+      date: '5 Oct 2017 19:06:22 -0000',
+      body: '<!DOCTYPE HTML>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n' +
+      '<title>Changed file of class Updated files of class "Div PHP Nodes" - PHP Classes</title>\n' +
+      '<base href="https://www.phpclasses.org/">\n' +
+      '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<h1 style="text-align: center">Changed file of class Updated files of class "Div PHP Nodes"</h1>\n' +
+      '</body>\n' +
+      '</html>'
     },
     {
-      'id': '15ee558672c6c90c',
-      'threadId': '15ee558672c6c90c'
+      id: '15ee558672c6c90c',
+      from: 'PHP Classes Updatedclasses (list-updatedclasses@phpclasses.org)',
+      subject: '[PHP Classes] Updated files of class "PHP Migrate Database"',
+      date: '5 Oct 2017 18:07:30 -0000',
+      body: '<!DOCTYPE HTML>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n' +
+      '<title>Changed file of class Updated files of class "PHP Migrate Database" - PHP Classes</title>\n' +
+      '<base href="https://www.phpclasses.org/">\n' +
+      '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<h1 style="text-align: center">Changed file of class Updated files of class "PHP Migrate Database"</h1>\n' +
+      '</body>\n' +
+      '</html>'
     },
     {
-      'id': '15ee4d250580e2d7',
-      'threadId': '15ee4d250580e2d7'
+      id: '15ee4d250580e2d7',
+      from: 'PHP Classes Updatedclasses (list-updatedclasses@phpclasses.org)',
+      subject: '[PHP Classes] Updated files of class "\\Xmtk\\Parser"',
+      date: '5 Oct 2017 18:07:19 -0000',
+      body: '<!DOCTYPE HTML>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n' +
+      '<title>Changed file of class Updated files of class "\\Xmtk\\Parser" - PHP Classes</title>\n' +
+      '<base href="https://www.phpclasses.org/">\n' +
+      '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<h1 style="text-align: center">Changed file of class Updated files of class "\\Xmtk\\Parser"</h1>\n' +
+      '</body>\n' +
+      '</html>'
     },
     {
-      'id': '15ee29a5f38abebb',
-      'threadId': '15ee29a5f38abebb'
-    },
-    {
-      'id': '15ee296578181a57',
-      'threadId': '15ee296578181a57'
-    },
-    {
-      'id': '15ee23ed6712761f',
-      'threadId': '15ee23ed6712761f'
-    },
-    {
-      'id': '15ee2363552abc67',
-      'threadId': '15ee2363552abc67'
-    },
-    {
-      'id': '15ee181f758cc99b',
-      'threadId': '15ee181f758cc99b'
-    },
-    {
-      'id': '15ee084e2198b6b0',
-      'threadId': '15ee084e2198b6b0'
+      id: '15ee29a5f38abebb',
+      from: 'PHP Classes Updatedclasses (list-updatedclasses@phpclasses.org)',
+      subject: '[PHP Classes] Updated files of class "PHP Asset"',
+      date: '5 Oct 2017 18:07:13 -0000',
+      body: '<!DOCTYPE HTML>\n' +
+      '<html lang="en">\n' +
+      '<head>\n' +
+      '<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n' +
+      '<title>Changed file of class Updated files of class "PHP Asset" - PHP Classes</title>\n' +
+      '<base href="https://www.phpclasses.org/">\n' +
+      '<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '<h1 style="text-align: center">Changed file of class Updated files of class "PHP Asset"</h1>\n' +
+      '</body>\n' +
+      '</html>'
     }
   ]
 }

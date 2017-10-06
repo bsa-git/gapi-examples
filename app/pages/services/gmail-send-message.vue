@@ -78,8 +78,8 @@
   export default {
     data: function () {
       return {
-        title: 'Method: Users.messages.list',
-        description: 'Lists the messages in the user\'s mailbox.',
+        title: 'Method: Users.messages.send',
+        description: 'Sends the specified message to the recipients in the To, Cc, and Bcc headers.',
         apiGoogle: null,
         isSignedIn: false
       }
@@ -94,7 +94,7 @@
     },
     fetch ({isClient, isStatic, config}) {
       if (isClient && config.debug) {
-        console.log('gmail-display-inbox.fetch - OK: ', `isStatic=${isStatic};`)
+        console.log('gmail-send-message.fetch - OK: ', `isStatic=${isStatic};`)
       }
       if (isClient && isStatic) {
         // Force reloading the current page from the server
@@ -104,7 +104,7 @@
     },
     created: function () {
       if (!this.$isServer && this.config.debug) {
-        console.log('gmail-display-inbox.created - OK')
+        console.log('gmail-send-message.created - OK')
       }
       if (!this.$isServer) {
         const params = {
@@ -120,7 +120,7 @@
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
-          console.log('gmail-display-inbox.mounted - OK: ', `isStatic=${this.config.isStatic}`)
+          console.log('gmail-send-message.mounted - OK: ', `isStatic=${this.config.isStatic}`)
         }
         // Load/Init Google API
         if (this.config.isStatic) {

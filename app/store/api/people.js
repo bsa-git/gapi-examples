@@ -3,7 +3,7 @@ import config from '~/config/env/index'
 
 // --- Google People API --- //
 
-const getPeopleMyNames = function () {
+const getMyNames = function () {
   return new Promise((resolve, reject) => {
     window.gapi.client.people.people.get({
       'resourceName': 'people/me',
@@ -21,7 +21,7 @@ const getPeopleMyNames = function () {
   })
 }
 
-const getPeopleMyConnections = function () {
+const getMyConnections = function () {
   let myConnections = []
   return new Promise((resolve, reject) => {
     window.gapi.client.people.people.connections.list({
@@ -54,6 +54,6 @@ const getPeopleMyConnections = function () {
 }
 
 export default {
-  getPeopleMyNames,
-  getPeopleMyConnections
+  getMyNames,
+  getMyConnections
 }

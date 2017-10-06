@@ -50,7 +50,7 @@ const _getMessageForId = function (id) {
       _message.date = _getHeader(message.payload.headers, 'Date')
       _message.reply_to = _getHeader(message.payload.headers, 'Reply-to')
       _message.message_id = _getHeader(message.payload.headers, 'Message-ID')
-      // _message.body = _getBody(message.payload)
+      _message.body = _getBody(message.payload)
       if (config.debug) {
         console.log('api.gmail.users.messages.get - Executed: ', _message)
       }
@@ -78,7 +78,7 @@ const _getBody = function (message) {
   }
   encodedBody = encodedBody.replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '')
   try {
-    const result = decodeURIComponent(_.escape(window.atob(encodedBody)))
+    const result = decodeURIComponent(escape(window.atob(encodedBody)))
     return result
   } catch (error) {
     console.error('apiGmail._getBody - Error', error)

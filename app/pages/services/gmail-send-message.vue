@@ -202,6 +202,10 @@
       composeTidy: function () {
         window.$('#compose-modal').modal('hide')
 
+        if (this.config.debug) {
+          console.log('SendEmail - OK: ', `toEmail=${this.toEmail}; `, `subjectEmail=${this.subjectEmail}; `, `textEmail=${this.textEmail};`)
+        }
+
         this.toEmail = ''
         this.subjectEmail = ''
         this.textEmail = ''
@@ -223,11 +227,14 @@
               'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
             }
           })
-
-          return sendRequest.execute(callback)
+          const result = sendRequest.execute(callback)
+          if (this.config.debug) {
+            console.log(`Result SendEmail:`, result)
+          }
+          return result
         } else {
           window.setTimeout(() => {
-            alert(`Send Message:\n ${email}`)
+            alert(`SendEmail - OK:\n toEmail=${this.toEmail};\n subjectEmail=${this.subjectEmail};\n textEmail=${this.textEmail};`)
             callback()
           }, 2000)
         }

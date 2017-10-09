@@ -32,8 +32,10 @@
       </ul>
       <p class="lead">
         Details can be found <a href="https://developers.google.com/gmail/api/v1/reference/users/messages/send"
-                                target="_blank">here</a>.
-      </p>
+                                target="_blank">here</a>.</p>
+      <p>This example was created on the basis of an <a
+        href="https://www.sitepoint.com/sending-emails-gmail-javascript-api/" target="_blank">article</a> written by <a
+        href="https://www.sitepoint.com/author/jshields/" target="_blank">Jamie Shields</a>.</p>
     </div>
     <!-- Page content -->
     <button type="button" class="btn btn-primary" v-if="!isSignedIn" @click="apiGoogle.handleAuthClick(apiGoogle)">
@@ -203,7 +205,7 @@
         window.$('#compose-modal').modal('hide')
 
         if (this.config.debug) {
-          console.log('SendEmail - OK: ', `toEmail=${this.toEmail}; `, `subjectEmail=${this.subjectEmail}; `, `textEmail=${this.textEmail};`)
+          console.log('SendEmail - OK: ', `toEmail="${this.toEmail}"; `, `subjectEmail="${this.subjectEmail}"; `, `textEmail="${this.textEmail}";`)
         }
 
         this.toEmail = ''
@@ -227,14 +229,10 @@
               'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
             }
           })
-          const result = sendRequest.execute(callback)
-          if (this.config.debug) {
-            console.log(`Result SendEmail:`, result)
-          }
-          return result
+          sendRequest.execute(callback)
         } else {
           window.setTimeout(() => {
-            alert(`SendEmail - OK:\n toEmail=${this.toEmail};\n subjectEmail=${this.subjectEmail};\n textEmail=${this.textEmail};`)
+            alert(`SendEmail - OK:\n toEmail="${this.toEmail}";\n subjectEmail="${this.subjectEmail}";\n textEmail="${this.textEmail}";`)
             callback()
           }, 2000)
         }

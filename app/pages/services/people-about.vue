@@ -52,8 +52,8 @@
       <p class="lead">Examples:</p>
       <dl>
         <dt>Google People API</dt>
-        <dd><nuxt-link to="/services/people-get">People.get</nuxt-link> - Provides information about a person by specifying a resource name.</dd>
-        <dd><nuxt-link to="/services/people-connections">People.connections.list</nuxt-link> - Provides a list of the authenticated user's contacts.</dd>
+        <dd><nuxt-link to="/services/people-get">Get User Information</nuxt-link> - Provides information about a person by specifying a resource name.</dd>
+        <dd><nuxt-link to="/services/people-connections">Get User Connections Information</nuxt-link> - Provides a list of the authenticated user's contacts.</dd>
       </dl>
     </div>
   </section>

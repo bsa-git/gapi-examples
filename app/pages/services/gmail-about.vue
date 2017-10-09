@@ -41,8 +41,9 @@
       <dl>
         <dt>Google Gmail API</dt>
         <dd>
-          <nuxt-link to="/services/gmail-display-inbox">Gmail Display Inbox</nuxt-link> - Lists the messages in the user's mailbox.
+          <nuxt-link to="/services/gmail-display-inbox">Display Inbox</nuxt-link> - Lists the messages in the user's mailbox.
         </dd>
+        <dd><nuxt-link to="/services/gmail-send-message">Send Message</nuxt-link> - Sends the specified message to the recipients in the To, Cc, and Bcc headers.</dd>
       </dl>
     </div>
   </section>

@@ -2,6 +2,9 @@
 
 > Examples Google API
 
+> The [Google API Client Library](https://developers.google.com/api-client-library/javascript/) for JavaScript is designed for JavaScript client-application developers. It offers simple, flexible access to many Google APIs.
+
+
 ## Build Setup
 
 ``` bash
@@ -19,4 +22,4 @@ $ npm start
 $ npm run generate
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+For detailed explanation on how things work, checkout the [Demo](https://bsa-git.github.io/gapi-examples/).

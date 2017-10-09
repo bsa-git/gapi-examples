@@ -6,12 +6,10 @@ body {
   padding-bottom: 30px;
 }
 
-iframe {
-  width: 100%;
-  border: 0;
-  min-height: 80%;
-  height: 600px;
-  display: flex;
+/* ICON */
+
+.glyphicon {
+  margin-right: 5px;
 }
 
 /* NAV-BAR */
@@ -73,6 +71,7 @@ iframe {
 .bs-callout p:last-child {
   margin-bottom: 0;
 }
+
 
 /*--- BLOG --- */
 

@@ -9,12 +9,15 @@
     <div class="bs-callout-info bs-callout">
       <h4>Method: Users.messages.list</h4>
       <p>Lists the messages in the user's mailbox.</p>
-      <strong>HTTP request</strong>
+      <h4>HTTP request</h4>
       <p><code>GET https://www.googleapis.com/gmail/v1/users/userId/messages</code></p>
       <p class="lead">
         Details can be found <a href="https://developers.google.com/gmail/api/v1/reference/users/messages/list"
                                 target="_blank">here</a>.
       </p>
+      <p>This example was created on the basis of an <a
+        href="https://www.sitepoint.com/sending-emails-gmail-javascript-api/" target="_blank">article</a> written by <a
+        href="https://www.sitepoint.com/author/jshields/" target="_blank">Jamie Shields</a>.</p>
     </div>
     <!-- Page content -->
     <button type="button" class="btn btn-primary" v-if="!isSignedIn" @click="apiGoogle.handleAuthClick(apiGoogle)">
@@ -173,3 +176,13 @@
     }
   }
 </script>
+
+<style>
+  iframe {
+    width: 100%;
+    border: 0;
+    min-height: 80%;
+    height: 600px;
+    display: flex;
+  }
+</style>

@@ -48,7 +48,7 @@
       <p class="lead">Details can be found <a href="https://developers.google.com/people/" target="_blank">here</a>.</p>
     </div>
     <!-- Page content -->
-    <div class="jumbotron">
+    <div class="jumbotron well">
       <p class="lead">Examples:</p>
       <dl>
         <dt>Google People API</dt>

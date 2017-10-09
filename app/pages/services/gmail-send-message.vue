@@ -7,12 +7,31 @@
     </div>
     <!-- Short description -->
     <div class="bs-callout-info bs-callout">
-      <h4>Method: Users.messages.list</h4>
-      <p>Lists the messages in the user's mailbox.</p>
-      <strong>HTTP request</strong>
-      <p><code>GET https://www.googleapis.com/gmail/v1/users/userId/messages</code></p>
+      <h4>Method: Users.messages: send</h4>
+      <div class="alert alert-info"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> <strong
+        class="text-primary">Requires authorization</strong></div>
+      <p>Sends the specified message to the recipients in the To, Cc, and Bcc headers.</p>
+      <p>This method supports an <strong>/upload</strong>
+        URI and accepts uploaded media with the following characteristics:</p>
+      <ul>
+        <li><strong>Maximum file size:</strong> 35MB</li>
+        <li><strong>Accepted Media MIME types:</strong>
+          <code>message/rfc822</code>
+        </li>
+      </ul>
+      <h4>HTTP request</h4>
+      <p>This method provides media upload functionality through two separate URIs. For more details, see the document
+        on <a href="https://developers.google.com/gmail/api/guides/uploads" target="_blank">media upload</a>.</p>
+      <ul>
+        <li>Upload URI, for media upload requests:
+          <code>POST https://www.googleapis.com/upload/gmail/v1/users/<span class="text-primary"><strong>userId</strong></span>/messages/send</code>
+        </li>
+        <li>Metadata URI, for metadata-only requests:
+          <code>POST https://www.googleapis.com/gmail/v1/users/<span class="text-primary"><strong>userId</strong></span>/messages/send</code>
+        </li>
+      </ul>
       <p class="lead">
-        Details can be found <a href="https://developers.google.com/gmail/api/v1/reference/users/messages/list"
+        Details can be found <a href="https://developers.google.com/gmail/api/v1/reference/users/messages/send"
                                 target="_blank">here</a>.
       </p>
     </div>
@@ -21,58 +40,55 @@
       Authorize
     </button>
     <div v-if="isSignedIn">
-      <h1>Gmail API demo</h1>
-      <!-- Inbox message list  -->
-      <table class="table table-striped table-inbox">
-        <thead>
-        <tr>
-          <th>From</th>
-          <th>Subject</th>
-          <th>Date/Time</th>
-        </tr>
-        </thead>
-        <tbody>
-        <template v-for="message in google.gmail.inbox">
-          <tr :key="message.id">
-            <td v-text="message.from"></td>
-            <td><a :href="`#message-modal-${message.id}`" data-toggle="modal" :id="`message-link-${message.id}`"
-                   v-text="message.subject"></a></td>
-            <td>{{ message.date }}</td>
-          </tr>
-        </template>
-        </tbody>
-      </table>
-      <!-- Modal window for message body -->
-      <template v-for="message in google.gmail.inbox">
-        <div class="modal fade" :id="`message-modal-${message.id}`" tabindex="-1" role="dialog"
-             aria-labelledby="myModalLabel" :key="message.id">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">{{ message.subject }}</h4>
-              </div>
+      <h1>Gmail API Send message</h1>
+      <!-- Send message button  -->
+      <a href="#compose-modal" data-toggle="modal" id="compose-button"
+         class="btn btn-primary pull-right">Send Email</a>
+      <!-- Send message form  -->
+      <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Compose</h4>
+            </div>
+            <form v-on:submit.prevent="sendEmail">
               <div class="modal-body">
-                <iframe :id="`message-iframe-${message.id}`" :srcdoc="message.body"></iframe>
+                <div class="form-group">
+                  <input v-model.trim="toEmail" type="email" class="form-control" id="compose-to" placeholder="To"
+                         required/>
+                </div>
+
+                <div class="form-group">
+                  <input v-model.trim="subjectEmail" type="text" class="form-control" id="compose-subject"
+                         placeholder="Subject" required/>
+                </div>
+
+                <div class="form-group">
+                        <textarea v-model.trim="textEmail" class="form-control" id="compose-message"
+                                  placeholder="Message"
+                                  rows="10"
+                                  required></textarea>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" id="send-button" :class="['btn', 'btn-primary', { disabled: disabled }]">Send
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-      </template>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import _ from 'lodash'
   import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
@@ -81,7 +97,11 @@
         title: 'Method: Users.messages.send',
         description: 'Sends the specified message to the recipients in the To, Cc, and Bcc headers.',
         apiGoogle: null,
-        isSignedIn: false
+        isSignedIn: false,
+        toEmail: '',
+        subjectEmail: '',
+        textEmail: '',
+        disabled: false
       }
     },
     head () {
@@ -163,11 +183,53 @@
                 if (this.config.debug) {
                   console.log('loadGmailApi - OK')
                 }
-                this.$store.dispatch('receiveGmailMyMessages')
               })
-          } else {
-            this.$store.dispatch('receiveGmailMyMessages')
           }
+        }
+      },
+      sendEmail: function () {
+        this.disabled = true
+        this.sendMessage(
+          {
+            'To': this.toEmail,
+            'Subject': this.subjectEmail
+          },
+          this.textEmail,
+          this.composeTidy
+        )
+        return false
+      },
+      composeTidy: function () {
+        window.$('#compose-modal').modal('hide')
+
+        this.toEmail = ''
+        this.subjectEmail = ''
+        this.textEmail = ''
+
+        this.disabled = false
+      },
+      sendMessage: function (objHeaders, message, callback) {
+        let email = ''
+
+        _.forEach(objHeaders, function (value, key) {
+          email += `${key}: ${value}` + '\r\n'
+        })
+
+        email += '\r\n' + message
+        if (this.config.isStatic) {
+          const sendRequest = window.gapi.client.gmail.users.messages.send({
+            'userId': 'me',
+            'resource': {
+              'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
+            }
+          })
+
+          return sendRequest.execute(callback)
+        } else {
+          window.setTimeout(() => {
+            alert(`Send Message:\n ${email}`)
+            callback()
+          }, 2000)
         }
       }
     }

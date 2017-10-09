@@ -12,7 +12,7 @@
         Provides a list of the authenticated user's contacts merged with any connected profiles.
         The request throws a 400 error if 'personFields' is not specified.
       </p>
-      <strong>HTTP request</strong>
+      <h4>HTTP request</h4>
       <p><code>GET https://people.googleapis.com/v1/{resourceName=people/*}/connections</code></p>
       <p>The URL uses <a href="https://github.com/googleapis/googleapis/blob/master/google/api/http.proto"
                          target="_blank">Google API HTTP annotation</a> syntax.</p>
@@ -22,7 +22,7 @@
         target="_blank">here</a>.</p>
     </div>
     <!-- Page content -->
-    <div class="jumbotron">
+    <div class="jumbotron well">
       <div text-center>
         <button type="button" class="btn btn-primary" v-if="isSignedIn"
                 @click="apiGoogle.handleSignoutClick(apiGoogle)">Sign Out

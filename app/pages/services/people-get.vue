@@ -12,7 +12,7 @@
         Provides information about a person by specifying a resource name. Use <code>people/me</code> to indicate the
         authenticated user. <br> The request throws a 400 error if 'personFields' is not specified.
       </p>
-      <strong>HTTP request</strong>
+      <h4>HTTP request</h4>
       <p><code>GET https://people.googleapis.com/v1/{resourceName=people/*}</code></p>
       <p>The URL uses <a href="https://github.com/googleapis/googleapis/blob/master/google/api/http.proto"
                          target="_blank">Google API HTTP annotation</a> syntax.</p>
@@ -21,7 +21,7 @@
                                               target="_blank">here</a>.</p>
     </div>
     <!-- Page content -->
-    <div class="jumbotron text-center">
+    <div class="jumbotron text-center well">
 
       <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick(apiGoogle)">
         Sign Out

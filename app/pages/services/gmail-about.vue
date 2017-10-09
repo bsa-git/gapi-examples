@@ -36,7 +36,7 @@
       </p>
     </div>
     <!-- Page content -->
-    <div class="jumbotron">
+    <div class="jumbotron well">
       <p class="lead">Examples:</p>
       <dl>
         <dt>Google Gmail API</dt>

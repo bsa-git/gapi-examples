@@ -31,6 +31,7 @@
               <li>
                 <nuxt-link to="/services/gmail-about">About</nuxt-link>
                 <nuxt-link to="/services/gmail-display-inbox">Display My Inbox</nuxt-link>
+                <nuxt-link to="/services/gmail-send-message">Send message</nuxt-link>
               </li>
             </ul>
           </li>
@@ -53,7 +54,8 @@
               this.$route.path === '/services/people-get' ||
               this.$route.path === '/services/people-connections' ||
               this.$route.path === '/services/gmail-about' ||
-              this.$route.path === '/services/gmail-display-inbox'
+              this.$route.path === '/services/gmail-display-inbox' ||
+              this.$route.path === '/services/gmail-send-message'
           default:
             return false
         }

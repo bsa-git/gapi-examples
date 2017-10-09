@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="jumbotron text-center">
+    <div class="jumbotron well text-center">
       <!-- Logo -->
       <home-logo></home-logo>
       <!-- Title -->

@@ -1,6 +1,4 @@
-# Gapi Examples
-
-> Examples Google API
+# Examples Google API
 
 > The [Google API Client Library](https://developers.google.com/api-client-library/javascript/) for JavaScript is designed for JavaScript client-application developers. It offers simple, flexible access to many Google APIs.
 

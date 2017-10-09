@@ -1,7 +1,7 @@
 module.exports = {
   srcDir: 'app/',
   router: {
-    base: '/gapi-examples/', // /gapi-examples/ or '/'
+    base: '/', // /gapi-examples/ or '/'
     middleware: 'ini-app'
   },
   generate: {

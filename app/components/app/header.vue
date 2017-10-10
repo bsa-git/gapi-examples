@@ -35,8 +35,8 @@
               </li>
             </ul>
           </li>
-          <li :class="{ 'active': $route.name == 'bootstrap' }">
-            <!--<nuxt-link to="/bootstrap">Bootstrap</nuxt-link>-->
+          <li :class="{ 'active': $route.name == 'login' }">
+            <nuxt-link to="/login">Login</nuxt-link>
           </li>
         </ul>
       </div><!--/.nav-collapse -->

@@ -18,22 +18,23 @@ class AuthGoogle {
   }
 
   load () {
+    const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
-        this._installClient().then(function () {
-          if (this.debug) {
+        self._installClient().then(function () {
+          if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
-          return this._initClient()
+          return self._initClient()
         }).then(function () {
-          if (this.debug) {
+          if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
-        this._initClient().then(function () {
-          if (this.debug) {
+        self._initClient().then(function () {
+          if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
           resolve()

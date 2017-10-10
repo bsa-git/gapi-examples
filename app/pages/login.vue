@@ -11,7 +11,7 @@
       <div v-if="response" class="text-danger lead"><p>{{response}}</p></div>
 
       <!-- login Button -->
-      <a href="#" v-on:click="signIn" class="button--green"><span class="glyphicon glyphicon-user"
+      <a v-on:click="signIn" class="button--green"><span class="glyphicon glyphicon-user"
                                                                   aria-hidden="true"></span> Sign in with Google</a>
     </div>
   </section>

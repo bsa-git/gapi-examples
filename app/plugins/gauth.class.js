@@ -48,15 +48,21 @@ class AuthGoogle {
   }
 
   signIn (successCallback, errorCallback) {
+    const self = this
     if (this.directAccess) {
       window.gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
+        if (self.debug) {
+          console.log('authGoogle.signIn - OK: ', googleUser)
+        }
         successCallback(googleUser)
       }, function (error) {
         errorCallback(error)
       })
     } else {
       window.gapi.auth2.getAuthInstance().grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
-      // window.gapi.auth2.getAuthInstance().grantOfflineAccess().then(function (response) {
+        if (self.debug) {
+          console.log('authGoogle.signIn - OK: ', response)
+        }
         successCallback(response.code)
       }, function (error) {
         errorCallback(error)

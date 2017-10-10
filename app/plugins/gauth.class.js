@@ -88,9 +88,10 @@ class AuthGoogle {
   }
 
   _initClient () {
+    const self = this
     return new Promise(function (resolve, reject) {
       window.gapi.load('auth2', function () {
-        window.gapi.auth2.init(this.config)
+        window.gapi.auth2.init(self.config)
         resolve()
       })
     })

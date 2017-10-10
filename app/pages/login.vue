@@ -60,7 +60,8 @@
       if (this.config.isStatic) {
         this.authGoogle.load()
           .then(() => {
-            if (this.config.debug) {
+            const self = this
+            if (self.config.debug) {
               console.log('authGoogle.load - OK')
             }
           })

@@ -72,9 +72,10 @@ class AuthGoogle {
   }
 
   _installClient () {
+    const self = this
     return new Promise(function (resolve, reject) {
       const script = document.createElement('script')
-      script.src = this.gapiUrl
+      script.src = self.gapiUrl
       script.onreadystatechange = script.onload = function () {
         if (!script.readyState || /loaded|complete/.test(script.readyState)) {
           setTimeout(function () {

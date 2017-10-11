@@ -13,10 +13,10 @@
       <!-- login Button -->
       <div class="auth-btns">
         <a class="button--grey" v-on:click="signOut" v-if="isAuth"><span class="glyphicon glyphicon-log-out"
-                                                                         aria-hidden="true"></span> Sign out</a>
+                                                                         aria-hidden="true"></span> Logout from Google</a>
         <a class="button--green" v-on:click="signIn" v-else><span class="glyphicon glyphicon-log-in"
                                                                   aria-hidden="true"></span>
-          Sign in with Google</a>
+          Login with Google</a>
       </div>
     </div>
   </section>

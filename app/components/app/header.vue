@@ -36,7 +36,7 @@
             </ul>
           </li>
           <li :class="{ 'active': $route.name == 'login' }">
-            <nuxt-link to="/login">{{ menuTitle }}</nuxt-link>
+            <nuxt-link to="/login">{{ isAuth? 'Logout':'Login' }}</nuxt-link>
           </li>
         </ul>
       </div><!--/.nav-collapse -->

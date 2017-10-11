@@ -71,7 +71,11 @@ class AuthGoogle {
   }
 
   signOut (successCallback, errorCallback) {
+    const self = this
     window.gapi.auth2.getAuthInstance().signOut().then(function () {
+      if (self.debug) {
+        console.log('authGoogle.signOut - OK')
+      }
       successCallback()
     }, function (error) {
       errorCallback(error)

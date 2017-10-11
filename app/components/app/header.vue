@@ -48,15 +48,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    data: function () {
-      return {
-        isAuth: false
-      }
-    },
     methods: {
-      getAuth: function () {
-        this.isAuth = !!window.localStorage.getItem('token')
-      },
       isGroupMenu: function (item) {
         switch (item) {
           case 'services':
@@ -71,8 +63,10 @@
         }
       }
     },
-    mounted: function () {
-      this.getAuth()
+    computed: {
+      ...mapGetters({
+        isAuth: 'isAuth'
+      })
     }
   }
 </script>

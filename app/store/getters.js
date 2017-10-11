@@ -8,7 +8,7 @@ const getAuth = function (state) {
 
 const isAuth = function (state) {
   const stateAuthToken = !!state.auth.token
-  const isClient = state.config.isClient
+  const isClient = state.isClient
   const localStorageToken = (isClient && window.localStorage) ? !(window.localStorage.getItem('token') === 'null') : false
   console.log(`stateAuthToken=${stateAuthToken};`, `isClient=${isClient};`, `localStorageToken=${localStorageToken};`)
   return stateAuthToken || localStorageToken

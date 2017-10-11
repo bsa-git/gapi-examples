@@ -7,7 +7,7 @@ export default async function (context) {
     }
     // Set config for context and store
     config.isStatic = context.isStatic
-    config.isClient = context.isClient
+    // config.isClient = context.isClient
     context.config = config
     context.store.commit('SET_CONFIG', config)
   } catch (e) {

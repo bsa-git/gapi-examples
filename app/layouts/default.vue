@@ -14,6 +14,9 @@
   export default {
     components: {
       AppHeader
-    }
+    },
+    created: function () {
+      this.$store.commit('SET_IS_CLIENT', !this.$isServer)
+    },
   }
 </script>

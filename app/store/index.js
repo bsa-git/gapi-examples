@@ -5,6 +5,7 @@ import actions from '~/store/actions'
 const store = () => new Vuex.Store({
   state: {
     config: null,
+    isClient: false,
     auth: {
       user: null,
       token: null
@@ -29,6 +30,9 @@ const store = () => new Vuex.Store({
   mutations: {
     SET_CONFIG (state, config) {
       state.config = config
+    },
+    SET_IS_CLIENT (state, isClient) {
+      state.isClient = isClient
     },
     SET_USER (state, userData) {
       state.auth.user = userData

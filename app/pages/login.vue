@@ -23,7 +23,6 @@
 </template>
 
 <script>
-  import _ from 'lodash'
   import { mapGetters } from 'vuex'
   import AuthGoogle from '~/plugins/gauth.class'
 
@@ -94,7 +93,7 @@
 
         // Save to vuex
         const arrCode = authorizationCode.split('/')
-        let token = 'token:'
+        let token = ''
         token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
         this.$store.commit('SET_TOKEN', token)
 

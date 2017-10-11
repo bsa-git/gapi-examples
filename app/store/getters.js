@@ -7,7 +7,7 @@ const getAuth = function (state) {
 }
 
 const isAuth = function (state) {
-  return !!state.auth.token
+  return !!state.auth.token || (state.config.isClient && window.localStorage) ? window.localStorage.getItem('token') : false
 }
 
 const getGapi = function (state) {

@@ -36,7 +36,7 @@
             </ul>
           </li>
           <li :class="{ 'active': $route.name == 'login' }">
-            <nuxt-link to="/login">Login</nuxt-link>
+            <nuxt-link to="/login">{{ menuTitle }}</nuxt-link>
           </li>
         </ul>
       </div><!--/.nav-collapse -->
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     methods: {
       isGroupMenu: function (item) {
@@ -60,7 +62,15 @@
             return false
         }
       }
-    }
+    },
+    computed: {
+      menuTitle: function () {
+        return this.isAuth? 'Logout': 'Login'
+      },
+      ...mapGetters({
+        isAuth: 'isAuth'
+      })
+    },
   }
 </script>
 

@@ -35,6 +35,9 @@ const store = () => new Vuex.Store({
     },
     SET_TOKEN (state, token) {
       state.auth.token = token
+      if (state.config.isClient && window.localStorage) {
+        window.localStorage.setItem('token', token)
+      }
     },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.google.people_my.names = names

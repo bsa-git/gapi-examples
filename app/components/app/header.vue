@@ -54,6 +54,9 @@
       }
     },
     methods: {
+      getAuth: function () {
+        this.isAuth = !!window.localStorage.getItem('token')
+      },
       isGroupMenu: function (item) {
         switch (item) {
           case 'services':
@@ -69,7 +72,7 @@
       }
     },
     mounted: function () {
-      this.isAuth = !!window.localStorage.getItem('token')
+      this.getAuth()
     }
   }
 </script>

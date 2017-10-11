@@ -68,7 +68,7 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
-              this.isAuth = !!window.localStorage.getItem('token')
+              this.getAuth()
             }
           })
       } else {
@@ -81,6 +81,9 @@
       })
     },
     methods: {
+      getAuth: function () {
+        this.isAuth = !!window.localStorage.getItem('token')
+      },
       signIn: function () {
         this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
       },
@@ -100,6 +103,7 @@
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', token)
+          this.getAuth()
         }
 
         // redirect to the dashboard
@@ -119,6 +123,7 @@
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', null)
+          this.getAuth()
         }
 
         // redirect to the dashboard

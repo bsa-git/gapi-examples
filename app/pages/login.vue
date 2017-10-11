@@ -11,13 +11,19 @@
       <div v-if="response" class="text-danger lead"><p>{{response}}</p></div>
 
       <!-- login Button -->
-      <a v-on:click="signIn" class="button--green"><span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span> Sign in with Google</a>
+      <div class="auth-btns">
+        <a class="button--grey" v-on:click="signOut" v-if="isAuth"><span class="glyphicon glyphicon-log-out"
+                                                                         aria-hidden="true"></span> Sign out</a>
+        <a class="button--green" v-on:click="signIn" v-else><span class="glyphicon glyphicon-log-in"
+                                                                  aria-hidden="true"></span>
+          Sign in with Google</a>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
+  import _ from 'lodash'
   import { mapGetters } from 'vuex'
   import AuthGoogle from '~/plugins/gauth.class'
 
@@ -72,65 +78,56 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        google: 'getGapi'
+        isAuth: 'isAuth'
       })
     },
     methods: {
       signIn: function () {
         this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
       },
+      signOut: function () {
+        this.authGoogle.signOut(this.onSignOutSuccess, this.onSignOutError)
+      },
       onSignInSuccess: function (authorizationCode) {
         this.toggleLoading()
         this.resetResponse()
-        if (this.config.debug) {
-          console.log('onSignInSuccess - OK: ', authorizationCode)
-        }
-        /*
+
         // Save to vuex
-        var token = 'Bearer ' + data.token
-        this.$store.commit('SET_USER', data.user_data)
+        const arrCode = authorizationCode.split('/')
+        let token = 'token:'
+        token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
         this.$store.commit('SET_TOKEN', token)
 
         // Save to local storage as well
-        // ( or you can install the vuex-persistedstate plugin so that you won't have to do this step, only store to Vuex is sufficient )
         if (window.localStorage) {
-          window.localStorage.setItem('user', JSON.stringify(data.user_data))
           window.localStorage.setItem('token', token)
         }
 
         // redirect to the dashboard
-        this.$router.push({ name: 'home' })
-        */
-        /*
-        this.$http.post('http://your-backend-server.com/auth/google', { code: authorizationCode, redirect_uri: 'postmessage' }).then(function (response) {
-          if (response.body) {
-            var data = response.body
-
-            // Save to vuex
-            var token = 'Bearer ' + data.token
-            this.$store.commit('SET_USER', data.user_data)
-            this.$store.commit('SET_TOKEN', token)
-
-            // Save to local storage as well
-            // ( or you can install the vuex-persistedstate plugin so that you won't have to do this step, only store to Vuex is sufficient )
-            if (window.localStorage) {
-              window.localStorage.setItem('user', JSON.stringify(data.user_data))
-              window.localStorage.setItem('token', token)
-            }
-
-            // redirect to the dashboard
-            this.$router.push({ name: 'home' })
-          }
-        }, function (response) {
-          var data = response.body
-          this.response = data.error
-          console.log('BACKEND SERVER - SIGN-IN ERROR', data)
-        })
-        */
+        // this.$router.push({ name: 'home' })
       },
       onSignInError: function (error) {
         this.response = 'Failed to sign-in'
         console.log('GOOGLE SERVER - SIGN-IN ERROR', error)
+      },
+      onSignOutSuccess: function () {
+        this.toggleLoading()
+        this.resetResponse()
+
+        // Save to vuex
+        this.$store.commit('SET_TOKEN', null)
+
+        // Save to local storage as well
+        if (window.localStorage) {
+          window.localStorage.setItem('token', null)
+        }
+
+        // redirect to the dashboard
+        // this.$router.push({ name: 'home' })
+      },
+      onSignOutError: function (error) {
+        this.response = 'Failed to sign-out'
+        console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
       },
       toggleLoading: function () {
         this.loading = (this.loading === '') ? 'loading' : ''

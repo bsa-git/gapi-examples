@@ -83,9 +83,11 @@
     },
     methods: {
       getAuth: function () {
+        const token = window.localStorage.getItem('token')
+        const typeOfToken = typeof token
         this.isAuth = !(window.localStorage.getItem('token') === null)
         if (this.config.debug) {
-          console.log(`localStorage.token=${window.localStorage.getItem('token')};`, `isAuth=${this.isAuth}`)
+          console.log(`TypeOfToken=${typeOfToken}`,`localStorage.token=${token};`, `isAuth=${this.isAuth}`)
         }
       },
       signIn: function () {

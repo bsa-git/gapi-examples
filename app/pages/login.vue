@@ -32,6 +32,7 @@
         title: 'Login Google User',
         description: 'Handling Google sign-in and sign-out.',
         authGoogle: null,
+        isAuth: false,
         loading: '',
         response: ''
       }
@@ -65,9 +66,9 @@
       if (this.config.isStatic) {
         this.authGoogle.load()
           .then(() => {
-            // const self = this
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
+              this.isAuth = !!window.localStorage.getItem('token')
             }
           })
       } else {
@@ -77,7 +78,6 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        isAuth: 'isAuth'
       })
     },
     methods: {

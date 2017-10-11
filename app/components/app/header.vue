@@ -48,6 +48,11 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    data: function () {
+      return {
+        isAuth: false
+      }
+    },
     methods: {
       isGroupMenu: function (item) {
         switch (item) {
@@ -63,14 +68,9 @@
         }
       }
     },
-    computed: {
-      menuTitle: function () {
-        return this.isAuth? 'Logout': 'Login'
-      },
-      ...mapGetters({
-        isAuth: 'isAuth'
-      })
-    },
+    mounted: function () {
+      this.isAuth = !!window.localStorage.getItem('token')
+    }
   }
 </script>
 

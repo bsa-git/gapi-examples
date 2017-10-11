@@ -35,7 +35,7 @@ const store = () => new Vuex.Store({
     },
     SET_TOKEN (state, token) {
       state.auth.token = token
-      if (state.config.isClient && window.localStorage) {
+      if (window.localStorage) {
         window.localStorage.setItem('token', token)
       }
     },

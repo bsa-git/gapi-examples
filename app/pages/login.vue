@@ -82,14 +82,6 @@
       })
     },
     methods: {
-      getAuth: function () {
-        const token = window.localStorage.getItem('token')
-        const typeOfToken = typeof token
-        this.isAuth = !(window.localStorage.getItem('token') === 'null')
-        if (this.config.debug) {
-          console.log(`TypeOfToken=${typeOfToken}`,`localStorage.token=${token};`, `isAuth=${this.isAuth}`)
-        }
-      },
       signIn: function () {
         this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
       },
@@ -108,7 +100,6 @@
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', token)
-          // this.getAuth()
         }
 
         // Save to vuex
@@ -127,8 +118,12 @@
 
         // Save to local storage as well
         if (window.localStorage) {
+          // Synchronize local storage and vuex
+          if(!this.$store.state.auth.token){
+            const token = window.localStorage.getItem('token')
+            this.$store.commit('SET_TOKEN', token)
+          }
           window.localStorage.setItem('token', null)
-          // this.getAuth()
         }
 
         // Save to vuex

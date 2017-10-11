@@ -16,7 +16,7 @@
           <li :class="{ 'active': $route.name == 'index' }">
             <nuxt-link to="/">Home</nuxt-link>
           </li>
-          <li :class="['dropdown', {active: isGroupMenu('services')}]">
+          <li v-if="isAuth" :class="['dropdown', {active: isGroupMenu('services')}]">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
             <ul class="dropdown-menu">

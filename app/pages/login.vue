@@ -30,7 +30,7 @@
   export default {
     data: function () {
       return {
-        title: 'Login Google User',
+        title: 'Login/Logout Google User',
         description: 'Handling Google sign-in and sign-out.',
         authGoogle: null,
         loading: '',

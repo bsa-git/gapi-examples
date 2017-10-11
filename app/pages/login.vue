@@ -100,17 +100,19 @@
         this.toggleLoading()
         this.resetResponse()
 
-        // Save to vuex
+        // Get token
         const arrCode = authorizationCode.split('/')
         let token = ''
         token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
-        this.$store.commit('SET_TOKEN', token)
 
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', token)
           // this.getAuth()
         }
+
+        // Save to vuex
+        this.$store.commit('SET_TOKEN', token)
 
         // redirect to the dashboard
         // this.$router.push({ name: 'home' })
@@ -123,14 +125,14 @@
         this.toggleLoading()
         this.resetResponse()
 
-        // Save to vuex
-        this.$store.commit('SET_TOKEN', null)
-
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', null)
           // this.getAuth()
         }
+
+        // Save to vuex
+        this.$store.commit('SET_TOKEN', null)
 
         // redirect to the dashboard
         // this.$router.push({ name: 'home' })

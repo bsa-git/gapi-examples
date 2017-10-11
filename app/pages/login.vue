@@ -69,8 +69,8 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
-              this.getAuth()
             }
+            this.getAuth()
           })
       } else {
 
@@ -83,7 +83,10 @@
     },
     methods: {
       getAuth: function () {
-        this.isAuth = _.isString(window.localStorage.getItem('token'))
+        this.isAuth = !_.isNull(window.localStorage.getItem('token'))
+        if (this.config.debug) {
+          console.log(`localStorage.token=${window.localStorage.getItem('token')};`, `isAuth=${this.isAuth}`)
+        }
       },
       signIn: function () {
         this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)

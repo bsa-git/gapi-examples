@@ -83,7 +83,7 @@
     },
     methods: {
       getAuth: function () {
-        this.isAuth = !_.isNull(window.localStorage.getItem('token'))
+        this.isAuth = !(window.localStorage.getItem('token') === null)
         if (this.config.debug) {
           console.log(`localStorage.token=${window.localStorage.getItem('token')};`, `isAuth=${this.isAuth}`)
         }

@@ -33,7 +33,6 @@
         title: 'Login Google User',
         description: 'Handling Google sign-in and sign-out.',
         authGoogle: null,
-        isAuth: false,
         loading: '',
         response: ''
       }
@@ -70,7 +69,7 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
             }
-            this.getAuth()
+            // this.getAuth()
           })
       } else {
 
@@ -79,13 +78,14 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
+        isAuth: 'isAuth'
       })
     },
     methods: {
       getAuth: function () {
         const token = window.localStorage.getItem('token')
         const typeOfToken = typeof token
-        this.isAuth = !(window.localStorage.getItem('token') === null)
+        this.isAuth = !(window.localStorage.getItem('token') === 'null')
         if (this.config.debug) {
           console.log(`TypeOfToken=${typeOfToken}`,`localStorage.token=${token};`, `isAuth=${this.isAuth}`)
         }
@@ -109,7 +109,7 @@
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', token)
-          this.getAuth()
+          // this.getAuth()
         }
 
         // redirect to the dashboard
@@ -129,7 +129,7 @@
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', null)
-          this.getAuth()
+          // this.getAuth()
         }
 
         // redirect to the dashboard

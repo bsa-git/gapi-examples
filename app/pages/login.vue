@@ -24,6 +24,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import _ from 'lodash'
   import AuthGoogle from '~/plugins/gauth.class'
 
   export default {
@@ -82,7 +83,7 @@
     },
     methods: {
       getAuth: function () {
-        this.isAuth = !!window.localStorage.getItem('token')
+        this.isAuth = _.isString(window.localStorage.getItem('token'))
       },
       signIn: function () {
         this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)

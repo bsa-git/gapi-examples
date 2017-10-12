@@ -92,22 +92,22 @@
     },
     methods: {
       signIn: function () {
+        this.toggleLoading()
         if (this.isStatic) {
           this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
         } else {
           const self = this
-          this.toggleLoading()
           window.setTimeout(function () {
             self.onSignInSuccess(self.config.gapi.services.auth.testAuthorizationCode)
           }, 1000)
         }
       },
       signOut: function () {
+        this.toggleLoading()
         if (this.isStatic) {
           this.authGoogle.signOut(this.onSignOutSuccess, this.onSignOutError)
         } else {
           const self = this
-          this.toggleLoading()
           window.setTimeout(function () {
             self.onSignOutSuccess()
           }, 1000)

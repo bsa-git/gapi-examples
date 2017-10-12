@@ -60,10 +60,10 @@
     },
     mounted: function () {
       if (this.config.debug) {
-        console.log('login.mounted - OK: ', `isStatic=${this.config.isStatic}`)
+        console.log('login.mounted - OK')
       }
       // Load/Init Google API
-      if (this.config.isStatic) {
+      if (this.isStatic) {
         this.authGoogle.load()
           .then(() => {
             if (this.config.debug) {
@@ -78,7 +78,8 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        isAuth: 'isAuth'
+        isAuth: 'isAuth',
+        isStatic: 'isStatic'
       })
     },
     methods: {

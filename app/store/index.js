@@ -6,6 +6,7 @@ const store = () => new Vuex.Store({
   state: {
     config: null,
     isClient: false,
+    isStatic: false,
     auth: {
       user: null,
       token: null
@@ -33,6 +34,9 @@ const store = () => new Vuex.Store({
     },
     SET_IS_CLIENT (state, isClient) {
       state.isClient = isClient
+    },
+    SET_IS_STATIC (state, isStatic) {
+      state.isStatic = isStatic
     },
     SET_USER (state, userData) {
       state.auth.user = userData

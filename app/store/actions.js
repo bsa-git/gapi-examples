@@ -7,7 +7,7 @@ import dataGmail from '~/store/data/gmail'
 
 const receivePeopleMyNames = function ({commit, state}) {
   let names = null
-  if (state.config.isStatic) {
+  if (state.isStatic) {
     apiPeople.getMyNames()
       .then((names) => {
         commit('SET_PEOPLE_MY_NAMES', names)
@@ -26,7 +26,7 @@ const receivePeopleMyNames = function ({commit, state}) {
 
 const receivePeopleMyConnections = function ({commit, state}) {
   let connections = null
-  if (state.config.isStatic) {
+  if (state.isStatic) {
     apiPeople.getMyConnections()
       .then((connections) => {
         commit('SET_PEOPLE_MY_CONNECTIONS', connections)
@@ -45,7 +45,7 @@ const receivePeopleMyConnections = function ({commit, state}) {
 
 const receiveGmailMyMessages = function ({commit, state}) {
   let messages = null
-  if (state.config.isStatic) {
+  if (state.isStatic) {
     apiGmail.getMyMessages()
       .then((messages) => {
         commit('SET_GMAIL_MY_MESSAGES_LIST', messages)

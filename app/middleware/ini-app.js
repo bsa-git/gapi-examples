@@ -5,8 +5,9 @@ export default async function (context) {
     if (context.isClient && config.debug) {
       console.log('ini-app.middleware - OK.')
     }
+    // Set sign isStatic for store
+    context.store.commit('SET_IS_STATIC', context.isStatic)
     // Set config for context and store
-    config.isStatic = context.isStatic
     context.config = config
     context.store.commit('SET_CONFIG', config)
   } catch (e) {

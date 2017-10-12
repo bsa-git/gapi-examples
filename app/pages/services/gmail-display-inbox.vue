@@ -123,10 +123,10 @@
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
-          console.log('gmail-display-inbox.mounted - OK: ', `isStatic=${this.config.isStatic}`)
+          console.log('gmail-display-inbox.mounted - OK')
         }
         // Load/Init Google API
-        if (this.config.isStatic) {
+        if (this.isStatic) {
           this.apiGoogle.loadGoogleAPI()
             .then(() => {
               if (this.config.debug) {
@@ -150,7 +150,8 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        google: 'getGapi'
+        google: 'getGapi',
+        isStatic: 'isStatic'
       })
     },
     methods: {
@@ -160,7 +161,7 @@
         }
         this.isSignedIn = isSignedIn
         if (isSignedIn) {
-          if (this.config.isStatic) {
+          if (this.isStatic) {
             this.apiGoogle.loadGmailApi()
               .then(() => {
                 if (this.config.debug) {

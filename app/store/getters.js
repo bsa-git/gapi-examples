@@ -2,15 +2,21 @@ const getConfig = function (state) {
   return state.config
 }
 
+const isClient = function (state) {
+  return state.isClient
+}
+
+const isStatic = function (state) {
+  return state.isStatic
+}
+
 const getAuth = function (state) {
   return state.auth
 }
 
 const isAuth = function (state) {
   const stateAuthToken = !!state.auth.token
-  const isClient = state.isClient
-  const localStorageToken = (isClient && window.localStorage) ? !(window.localStorage.getItem('token') === 'null') : false
-  // console.log(`stateAuthToken=${stateAuthToken};`, `isClient=${isClient};`, `localStorageToken=${localStorageToken};`)
+  const localStorageToken = (state.isClient && window.localStorage) ? !(window.localStorage.getItem('token') === 'null') : false
   return stateAuthToken || localStorageToken
 }
 
@@ -20,6 +26,8 @@ const getGapi = function (state) {
 
 export default {
   getConfig,
+  isClient,
+  isStatic,
   getAuth,
   isAuth,
   getGapi

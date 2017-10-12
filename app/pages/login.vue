@@ -166,7 +166,7 @@
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
       },
       toggleLoading: function () {
-        this.loading = (this.loading === '') ? 'Loading' : ''
+        this.loading = (this.loading === '') ? this.isAuth? 'Logout':'Login' : ''
       },
       resetResponse: function () {
         this.response = ''

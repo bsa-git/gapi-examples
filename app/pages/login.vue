@@ -92,22 +92,26 @@
     },
     methods: {
       signIn: function () {
+        const self = this
         this.toggleLoading()
         if (this.isStatic) {
-          this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
+          window.setTimeout(function () {
+            self.authGoogle.signIn(self.onSignInSuccess, self.onSignInError)
+          }, 1000)
         } else {
-          const self = this
           window.setTimeout(function () {
             self.onSignInSuccess(self.config.gapi.services.auth.testAuthorizationCode)
           }, 1000)
         }
       },
       signOut: function () {
+        const self = this
         this.toggleLoading()
         if (this.isStatic) {
-          this.authGoogle.signOut(this.onSignOutSuccess, this.onSignOutError)
+          window.setTimeout(function () {
+            self.authGoogle.signOut(self.onSignOutSuccess, self.onSignOutError)
+          }, 1000)
         } else {
-          const self = this
           window.setTimeout(function () {
             self.onSignOutSuccess()
           }, 1000)

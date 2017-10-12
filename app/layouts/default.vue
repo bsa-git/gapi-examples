@@ -16,7 +16,8 @@
       AppHeader
     },
     created: function () {
+      // Set sign isClient for store
       this.$store.commit('SET_IS_CLIENT', !this.$isServer)
-    },
+    }
   }
 </script>

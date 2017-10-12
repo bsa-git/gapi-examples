@@ -5,18 +5,28 @@
       <h2>{{ title }}</h2>
       <!--<p class="lead">{{ description }}</p>-->
     </div>
+    <!-- Short description -->
+    <div class="bs-callout-info bs-callout">
+      <h4>Get a Google Account</h4>
+      <p>To test Google services you need to have an Google Account.</p>
+      <p>First, <a href="https://www.google.com/accounts" target="_blank">sign up</a> for a
+        Google Account if you do not already have one.
+      </p>
+    </div>
     <!-- Page content -->
     <div class="jumbotron well text-center">
+      <!-- Loading -->
+      <div v-show="loading" class="text-danger lead"><p>{{loading}}...</p></div>
       <!-- Errors -->
-      <div v-if="response" class="text-danger lead"><p>{{response}}</p></div>
+      <div v-show="response" class="text-danger lead"><p>{{response}}</p></div>
 
-      <!-- login Button -->
+      <!-- login Buttons -->
       <div class="auth-btns">
         <a class="button--grey" v-on:click="signOut" v-if="isAuth"><span class="glyphicon glyphicon-log-out"
-                                                                         aria-hidden="true"></span> Logout from Google</a>
+                                                                         aria-hidden="true"></span>
+          Logout from Google</a>
         <a class="button--green" v-on:click="signIn" v-else><span class="glyphicon glyphicon-log-in"
-                                                                  aria-hidden="true"></span>
-          Login with Google</a>
+                                                                  aria-hidden="true"></span> Login with Google</a>
       </div>
     </div>
   </section>
@@ -24,7 +34,6 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import _ from 'lodash'
   import AuthGoogle from '~/plugins/gauth.class'
 
   export default {
@@ -69,7 +78,6 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
             }
-            // this.getAuth()
           })
       } else {
 
@@ -84,10 +92,26 @@
     },
     methods: {
       signIn: function () {
-        this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
+        if (this.isStatic) {
+          this.authGoogle.signIn(this.onSignInSuccess, this.onSignInError)
+        } else {
+          const self = this
+          this.toggleLoading()
+          window.setTimeout(function () {
+            self.onSignInSuccess(self.config.gapi.services.auth.testAuthorizationCode)
+          }, 1000)
+        }
       },
       signOut: function () {
-        this.authGoogle.signOut(this.onSignOutSuccess, this.onSignOutError)
+        if (this.isStatic) {
+          this.authGoogle.signOut(this.onSignOutSuccess, this.onSignOutError)
+        } else {
+          const self = this
+          this.toggleLoading()
+          window.setTimeout(function () {
+            self.onSignOutSuccess()
+          }, 1000)
+        }
       },
       onSignInSuccess: function (authorizationCode) {
         this.toggleLoading()
@@ -120,7 +144,7 @@
         // Save to local storage as well
         if (window.localStorage) {
           // Synchronize local storage and vuex
-          if(!this.$store.state.auth.token){
+          if (!this.$store.state.auth.token) {
             const token = window.localStorage.getItem('token')
             this.$store.commit('SET_TOKEN', token)
           }
@@ -138,7 +162,7 @@
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
       },
       toggleLoading: function () {
-        this.loading = (this.loading === '') ? 'loading' : ''
+        this.loading = (this.loading === '') ? 'Loading' : ''
       },
       resetResponse: function () {
         this.response = ''

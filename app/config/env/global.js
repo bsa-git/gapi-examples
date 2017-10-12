@@ -5,6 +5,9 @@ export default {
     apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
     services: {
+      auth: {
+        testAuthorizationCode: '4/B-VjETW7nmlWtYDgP5jMLqg-OVO6VZP9LQfECJkjtyw'
+      },
       people: {
         discoveryDocs: [
           'https://people.googleapis.com/$discovery/rest?version=v1'

@@ -15,6 +15,8 @@ class AuthGoogle {
     if (typeof params === 'object') {
       this.config = Object.assign(params, {scope: 'profile email https://www.googleapis.com/auth/plus.login'})
     }
+    this.GoogleAuth = null
+    this.GoogleUser = null
   }
 
   load () {
@@ -30,6 +32,9 @@ class AuthGoogle {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
+          // Get GoogleAuth
+          self.GoogleAuth = window.gapi.auth2.getAuthInstance()
+          self.GoogleUser = window.gapi.auth2.getAuthInstance().currentUser.get()
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
@@ -37,6 +42,9 @@ class AuthGoogle {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
+          // Get GoogleAuth
+          self.GoogleAuth = window.gapi.auth2.getAuthInstance()
+          self.GoogleUser = window.gapi.auth2.getAuthInstance().currentUser.get()
           resolve()
         })
       }

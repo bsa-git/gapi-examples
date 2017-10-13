@@ -138,6 +138,8 @@
 
         if (this.authGoogle.isCurrentUser()) {
           // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
+          const authResponse = this.authGoogle.currentUser.getAuthResponse()
+          console.log('gapi.auth2.AuthResponse: ' + authResponse)
           const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
           console.log('CurrentUser - Token: ' + id_token)
           const profile = this.authGoogle.currentUser.getBasicProfile()

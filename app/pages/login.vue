@@ -138,6 +138,8 @@
 
         if (this.authGoogle.isCurrentUser()) {
           // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
+          const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
+          console.log('CurrentUser - Token: ' + id_token)
           const profile = this.authGoogle.currentUser.getBasicProfile()
           console.log('CurrentUser - ID: ' + profile.getId())
           console.log('CurrentUser - Name: ' + profile.getName())

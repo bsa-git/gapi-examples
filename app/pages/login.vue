@@ -77,33 +77,7 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
-              // console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
-              // console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
-
-              this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
-
-              /*
-              this.authGoogle.getCurrentUser()
-                .then(function (user) {
-                  console.log('authGoogle.GoogleUser.id:', user.getId())
-                })
-
-              const profile = this.authGoogle.GoogleUser.getBasicProfile()
-              console.log('ID: ' + profile.getId())
-              console.log('Name: ' + profile.getName())
-              console.log('Image URL: ' + profile.getImageUrl())
-              console.log('Email: ' + profile.getEmail())
-
-              /*
-              this.authGoogle.getCurrentUser()
-                .then((googleUser) => {
-                  const profile = googleUser.getBasicProfile()
-                  console.log('ID: ' + profile.getId())
-                  console.log('Name: ' + profile.getName())
-                  console.log('Image URL: ' + profile.getImageUrl())
-                  console.log('Email: ' + profile.getEmail())
-                })
-              */
+              // this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
             }
 
           })
@@ -161,6 +135,16 @@
 
         // Save to vuex
         this.$store.commit('SET_TOKEN', token)
+
+        if (this.authGoogle.isCurrentUser()) {
+          // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
+          const profile = this.authGoogle.currentUser.getBasicProfile()
+          console.log('CurrentUser - ID: ' + profile.getId())
+          console.log('CurrentUser - Name: ' + profile.getName())
+          console.log('CurrentUser - Image URL: ' + profile.getImageUrl())
+          console.log('CurrentUser - Email: ' + profile.getEmail())
+        }
+
         /*
         const profile = this.authGoogle.googleUser.getBasicProfile()
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.

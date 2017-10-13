@@ -78,6 +78,7 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
               // this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
+              this.authGoogle.directAccess()
             }
 
           })
@@ -119,14 +120,17 @@
           }, 1000)
         }
       },
-      onSignInSuccess: function (authorizationCode) {
+      onSignInSuccess: function (googleUser) { // authorizationCode
         this.toggleLoading()
         this.resetResponse()
 
         // Get token
-        const arrCode = authorizationCode.split('/')
+
+        // const arrCode = authorizationCode.split('/')
         let token = ''
-        token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
+        // token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
+
+        token = googleUser.getId()
 
         // Save to local storage as well
         if (window.localStorage) {
@@ -138,7 +142,7 @@
 
         if (this.authGoogle.isCurrentUser()) {
           // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
-          const authResponse = this.authGoogle.currentUser.getAuthResponse()
+          const authResponse = googleUser.getAuthResponse()
           console.log('gapi.auth2.AuthResponse: ', authResponse)
           const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
           console.log('CurrentUser - Token: ' + id_token)

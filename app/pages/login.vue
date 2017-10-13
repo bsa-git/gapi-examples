@@ -78,7 +78,7 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
               // this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
-              // this.authGoogle.directAccess()
+              this.authGoogle.setDirectAccess(true)
             }
 
           })

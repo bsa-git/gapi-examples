@@ -8,7 +8,7 @@ class AuthGoogle {
    */
   constructor (params) {
     this.debug = !!params.debug
-    this.directAccess = true
+    this.directAccess = false
     this.gapiUrl = 'https://apis.google.com/js/platform.js' // 'https://apis.google.com/js/api:client.js'
     // Config
     this.config = null
@@ -53,8 +53,8 @@ class AuthGoogle {
     })
   }
 
-  directAccess () {
-    this.directAccess = true
+  setDirectAccess (value) {
+    this.directAccess = value
   }
 
   signIn (successCallback, errorCallback) {

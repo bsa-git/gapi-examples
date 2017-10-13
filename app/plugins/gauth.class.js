@@ -96,10 +96,18 @@ class AuthGoogle {
 
   listenSignedIn (onSigninStatus) {
     // Listen for sign-in state changes.
+    window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
     if (this.debug) {
       console.log('listenSignedIn - OK')
     }
-    window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
+  }
+
+  listenCurrentUser (onCurrentUser) {
+    // Listen for currentUser changes.
+    window.gapi.auth2.getAuthInstance().currentUser.listen(onCurrentUser)
+    if (this.debug) {
+      console.log('listenCurrentUser - OK')
+    }
   }
 
   getCurrentUser () {

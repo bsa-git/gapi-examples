@@ -77,16 +77,17 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
-              console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
-              console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
+              // console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
+              // console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
 
+              this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
+
+              /*
               this.authGoogle.getCurrentUser()
                 .then(function (user) {
                   console.log('authGoogle.GoogleUser.id:', user.getId())
                 })
 
-
-              /*
               const profile = this.authGoogle.GoogleUser.getBasicProfile()
               console.log('ID: ' + profile.getId())
               console.log('Name: ' + profile.getName())
@@ -198,6 +199,13 @@
         this.response = 'Failed to sign-out'
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
       },
+
+      onCurrentUser: function (currentUser) {
+        if (this.config.debug) {
+          console.log('authGoogle.CurrentUser.id:', currentUser.getId())
+        }
+      },
+
       toggleLoading: function () {
         this.loading = (this.loading === '') ? this.isAuth ? 'Logout' : 'Login' : ''
       },

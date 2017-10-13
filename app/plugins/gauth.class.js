@@ -9,7 +9,7 @@ class AuthGoogle {
   constructor (params) {
     this.debug = !!params.debug
     this.directAccess = false
-    this.gapiUrl = 'https://apis.google.com/js/api:client.js'
+    this.gapiUrl = 'https://apis.google.com/js/platform.js' // 'https://apis.google.com/js/api:client.js'
     // Config
     this.config = null
     if (typeof params === 'object') {
@@ -80,6 +80,18 @@ class AuthGoogle {
     }, function (error) {
       errorCallback(error)
     })
+  }
+
+  isSignedIn () {
+    return window.gapi.auth2.getAuthInstance().isSignedIn.get()
+  }
+
+  listenSignedIn (onSigninStatus) {
+    // Listen for sign-in state changes.
+    if (this.debug) {
+      console.log('listenSignedIn - OK')
+    }
+    window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
   }
 
   _installClient () {

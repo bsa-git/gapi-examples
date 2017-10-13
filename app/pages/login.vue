@@ -77,7 +77,18 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
+              console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
+              console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
+              this.authGoogle.getCurrentUser()
+                .then((googleUser) => {
+                  const profile = googleUser.getBasicProfile()
+                  console.log('ID: ' + profile.getId())
+                  console.log('Name: ' + profile.getName())
+                  console.log('Image URL: ' + profile.getImageUrl())
+                  console.log('Email: ' + profile.getEmail())
+                })
             }
+
           })
       } else {
 
@@ -133,13 +144,13 @@
 
         // Save to vuex
         this.$store.commit('SET_TOKEN', token)
-
+        /*
         const profile = this.authGoogle.googleUser.getBasicProfile()
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
         console.log('Name: ' + profile.getName())
         console.log('Image URL: ' + profile.getImageUrl())
         console.log('Email: ' + profile.getEmail())
-
+        */
         // redirect to the dashboard
         // this.$router.push({ name: 'home' })
       },
@@ -172,7 +183,7 @@
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
       },
       toggleLoading: function () {
-        this.loading = (this.loading === '') ? this.isAuth? 'Logout':'Login' : ''
+        this.loading = (this.loading === '') ? this.isAuth ? 'Logout' : 'Login' : ''
       },
       resetResponse: function () {
         this.response = ''

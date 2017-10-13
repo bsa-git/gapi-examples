@@ -60,7 +60,7 @@ class AuthGoogle {
     if (this.directAccess) {
       window.gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
         if (self.debug) {
-          console.log('authGoogle.signIn - OK: ', googleUser)
+          console.log('GoogleAuth.signIn - OK: ', googleUser)
         }
         successCallback(googleUser)
       }, function (error) {
@@ -69,7 +69,7 @@ class AuthGoogle {
     } else {
       window.gapi.auth2.getAuthInstance().grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
         if (self.debug) {
-          console.log('authGoogle.signIn - OK: ', response)
+          console.log('GoogleAuth.grantOfflineAccess - OK: ', response)
         }
         successCallback(response.code)
       }, function (error) {
@@ -82,7 +82,7 @@ class AuthGoogle {
     const self = this
     window.gapi.auth2.getAuthInstance().signOut().then(function () {
       if (self.debug) {
-        console.log('authGoogle.signOut - OK')
+        console.log('GoogleAuth.signOut - OK')
       }
       successCallback()
     }, function (error) {
@@ -100,6 +100,18 @@ class AuthGoogle {
       console.log('listenSignedIn - OK')
     }
     window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
+  }
+
+  getCurrentUser () {
+    return new Promise(function (resolve, reject) {
+      window.gapi.auth2.getAuthInstance().currentUser.get()
+        .then(googleUser => {
+          if (this.debug) {
+            console.log('GoogleAuth.getCurrentUser - OK', googleUser)
+          }
+          resolve(googleUser)
+        })
+    })
   }
 
   _installClient () {

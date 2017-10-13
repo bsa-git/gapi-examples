@@ -56,7 +56,7 @@ class AuthGoogle {
   signIn (successCallback, errorCallback) {
     const self = this
     if (this.directAccess) {
-      window.gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
+      this.auth2.signIn().then(function (googleUser) {
         if (self.debug) {
           console.log('GoogleAuth.signIn - OK: ', googleUser)
         }
@@ -65,7 +65,7 @@ class AuthGoogle {
         errorCallback(error)
       })
     } else {
-      window.gapi.auth2.getAuthInstance().grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
+      this.auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
         if (self.debug) {
           console.log('GoogleAuth.grantOfflineAccess - OK: ', response)
         }
@@ -78,7 +78,7 @@ class AuthGoogle {
 
   signOut (successCallback, errorCallback) {
     const self = this
-    window.gapi.auth2.getAuthInstance().signOut().then(function () {
+    this.auth2.signOut().then(function () {
       if (self.debug) {
         console.log('GoogleAuth.signOut - OK')
       }
@@ -89,12 +89,12 @@ class AuthGoogle {
   }
 
   isSignedIn () {
-    return window.gapi.auth2.getAuthInstance().isSignedIn.get()
+    return this.auth2.isSignedIn.get()
   }
 
   listenSignedIn (onSigninStatus) {
     // Listen for sign-in state changes.
-    window.gapi.auth2.getAuthInstance().isSignedIn.listen(onSigninStatus)
+    this.auth2.isSignedIn.listen(onSigninStatus)
     if (this.debug) {
       console.log('listenSignedIn - OK')
     }
@@ -102,31 +102,10 @@ class AuthGoogle {
 
   listenCurrentUser (onCurrentUser) {
     // Listen for currentUser changes.
-    window.gapi.auth2.getAuthInstance().currentUser.listen(onCurrentUser)
+    this.auth2.currentUser.listen(onCurrentUser)
     if (this.debug) {
       console.log('listenCurrentUser - OK')
     }
-  }
-
-  getCurrentUser () {
-    const self = this
-    return new Promise(function (resolve, reject) {
-      window.gapi.auth2.getAuthInstance().currentUser.listen(googleUser => {
-        if (self.debug) {
-          console.log('GoogleAuth.getCurrentUser - OK', googleUser)
-        }
-        resolve(googleUser)
-      })
-      /*
-      window.gapi.auth2.getAuthInstance().currentUser.get()
-        .then(googleUser => {
-          if (self.debug) {
-            console.log('GoogleAuth.getCurrentUser - OK', googleUser)
-          }
-          resolve(googleUser)
-        })
-      */
-    })
   }
 
   _installClient () {

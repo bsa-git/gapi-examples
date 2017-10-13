@@ -202,12 +202,14 @@
 
       onCurrentUser: function (currentUser) {
         if (this.config.debug) {
-          // console.log('authGoogle.CurrentUser.id:', currentUser.getId())
-          const profile = currentUser.getBasicProfile()
-          console.log('CurrentUser - ID: ' + profile.getId())
-          console.log('CurrentUser - Name: ' + profile.getName())
-          console.log('CurrentUser - Image URL: ' + profile.getImageUrl())
-          console.log('CurrentUser - Email: ' + profile.getEmail())
+          console.log('authGoogle.CurrentUser.id:', currentUser.getId())
+          if (currentUser.getId()) {
+            const profile = currentUser.getBasicProfile()
+            console.log('CurrentUser - ID: ' + profile.getId())
+            console.log('CurrentUser - Name: ' + profile.getName())
+            console.log('CurrentUser - Image URL: ' + profile.getImageUrl())
+            console.log('CurrentUser - Email: ' + profile.getEmail())
+          }
         }
       },
 

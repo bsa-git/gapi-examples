@@ -103,10 +103,11 @@ class AuthGoogle {
   }
 
   getCurrentUser () {
+    const self = this
     return new Promise(function (resolve, reject) {
       window.gapi.auth2.getAuthInstance().currentUser.get()
         .then(googleUser => {
-          if (this.debug) {
+          if (self.debug) {
             console.log('GoogleAuth.getCurrentUser - OK', googleUser)
           }
           resolve(googleUser)

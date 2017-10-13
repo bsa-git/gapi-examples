@@ -79,6 +79,13 @@
               console.log('authGoogle.load - OK')
               console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
               console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
+              const profile = this.authGoogle.GoogleUser.getBasicProfile()
+              console.log('ID: ' + profile.getId())
+              console.log('Name: ' + profile.getName())
+              console.log('Image URL: ' + profile.getImageUrl())
+              console.log('Email: ' + profile.getEmail())
+
+              /*
               this.authGoogle.getCurrentUser()
                 .then((googleUser) => {
                   const profile = googleUser.getBasicProfile()
@@ -87,6 +94,7 @@
                   console.log('Image URL: ' + profile.getImageUrl())
                   console.log('Email: ' + profile.getEmail())
                 })
+              */
             }
 
           })

@@ -34,6 +34,10 @@ class AuthGoogle {
           }
           // Get GoogleAuth
           self.auth2 = window.gapi.auth2.getAuthInstance()
+          // Get currentUser
+          self.listenCurrentUser(currentUser => {
+            self.currentUser = currentUser
+          })
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
@@ -106,6 +110,10 @@ class AuthGoogle {
     if (this.debug) {
       console.log('listenCurrentUser - OK')
     }
+  }
+
+  isCurrentUser () {
+    return !!this.currentUser.getId()
   }
 
   _installClient () {

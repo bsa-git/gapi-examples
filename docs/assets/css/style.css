@@ -1,0 +1,135 @@
+/* Fonts */
+@import url(../fonts/Playball/style.css);
+
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+/* ICON */
+
+.glyphicon {
+  margin-right: 5px;
+}
+
+/* NAV-BAR */
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+/* EXOTIC */
+.exotic--dark {
+  color: white;
+  text-shadow: 0 3px 3px #212121;
+  font-family: playball, sans-serif;
+}
+
+.exotic--light {
+  color: black;
+  text-shadow: 0 3px 3px #bdbdbd;
+  font-family: playball, sans-serif;
+}
+
+/* Blockquotes */
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.bs-callout-info {
+  border-left-color: #1b809e;
+}
+
+.bs-callout-info h4 {
+  color: #1b809e;
+}
+
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.bs-callout p {
+  margin: 0 0 10px;
+}
+
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+
+/*--- BLOG --- */
+
+.blog-post h1 {
+  color: #757575;
+  font: 300 34px / 40px Roboto, sans-serif;
+  letter-spacing: -.01em;
+  margin: 40px 0 20px;
+}
+
+.blog-post h2 {
+  border-bottom: 1px solid #ebebeb;
+  font: 300 24px / 32px Roboto, sans-serif;
+  letter-spacing: -.01em;
+  margin: 40px 0 20px;
+  padding-bottom: 3px;
+}
+
+.blog-post h3 {
+  font: 400 20px / 32px Roboto, sans-serif;
+  margin: 32px 0 16px;
+}
+
+.blog-post h4 {
+  font: 400 18px/32px Roboto,sans-serif;
+  margin: 32px 0 16px;
+}
+
+.blog-post table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: 14px/20px Roboto,sans-serif;
+  margin: 16px 0;
+}
+
+.blog-post tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+.blog-post th {
+  color: #fff;
+  font: 500 16px/24px Roboto,sans-serif;
+  height: 48px;
+  padding: 8px;
+  vertical-align: middle;
+  background: #78909c;
+  border: 0;
+  border-top: 1px solid #cfd8dc;
+  text-align: left;
+}
+
+.blog-post td {
+  background: rgba(255,255,255,.95);
+  border: 1px solid #cfd8dc;
+  vertical-align: top;
+  color: #212121;
+  padding: 7px 8px 8px;
+}
+

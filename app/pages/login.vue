@@ -79,6 +79,8 @@
               console.log('authGoogle.load - OK')
               console.log('authGoogle.GoogleAuth:', this.authGoogle.GoogleAuth)
               console.log('authGoogle.GoogleUser:', this.authGoogle.GoogleUser)
+              console.log('authGoogle.GoogleUser.id:', this.authGoogle.GoogleUser.getId())
+              /*
               const profile = this.authGoogle.GoogleUser.getBasicProfile()
               console.log('ID: ' + profile.getId())
               console.log('Name: ' + profile.getName())

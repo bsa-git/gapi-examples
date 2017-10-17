@@ -22,11 +22,18 @@
 
       <!-- login Buttons -->
       <div class="auth-btns">
-        <a class="button--grey" v-on:click="signOut" v-if="isAuth"><span class="glyphicon glyphicon-log-out"
-                                                                         aria-hidden="true"></span>
-          Logout from Google</a>
-        <a class="button--green" v-on:click="signIn" v-else><span class="glyphicon glyphicon-log-in"
-                                                                  aria-hidden="true"></span> Login with Google</a>
+        <div v-if="isAuth">
+          <a class="button--grey" v-on:click="signOut"><span class="glyphicon glyphicon-log-out"
+                                                                           aria-hidden="true"></span>
+            Sign out</a>
+          <a class="button--green" v-on:click="disconnect"><span class="glyphicon glyphicon-log-in"
+                                                              aria-hidden="true"></span> Revoke access</a>
+        </div>
+        <div v-else>
+          <a class="button--green" v-on:click="signIn"><span class="glyphicon glyphicon-log-in"
+                                                                    aria-hidden="true"></span> Sign In/Authorize</a>
+          <p>You have not authorized this app or you are signed out.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -120,6 +127,19 @@
           }, 1000)
         }
       },
+      disconnect: function () {
+        const self = this
+        if (this.isStatic) {
+          window.setTimeout(function () {
+            self.authGoogle.disconnect()
+            self.onDisconnect()
+          }, 1000)
+        } else {
+          window.setTimeout(function () {
+            self.onDisconnect()
+          }, 1000)
+        }
+      },
       onSignInSuccess: function (googleUser) { // authorizationCode
         this.toggleLoading()
         this.resetResponse()
@@ -175,6 +195,23 @@
       onSignOutError: function (error) {
         this.response = 'Failed to sign-out'
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
+      },
+      onDisconnect: function () {
+        // this.toggleLoading()
+        // this.resetResponse()
+
+        // Save to local storage as well
+        if (window.localStorage) {
+          // Synchronize local storage and vuex
+          if (!this.$store.state.auth.token) {
+            const token = window.localStorage.getItem('token')
+            this.$store.commit('SET_TOKEN', token)
+          }
+          window.localStorage.setItem('token', null)
+        }
+
+        // Save to vuex
+        this.$store.commit('SET_TOKEN', null)
       },
 
       onCurrentUser: function (currentUser) {

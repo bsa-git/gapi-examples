@@ -9,7 +9,7 @@ class AuthGoogle {
   constructor (params) {
     this.debug = !!params.debug
     this.directAccess = false
-    this.gapiUrl = 'https://apis.google.com/js/platform.js' // 'https://apis.google.com/js/api:client.js'
+    this.gapiUrl = 'https://apis.google.com/js/platform.js'
     // Config
     this.config = null
     if (typeof params === 'object') {
@@ -23,7 +23,7 @@ class AuthGoogle {
     const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
-        self._installClient().then(function () {
+        self._loadGoogleApis().then(function () {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
@@ -32,12 +32,6 @@ class AuthGoogle {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
-          // Get GoogleAuth
-          // self.auth2 = window.gapi.auth2.getAuthInstance()
-          // Get currentUser
-          // self.listenCurrentUser(currentUser => {
-          //  self.currentUser = currentUser
-          // })
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
@@ -45,12 +39,6 @@ class AuthGoogle {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
-          // Get GoogleAuth
-          // self.auth2 = window.gapi.auth2.getAuthInstance()
-          // Get currentUser
-          // self.listenCurrentUser(currentUser => {
-          //  self.currentUser = currentUser
-          // })
           resolve()
         })
       }
@@ -96,6 +84,13 @@ class AuthGoogle {
     })
   }
 
+  disconnect () {
+    this.auth2.disconnect()
+    if (this.debug) {
+      console.log('GoogleAuth.disconnect - OK')
+    }
+  }
+
   isSignedIn () {
     return this.auth2.isSignedIn.get()
   }
@@ -120,7 +115,7 @@ class AuthGoogle {
     return !!this.currentUser.getId()
   }
 
-  _installClient () {
+  _loadGoogleApis () {
     const self = this
     return new Promise(function (resolve, reject) {
       const script = document.createElement('script')

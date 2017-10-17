@@ -124,13 +124,8 @@
         this.toggleLoading()
         this.resetResponse()
 
-        // Get token
-
-        // const arrCode = authorizationCode.split('/')
-        let user_id = ''
-        // token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
-
-        user_id = googleUser.getId()
+        // Get UserId
+        const user_id = googleUser.getId()
 
         // Save to local storage as well
         if (window.localStorage) {
@@ -140,30 +135,18 @@
         // Save to vuex
         this.$store.commit('SET_TOKEN', user_id)
 
+        // Get UserId Token and UserInfo
         if (this.authGoogle.isCurrentUser()) {
-          // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
-          const authResponse = googleUser.getAuthResponse()
-          // console.log('gapi.auth2.AuthResponse: ', authResponse)
           const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
           console.log('CurrentUser - Token: ' + id_token)
           const profile = this.authGoogle.currentUser.getBasicProfile()
-          console.log('ID: ' + profile.getId());
-          console.log('Full Name: ' + profile.getName());
-          console.log('Given Name: ' + profile.getGivenName());
-          console.log('Family Name: ' + profile.getFamilyName());
-          console.log('Image URL: ' + profile.getImageUrl());
-          console.log('Email: ' + profile.getEmail());
+          console.log('ID: ' + profile.getId())
+          console.log('Full Name: ' + profile.getName())
+          console.log('Given Name: ' + profile.getGivenName())
+          console.log('Family Name: ' + profile.getFamilyName())
+          console.log('Image URL: ' + profile.getImageUrl())
+          console.log('Email: ' + profile.getEmail())
         }
-
-        /*
-        const profile = this.authGoogle.googleUser.getBasicProfile()
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName())
-        console.log('Image URL: ' + profile.getImageUrl())
-        console.log('Email: ' + profile.getEmail())
-        */
-        // redirect to the dashboard
-        // this.$router.push({ name: 'home' })
       },
       onSignInError: function (error) {
         this.response = 'Failed to sign-in'

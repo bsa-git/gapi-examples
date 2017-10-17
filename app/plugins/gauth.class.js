@@ -93,7 +93,7 @@ class AuthGoogle {
       self.currentUser.grant(options).then(
         function (success) {
           if (self.debug) {
-            console.log('GoogleAuth.addScope - OK:', success)
+            console.log('GoogleAuth.addScope - OK')
           }
           successCallback(success)
           resolve()

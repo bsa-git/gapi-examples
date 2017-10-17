@@ -151,7 +151,7 @@
           window.setTimeout(function () {
             self.authGoogle.addScope('https://www.googleapis.com/auth/drive', self.onAddScopeSuccess, self.onAddScopeError)
               .then(function () {
-                
+
               })
           }, 1000)
         } else {
@@ -233,8 +233,10 @@
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
       },
-      onAddScopeSuccess: function (success) {
-        this.response = success
+      onAddScopeSuccess: function (googleUser) {
+        // Get UserId
+        const user_id = googleUser.getId()
+        this.response = `Success to add-scope for UserId=${user_id}`
       },
       onAddScopeError: function (error) {
         this.response = 'Failed to add-scope'

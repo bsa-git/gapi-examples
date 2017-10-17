@@ -150,6 +150,9 @@
         if (this.isStatic) {
           window.setTimeout(function () {
             self.authGoogle.addScope('https://www.googleapis.com/auth/drive', self.onAddScopeSuccess, self.onAddScopeError)
+              .then(function () {
+                
+              })
           }, 1000)
         } else {
           window.setTimeout(function () {

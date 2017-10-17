@@ -87,7 +87,7 @@ class AuthGoogle {
   addScope (scope, successCallback, errorCallback) {
     const self = this
     return new Promise(function (resolve, reject) {
-      const options = new self.auth2.SigninOptionsBuilder()
+      const options = new window.gapi.auth2.SigninOptionsBuilder()
       options.setScope(scope)
 
       self.currentUser.grant(options).then(

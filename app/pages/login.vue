@@ -127,18 +127,18 @@
         // Get token
 
         // const arrCode = authorizationCode.split('/')
-        let token = ''
+        let user_id = ''
         // token += arrCode.length > 1 ? arrCode[1] : arrCode[0]
 
-        token = googleUser.getId()
+        user_id = googleUser.getId()
 
         // Save to local storage as well
         if (window.localStorage) {
-          window.localStorage.setItem('token', token)
+          window.localStorage.setItem('token', user_id)
         }
 
         // Save to vuex
-        this.$store.commit('SET_TOKEN', token)
+        this.$store.commit('SET_TOKEN', user_id)
 
         if (this.authGoogle.isCurrentUser()) {
           // console.log('authGoogle.CurrentUser.id:', this.authGoogle.currentUser.getId())
@@ -147,10 +147,12 @@
           const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
           console.log('CurrentUser - Token: ' + id_token)
           const profile = this.authGoogle.currentUser.getBasicProfile()
-          console.log('CurrentUser - ID: ' + profile.getId())
-          console.log('CurrentUser - Name: ' + profile.getName())
-          console.log('CurrentUser - Image URL: ' + profile.getImageUrl())
-          console.log('CurrentUser - Email: ' + profile.getEmail())
+          console.log('ID: ' + profile.getId());
+          console.log('Full Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Family Name: ' + profile.getFamilyName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail());
         }
 
         /*

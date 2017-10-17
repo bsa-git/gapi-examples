@@ -87,10 +87,10 @@ class AuthGoogle {
   addScope (scope, successCallback, errorCallback) {
     const self = this
     return new Promise(function (resolve, reject) {
-      const options = new this.auth2.SigninOptionsBuilder()
+      const options = new self.auth2.SigninOptionsBuilder()
       options.setScope(scope)
 
-      this.currentUser.grant(options).then(
+      self.currentUser.grant(options).then(
         function (success) {
           if (self.debug) {
             console.log('GoogleAuth.addScope - OK:', success)

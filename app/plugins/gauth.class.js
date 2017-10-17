@@ -33,11 +33,11 @@ class AuthGoogle {
             console.log('apiGoogle.init - OK')
           }
           // Get GoogleAuth
-          self.auth2 = window.gapi.auth2.getAuthInstance()
+          // self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser
-          self.listenCurrentUser(currentUser => {
-            self.currentUser = currentUser
-          })
+          // self.listenCurrentUser(currentUser => {
+          //  self.currentUser = currentUser
+          // })
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
@@ -46,7 +46,11 @@ class AuthGoogle {
             console.log('apiGoogle.init - OK')
           }
           // Get GoogleAuth
-          self.auth2 = window.gapi.auth2.getAuthInstance()
+          // self.auth2 = window.gapi.auth2.getAuthInstance()
+          // Get currentUser
+          // self.listenCurrentUser(currentUser => {
+          //  self.currentUser = currentUser
+          // })
           resolve()
         })
       }
@@ -62,7 +66,7 @@ class AuthGoogle {
     if (this.directAccess) {
       this.auth2.signIn().then(function (googleUser) {
         if (self.debug) {
-          console.log('GoogleAuth.signIn - OK: ', googleUser)
+          console.log('GoogleAuth.signIn - OK')
         }
         successCallback(googleUser)
       }, function (error) {
@@ -71,7 +75,7 @@ class AuthGoogle {
     } else {
       this.auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
         if (self.debug) {
-          console.log('GoogleAuth.grantOfflineAccess - OK: ', response)
+          console.log('GoogleAuth.grantOfflineAccess - OK')
         }
         successCallback(response.code)
       }, function (error) {
@@ -136,7 +140,12 @@ class AuthGoogle {
     const self = this
     return new Promise(function (resolve, reject) {
       window.gapi.load('auth2', function () {
-        window.gapi.auth2.init(self.config)
+        // Auth2 Init
+        self.auth2 = window.gapi.auth2.init(self.config)
+        // Get currentUser
+        self.listenCurrentUser(currentUser => {
+          self.currentUser = currentUser
+        })
         resolve()
       })
     })

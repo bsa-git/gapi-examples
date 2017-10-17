@@ -27,7 +27,7 @@ class AuthGoogle {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
-          return self._initClient()
+          return self._initAuth()
         }).then(function () {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
@@ -35,7 +35,7 @@ class AuthGoogle {
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
-        self._initClient().then(function () {
+        self._initAuth().then(function () {
           if (self.debug) {
             console.log('apiGoogle.init - OK')
           }
@@ -131,7 +131,7 @@ class AuthGoogle {
     })
   }
 
-  _initClient () {
+  _initAuth () {
     const self = this
     return new Promise(function (resolve, reject) {
       window.gapi.load('auth2', function () {

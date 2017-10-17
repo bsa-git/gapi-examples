@@ -28,6 +28,7 @@
             Sign out</a>
           <a class="button--grey" v-on:click="disconnect"><span class="glyphicon glyphicon-remove-circle"
                                                               aria-hidden="true"></span> Revoke access</a>
+          <p>You are currently signed in and have granted access to this app.</p>
         </div>
         <div v-else>
           <a class="button--green" v-on:click="signIn"><span class="glyphicon glyphicon-log-in"

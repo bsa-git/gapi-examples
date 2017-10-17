@@ -26,7 +26,7 @@
           <a class="button--grey" v-on:click="signOut"><span class="glyphicon glyphicon-log-out"
                                                                            aria-hidden="true"></span>
             Sign out</a>
-          <a class="button--green" v-on:click="disconnect"><span class="glyphicon glyphicon-log-in"
+          <a class="button--grey" v-on:click="disconnect"><span class="glyphicon glyphicon-remove-circle"
                                                               aria-hidden="true"></span> Revoke access</a>
         </div>
         <div v-else>

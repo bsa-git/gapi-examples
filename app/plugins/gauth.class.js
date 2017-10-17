@@ -84,6 +84,27 @@ class AuthGoogle {
     })
   }
 
+  addScope (scope, successCallback, errorCallback) {
+    const self = this
+    return new Promise(function (resolve, reject) {
+      const options = new this.auth2.SigninOptionsBuilder()
+      options.setScope(scope)
+
+      this.currentUser.grant(options).then(
+        function (success) {
+          if (self.debug) {
+            console.log('GoogleAuth.addScope - OK:', success)
+          }
+          successCallback(success)
+          resolve()
+        },
+        function (fail) {
+          console.log('GoogleAuth.addScope - Error:', fail)
+          errorCallback(fail)
+        })
+    })
+  }
+
   disconnect () {
     this.auth2.disconnect()
     if (this.debug) {

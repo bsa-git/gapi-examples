@@ -23,17 +23,21 @@
       <!-- login Buttons -->
       <div class="auth-btns">
         <div v-if="isAuth">
+          <p>You are currently signed in and have granted access to this app.</p>
+          <br />
           <a class="button--grey" v-on:click="signOut"><span class="glyphicon glyphicon-log-out"
                                                                            aria-hidden="true"></span>
             Sign out</a>
           <a class="button--grey" v-on:click="disconnect"><span class="glyphicon glyphicon-remove-circle"
                                                               aria-hidden="true"></span> Revoke access</a>
-          <p>You are currently signed in and have granted access to this app.</p>
+          <a class="button--grey" v-on:click="addScope"><span class="glyphicon glyphicon-plus"
+                                                                aria-hidden="true"></span> Add scope</a>
         </div>
         <div v-else>
+          <p>You have not authorized this app or you are signed out.</p>
+          <br />
           <a class="button--green" v-on:click="signIn"><span class="glyphicon glyphicon-log-in"
                                                                     aria-hidden="true"></span> Sign In/Authorize</a>
-          <p>You have not authorized this app or you are signed out.</p>
         </div>
       </div>
     </div>
@@ -141,7 +145,19 @@
           }, 1000)
         }
       },
-      onSignInSuccess: function (googleUser) { // authorizationCode
+      addScope: function () {
+        const self = this
+        if (this.isStatic) {
+          window.setTimeout(function () {
+            self.authGoogle.addScope('https://www.googleapis.com/auth/drive', self.onAddScopeSuccess, self.onAddScopeError)
+          }, 1000)
+        } else {
+          window.setTimeout(function () {
+            self.onAddScopeSuccess('AddScopeSuccess')
+          }, 1000)
+        }
+      },
+      onSignInSuccess: function (googleUser) {
         this.toggleLoading()
         this.resetResponse()
 
@@ -214,7 +230,13 @@
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
       },
-
+      onAddScopeSuccess: function (success) {
+        this.response = success
+      },
+      onAddScopeError: function (error) {
+        this.response = 'Failed to add-scope'
+        console.log('GOOGLE SERVER - ADD-SCOPE ERROR', error)
+      },
       onCurrentUser: function (currentUser) {
         if (this.config.debug) {
           console.log('authGoogle.CurrentUser.id:', currentUser.getId())

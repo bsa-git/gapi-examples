@@ -19,7 +19,7 @@ class AuthGoogle {
     this.currentUser = null
   }
 
-  load () {
+  loadAuth () {
     const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
@@ -30,14 +30,40 @@ class AuthGoogle {
           return self._initAuth()
         }).then(function () {
           if (self.debug) {
-            console.log('apiGoogle.init - OK')
+            console.log('googleAuth.init - OK')
           }
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
         self._initAuth().then(function () {
           if (self.debug) {
-            console.log('apiGoogle.init - OK')
+            console.log('googleAuth.init - OK')
+          }
+          resolve()
+        })
+      }
+    })
+  }
+
+  loadClient () {
+    const self = this
+    return new Promise(function (resolve, reject) {
+      if (window.gapi === undefined) {
+        self._loadGoogleApis().then(function () {
+          if (self.debug) {
+            console.log('loadGoogleAPI - OK')
+          }
+          return self._initClient()
+        }).then(function () {
+          if (self.debug) {
+            console.log('googleClient.init - OK')
+          }
+          resolve()
+        })
+      } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
+        self._initClient().then(function () {
+          if (self.debug) {
+            console.log('googleClient.init - OK')
           }
           resolve()
         })
@@ -163,6 +189,31 @@ class AuthGoogle {
           self.currentUser = currentUser
         })
         resolve()
+      })
+    })
+  }
+
+  _initClient (params) {
+    const self = this
+    return new Promise(function (resolve, reject) {
+      window.gapi.load('client', function () {
+        // Client Init
+        self.auth2 = window.gapi.client.init({
+          apiKey: params.apiKey,
+          clientId: params.clientId,
+          discoveryDocs: params.discoveryDocs,
+          scope: params.scope.join(' ')
+        }).then(() => {
+          // Get currentUser
+          self.listenCurrentUser(currentUser => {
+            self.currentUser = currentUser
+          })
+          resolve()
+        }, (error) => {
+          this.error = error
+          console.error('Gapi.client.init - Error', error)
+          alert(`Error: ${error.error}\n Details: ${error.details}`)
+        })
       })
     })
   }

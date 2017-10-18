@@ -17,7 +17,7 @@ class AuthGoogle {
     // Config
     this.config = null
     if (typeof params === 'object') {
-      this.config = Object.assign(params, {scope: 'profile email https://www.googleapis.com/auth/plus.login'})
+      // this.config = Object.assign(params, {scope: 'profile email https://www.googleapis.com/auth/plus.login'})
     }
     this.auth2 = null
     this.currentUser = null

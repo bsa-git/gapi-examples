@@ -76,7 +76,8 @@
           debug: this.config.debug,
           clientId: this.config.gapi.clientId
         }
-        this.authGoogle = new AuthGoogle(params)
+        // this.authGoogle = new AuthGoogle(params)
+        this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
       }
     },
     mounted: function () {

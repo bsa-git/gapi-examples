@@ -73,7 +73,7 @@ class AuthGoogle {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
-          return self._initClient()
+          return self._initClient(params)
         }).then(function () {
           if (self.debug) {
             console.log('googleClient.init - OK')

@@ -184,17 +184,17 @@ class AuthGoogle {
       window.gapi.load('auth2', function () {
         // Auth2 Init
         self.auth2 = window.gapi.auth2.init(self.config)
-          .then(() => {
-            // Get currentUser
-            self.listenCurrentUser(currentUser => {
-              self.currentUser = currentUser
-            })
-            resolve()
-          }, (error) => {
-            this.error = error
-            console.error('gapi.auth2.init - Error', error)
-            alert(`gapi.auth2.init - Error: ${error.error}\n Details: ${error.details}`)
+        self.auth2.then(() => {
+          // Get currentUser
+          self.listenCurrentUser(currentUser => {
+            self.currentUser = currentUser
           })
+          resolve()
+        }, (error) => {
+          this.error = error
+          console.error('gapi.auth2.init - Error', error)
+          alert(`gapi.auth2.init - Error: ${error.error}\n Details: ${error.details}`)
+        })
         /*
         // Get currentUser
         self.listenCurrentUser(currentUser => {

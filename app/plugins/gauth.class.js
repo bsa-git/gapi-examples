@@ -3,7 +3,11 @@ class AuthGoogle {
    * Constructor
    * Creates an instance of AuthGoogle.
    * @param {Object} An object of param settings.
-   *
+   *  etc. {
+   *  debug: true,
+   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
+   *  ...
+   *  }
    * @memberOf AuthGoogle
    */
   constructor (params) {
@@ -19,11 +23,15 @@ class AuthGoogle {
     this.currentUser = null
   }
 
+  /**
+   * Google Auth load/init
+   * @return {Promise}
+   */
   loadAuth () {
     const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
-        self._loadGoogleApis().then(function () {
+        self._loadGoogleApi().then(function () {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
@@ -45,11 +53,22 @@ class AuthGoogle {
     })
   }
 
-  loadClient () {
+  /**
+   * Google Client/Auth load/init
+   * @param params (Object)
+   *  etc. {
+   *  apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
+   *  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+   *  scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send'
+   *  }
+   * @return {Promise}
+   */
+  loadClient (params) {
     const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
-        self._loadGoogleApis().then(function () {
+        self._loadGoogleApi().then(function () {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
@@ -60,8 +79,8 @@ class AuthGoogle {
           }
           resolve()
         })
-      } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
-        self._initClient().then(function () {
+      } else {
+        self._initClient(params).then(function () {
           if (self.debug) {
             console.log('googleClient.init - OK')
           }
@@ -71,10 +90,19 @@ class AuthGoogle {
     })
   }
 
+  /**
+   * Set direct access
+   * @param value (Boolean)
+   */
   setDirectAccess (value) {
     this.directAccess = value
   }
 
+  /**
+   * Google sign in
+   * @param successCallback (Function)
+   * @param errorCallback (Function)
+   */
   signIn (successCallback, errorCallback) {
     const self = this
     if (this.directAccess) {
@@ -98,6 +126,11 @@ class AuthGoogle {
     }
   }
 
+  /**
+   * Google sign out
+   * @param successCallback (Function)
+   * @param errorCallback (Function)
+   */
   signOut (successCallback, errorCallback) {
     const self = this
     this.auth2.signOut().then(function () {
@@ -110,6 +143,13 @@ class AuthGoogle {
     })
   }
 
+  /**
+   * Add google auth scope
+   * @param scope (String)
+   * @param successCallback (Function)
+   * @param errorCallback (Function)
+   * @return {Promise}
+   */
   addScope (scope, successCallback, errorCallback) {
     const self = this
     return new Promise(function (resolve, reject) {
@@ -131,6 +171,10 @@ class AuthGoogle {
     })
   }
 
+  /**
+   * Google auth disconnect (Revokes all of the scopes that the user granted.)
+   *
+   */
   disconnect () {
     this.auth2.disconnect()
     if (this.debug) {
@@ -138,31 +182,50 @@ class AuthGoogle {
     }
   }
 
+  /**
+   * Returns whether the current user is currently signed in.
+   * @return {Boolean}
+   */
   isSignedIn () {
     return this.auth2.isSignedIn.get()
   }
 
+  /**
+   * Listen for changes in the current user's sign-in state.
+   * @param onSigninStatus (Function)
+   */
   listenSignedIn (onSigninStatus) {
-    // Listen for sign-in state changes.
     this.auth2.isSignedIn.listen(onSigninStatus)
     if (this.debug) {
       console.log('listenSignedIn - OK')
     }
   }
 
+  /**
+   * Listen for changes in currentUser.
+   * @param onCurrentUser (Function)
+   */
   listenCurrentUser (onCurrentUser) {
-    // Listen for currentUser changes.
     this.auth2.currentUser.listen(onCurrentUser)
     if (this.debug) {
       console.log('listenCurrentUser - OK')
     }
   }
 
+  /**
+   * Get the user's unique ID string.
+   * @return {boolean}
+   */
   isCurrentUser () {
     return !!this.currentUser.getId()
   }
 
-  _loadGoogleApis () {
+  /**
+   * Load google api
+   * @return {Promise}
+   * @private
+   */
+  _loadGoogleApi () {
     const self = this
     return new Promise(function (resolve, reject) {
       const script = document.createElement('script')
@@ -195,28 +258,35 @@ class AuthGoogle {
           console.error('gapi.auth2.init - Error', error)
           alert(`gapi.auth2.init - Error: ${error.error}\n Details: ${error.details}`)
         })
-        /*
-        // Get currentUser
-        self.listenCurrentUser(currentUser => {
-          self.currentUser = currentUser
-        })
-        resolve()
-        */
       })
     })
   }
 
+  /**
+   * Google client  load/init
+   * @param params (Object)
+   *  etc. {
+   *  apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
+   *  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+   *  scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send'
+   *  }
+   * @return {Promise}
+   * @private
+   */
   _initClient (params) {
     const self = this
     return new Promise(function (resolve, reject) {
-      window.gapi.load('client', function () {
-        // Client Init
-        self.auth2 = window.gapi.client.init({
+      // Client Init
+      const initClient = function () {
+        window.gapi.client.init({
           apiKey: params.apiKey,
           clientId: params.clientId,
           discoveryDocs: params.discoveryDocs,
-          scope: params.scope.join(' ')
+          scope: params.scope ? params.scope.join(' ') : ''
         }).then(() => {
+          // Get GoogleAuth
+          self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser
           self.listenCurrentUser(currentUser => {
             self.currentUser = currentUser
@@ -227,7 +297,13 @@ class AuthGoogle {
           console.error('gapi.client.init - Error', error)
           alert(`gapi.client.init - Error: ${error.error}\n Details: ${error.details}`)
         })
-      })
+      }
+      if (window.gapi.client === undefined) {
+        const libraries = (window.gapi.auth2 === undefined) ? 'client:auth2' : 'client'
+        window.gapi.load(libraries, initClient)
+      } else {
+        initClient()
+      }
     })
   }
 }

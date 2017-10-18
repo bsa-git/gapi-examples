@@ -21,7 +21,7 @@ const isAuth = function (state) {
 }
 
 const getGapi = function (state) {
-  return state.google
+  return state.apiGoogle
 }
 
 export default {

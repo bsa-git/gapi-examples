@@ -53,7 +53,7 @@
       return {
         title: 'Login/Logout Google User',
         description: 'Handling Google sign-in and sign-out.',
-        authGoogle: null,
+        // authGoogle: null,
         loading: '',
         response: ''
       }
@@ -89,8 +89,6 @@
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
-              // this.authGoogle.listenCurrentUser(this.onCurrentUser.bind(this))
-              this.authGoogle.setDirectAccess(true)
             }
 
           })
@@ -102,6 +100,7 @@
       ...mapGetters({
         config: 'getConfig',
         isAuth: 'isAuth',
+        authGoogle: 'getGapi',
         isStatic: 'isStatic'
       })
     },

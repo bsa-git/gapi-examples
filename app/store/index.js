@@ -7,9 +7,10 @@ const store = () => new Vuex.Store({
     config: null,
     isClient: false,
     isStatic: false,
+    apiGoogle: null,
     auth: {
-      user: null,
-      token: null
+      token: null,
+      user: null
     },
     google: {
       people_my: {
@@ -37,6 +38,9 @@ const store = () => new Vuex.Store({
     },
     SET_IS_STATIC (state, isStatic) {
       state.isStatic = isStatic
+    },
+    SET_GOOGLE_API (state, apiGoogle) {
+      state.apiGoogle = apiGoogle
     },
     SET_USER (state, userData) {
       state.auth.user = userData

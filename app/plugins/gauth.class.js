@@ -12,7 +12,7 @@ class AuthGoogle {
    */
   constructor (params) {
     this.debug = !!params.debug
-    this.directAccess = false
+    this.directAccess = true
     this.gapiUrl = 'https://apis.google.com/js/platform.js'
     // Config
     this.config = null

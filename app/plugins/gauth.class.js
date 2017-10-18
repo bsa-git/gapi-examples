@@ -280,12 +280,7 @@ class AuthGoogle {
     return new Promise(function (resolve, reject) {
       // Client Init
       const initClient = function () {
-        window.gapi.client.init({
-          apiKey: params.apiKey,
-          clientId: params.clientId,
-          discoveryDocs: params.discoveryDocs,
-          scope: params.scope ? params.scope.join(' ') : ''
-        }).then(() => {
+        window.gapi.client.init(params).then(() => {
           // Get GoogleAuth
           self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser

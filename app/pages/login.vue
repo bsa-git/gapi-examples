@@ -92,7 +92,6 @@
           discoveryDocs: this.config.gapi.services.people.discoveryDocs,
           scope: this.config.gapi.services.people.scopes.get.join(' ')
         }
-        console.log('login.mounted - params=', params)
         // this.authGoogle.loadAuth()
         this.authGoogle.loadClient(params)
           .then(() => {

@@ -223,6 +223,9 @@ class AuthGoogle {
    * @return {boolean}
    */
   isCurrentUser () {
+    if (this.debug) {
+      console.log('isCurrentUser - OK', this.currentUser)
+    }
     return !!this.currentUser.getId()
   }
 
@@ -301,6 +304,9 @@ class AuthGoogle {
           self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser
           self.listenCurrentUser(currentUser => {
+            if (self.debug) {
+              console.log(' _initClient.listenCurrentUser - OK', currentUser)
+            }
             self.currentUser = currentUser
           })
           resolve()

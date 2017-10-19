@@ -171,10 +171,10 @@
         this.toggleLoading()
         this.resetResponse()
 
-        console.log('onSignInSuccess - googleUser: ', googleUser)
-
         // Get UserId
         const user_id = googleUser.getId()
+
+        console.log('onSignInSuccess - googleUser.getId(): ', user_id)
 
         // Save to local storage as well
         if (window.localStorage) {

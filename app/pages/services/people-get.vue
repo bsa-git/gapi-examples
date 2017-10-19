@@ -30,7 +30,7 @@
       </button>
       -->
       <button type="button" class="btn btn-primary" @click="showPeopleMyNames">About Me</button>
-      <div class="lead" v-if="isSignedIn">Hellow {{ google.people_my.names.givenName }}!</div>
+      <div class="lead" v-show="isShow">Hellow {{ google.people_my.names.givenName }}!</div>
 
     </div>
   </section>
@@ -45,8 +45,7 @@
       return {
         title: 'Method: people.get',
         description: 'Provides information about a person by specifying a resource name',
-        // apiGoogle: null,
-        isSignedIn: false
+        isShow: false
       }
     },
     head () {
@@ -57,84 +56,14 @@
         ]
       }
     },
-    fetch ({isClient, isStatic, config}) {
-      if (isClient && config.debug) {
-        console.log('people-get.fetch - OK: ', `isStatic=${isStatic};`)
-      }
-      if (isClient && isStatic) {
-        // Force reloading the current page from the server
-        // It is necessary that you can earn a downloadable Google service API
-        // location.reload(true)
-      }
-    },
-    created: function () {
-      if (!this.$isServer && this.config.debug) {
-        console.log('people-get.created - OK')
-      }
-      if (!this.$isServer) {
-        /*
-        const params = {
-          debug: this.config.debug,
-          apiKey: this.config.gapi.apiKey,
-          clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.get
-        }
-        this.apiGoogle = new ApiGoogle(params)
-        */
-      }
-    },
-    mounted: function () {
-      this.$nextTick(function () {
-        if (this.config.debug) {
-          console.log('people-get.mounted - OK')
-        }
-        // Load/Init Google API
-        if (this.isStatic) {
-          /*
-          this.apiGoogle.loadGoogleAPI()
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGoogleAPI - OK')
-              }
-              return this.apiGoogle.init()
-            })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('apiGoogle.init - OK')
-              }
-              let onSignedIn = this.updateSigninStatus.bind(this)
-              this.apiGoogle.listenSignedIn(onSignedIn)
-              this.updateSigninStatus(this.apiGoogle.isSignedIn())
-            })
-            */
-        } else {
-          // this.updateSigninStatus(true)
-        }
-      })
-    },
     computed: {
       ...mapGetters({
-        config: 'getConfig',
-        isStatic: 'isStatic',
-        //apiGoogle: 'getGapi',
         google: 'getGoogleData',
       })
     },
     methods: {
-      /*
-      updateSigninStatus: function (isSignedIn) {
-        if (this.config.debug) {
-          console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
-        }
-        this.isSignedIn = isSignedIn
-        if (isSignedIn) {
-          this.$store.dispatch('receivePeopleMyNames')
-        }
-      },
-      */
       showPeopleMyNames: function () {
-        this.isSignedIn = true
+        this.isShow = true
         this.$store.dispatch('receivePeopleMyNames')
       }
     }

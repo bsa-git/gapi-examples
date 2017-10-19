@@ -53,7 +53,6 @@
       return {
         title: 'Login/Logout Google User',
         description: 'Handling Google sign-in and sign-out.',
-        // authGoogle: null,
         loading: '',
         response: ''
       }
@@ -76,7 +75,6 @@
           debug: this.config.debug,
           clientId: this.config.gapi.clientId
         }
-        // this.authGoogle = new AuthGoogle(params)
         this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
       }
     },

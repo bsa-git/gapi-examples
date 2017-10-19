@@ -24,20 +24,20 @@
       <div class="auth-btns">
         <div v-if="isAuth">
           <p>You are currently signed in and have granted access to this app.</p>
-          <br />
+          <br/>
           <a class="button--grey" v-on:click="signOut"><span class="glyphicon glyphicon-log-out"
-                                                                           aria-hidden="true"></span>
+                                                             aria-hidden="true"></span>
             Sign out</a>
           <a class="button--grey" v-on:click="disconnect"><span class="glyphicon glyphicon-remove"
-                                                              aria-hidden="true"></span> Revoke access</a>
+                                                                aria-hidden="true"></span> Revoke access</a>
           <a class="button--grey" v-on:click="addScope"><span class="glyphicon glyphicon-plus"
-                                                                aria-hidden="true"></span> Add scope</a>
+                                                              aria-hidden="true"></span> Add scope</a>
         </div>
         <div v-else>
           <p>You have not authorized this app or you are signed out.</p>
-          <br />
+          <br/>
           <a class="button--green" v-on:click="signIn"><span class="glyphicon glyphicon-log-in"
-                                                                    aria-hidden="true"></span> Sign In/Authorize</a>
+                                                             aria-hidden="true"></span> Sign In/Authorize</a>
         </div>
       </div>
     </div>
@@ -185,17 +185,19 @@
         this.$store.commit('SET_TOKEN', user_id)
 
         // Get UserId Token and UserInfo
-        if (this.authGoogle.isCurrentUser()) {
-          const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
-          console.log('CurrentUser - Token: ' + id_token)
-          const profile = this.authGoogle.currentUser.getBasicProfile()
-          console.log('ID: ' + profile.getId())
-          console.log('Full Name: ' + profile.getName())
-          console.log('Given Name: ' + profile.getGivenName())
-          console.log('Family Name: ' + profile.getFamilyName())
-          console.log('Image URL: ' + profile.getImageUrl())
-          console.log('Email: ' + profile.getEmail())
-        }
+        // if (this.authGoogle.isCurrentUser()) {
+        // const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
+        const id_token = googleUser.getAuthResponse().id_token
+        console.log('CurrentUser - Token: ' + id_token)
+        // const profile = this.authGoogle.currentUser.getBasicProfile()
+        const profile = googleUser.getBasicProfile()
+        console.log('ID: ' + profile.getId())
+        console.log('Full Name: ' + profile.getName())
+        console.log('Given Name: ' + profile.getGivenName())
+        console.log('Family Name: ' + profile.getFamilyName())
+        console.log('Image URL: ' + profile.getImageUrl())
+        console.log('Email: ' + profile.getEmail())
+        // }
       },
       onSignInError: function (error) {
         this.response = 'Failed to sign-in'

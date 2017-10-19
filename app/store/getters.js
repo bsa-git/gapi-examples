@@ -15,9 +15,12 @@ const getAuth = function (state) {
 }
 
 const isAuth = function (state) {
+  /*
   const stateAuthToken = !!state.auth.token
   const localStorageToken = (state.isClient && window.localStorage) ? !(window.localStorage.getItem('token') === 'null') : false
   return stateAuthToken || localStorageToken
+  */
+  return !!state.auth.token
 }
 
 const getGapi = function (state) {

@@ -38,6 +38,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    middleware: 'authenticated',
     data: function () {
       return {
         title: 'Method: people.connections.list',

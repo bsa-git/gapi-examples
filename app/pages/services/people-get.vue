@@ -33,6 +33,7 @@
   // import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
+    middleware: 'authenticated',
     data: function () {
       return {
         title: 'Method: people.get',

@@ -107,21 +107,27 @@ class AuthGoogle {
     const self = this
     if (this.directAccess) {
       this.auth2.signIn().then(function (googleUser) {
+        successCallback(googleUser)
         if (self.debug) {
           console.log('GoogleAuth.signIn - OK')
         }
-        successCallback(googleUser)
       }, function (error) {
         errorCallback(error)
+        if (self.debug) {
+          console.log('GoogleAuth.signIn - Error: ', error)
+        }
       })
     } else {
       this.auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
+        successCallback(response.code)
         if (self.debug) {
           console.log('GoogleAuth.grantOfflineAccess - OK')
         }
-        successCallback(response.code)
       }, function (error) {
         errorCallback(error)
+        if (self.debug) {
+          console.log('GoogleAuth.grantOfflineAccess - Error: ', error)
+        }
       })
     }
   }

@@ -73,7 +73,7 @@
       if (!this.$isServer) {
         const params = {
           debug: this.config.debug,
-          clientId: this.config.gapi.clientId
+          // clientId: this.config.gapi.clientId
         }
         this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
       }
@@ -170,6 +170,8 @@
       onSignInSuccess: function (googleUser) {
         this.toggleLoading()
         this.resetResponse()
+
+        console.log('onSignInSuccess - googleUser: ', googleUser)
 
         // Get UserId
         const user_id = googleUser.getId()

@@ -73,7 +73,6 @@
       if (!this.$isServer) {
         const params = {
           debug: this.config.debug,
-          // clientId: this.config.gapi.clientId
         }
         this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
       }
@@ -174,8 +173,6 @@
         // Get UserId
         const user_id = googleUser.getId()
 
-        console.log('onSignInSuccess - googleUser.getId(): ', user_id)
-
         // Save to local storage as well
         if (window.localStorage) {
           window.localStorage.setItem('token', user_id)
@@ -185,11 +182,8 @@
         this.$store.commit('SET_TOKEN', user_id)
 
         // Get UserId Token and UserInfo
-        // if (this.authGoogle.isCurrentUser()) {
-        // const id_token = this.authGoogle.currentUser.getAuthResponse().id_token
         const id_token = googleUser.getAuthResponse().id_token
         console.log('CurrentUser - Token: ' + id_token)
-        // const profile = this.authGoogle.currentUser.getBasicProfile()
         const profile = googleUser.getBasicProfile()
         console.log('ID: ' + profile.getId())
         console.log('Full Name: ' + profile.getName())
@@ -197,7 +191,6 @@
         console.log('Family Name: ' + profile.getFamilyName())
         console.log('Image URL: ' + profile.getImageUrl())
         console.log('Email: ' + profile.getEmail())
-        // }
       },
       onSignInError: function (error) {
         this.response = 'Failed to sign-in'

@@ -10,17 +10,22 @@ class AuthGoogle {
    * @memberOf AuthGoogle
    */
   constructor (params) {
-    this.debug = !!params.debug
     this.directAccess = true
     this.gapiUrl = 'https://apis.google.com/js/platform.js'
     // Config
-    this.config = null
     if (typeof params === 'object') {
-      // this.config = Object.assign(params, {scope: 'profile email https://www.googleapis.com/auth/plus.login'})
       this.config = params
+      this.debug = !!params.debug
+    } else {
+      this.config = null
+      this.debug = false
     }
     this.auth2 = null
     this.currentUser = null
+
+    if (this.debug) {
+      console.log('AuthGoogle.constructor - OK: ', params)
+    }
   }
 
   /**
@@ -79,7 +84,7 @@ class AuthGoogle {
           }
           resolve()
         })
-      } else {
+      } else if (window.gapi !== undefined && window.gapi.client === undefined) {
         self._initClient(params).then(function () {
           if (self.debug) {
             console.log('googleClient.init - OK')
@@ -113,9 +118,7 @@ class AuthGoogle {
         }
       }, function (error) {
         errorCallback(error)
-        if (self.debug) {
-          console.log('GoogleAuth.signIn - Error: ', error)
-        }
+        console.log('GoogleAuth.signIn - Error: ', error)
       })
     } else {
       this.auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(function (response) {
@@ -125,9 +128,7 @@ class AuthGoogle {
         }
       }, function (error) {
         errorCallback(error)
-        if (self.debug) {
-          console.log('GoogleAuth.grantOfflineAccess - Error: ', error)
-        }
+        console.log('GoogleAuth.grantOfflineAccess - Error: ', error)
       })
     }
   }
@@ -140,12 +141,13 @@ class AuthGoogle {
   signOut (successCallback, errorCallback) {
     const self = this
     this.auth2.signOut().then(function () {
+      successCallback()
       if (self.debug) {
         console.log('GoogleAuth.signOut - OK')
       }
-      successCallback()
     }, function (error) {
       errorCallback(error)
+      console.log('GoogleAuth.signOut - Error: ', error)
     })
   }
 
@@ -164,15 +166,15 @@ class AuthGoogle {
 
       self.currentUser.grant(options).then(
         function (success) {
+          successCallback(success)
           if (self.debug) {
             console.log('GoogleAuth.addScope - OK')
           }
-          successCallback(success)
           resolve()
         },
         function (fail) {
-          console.log('GoogleAuth.addScope - Error:', fail)
           errorCallback(fail)
+          console.log('GoogleAuth.addScope - Error:', fail)
         })
     })
   }
@@ -223,9 +225,6 @@ class AuthGoogle {
    * @return {boolean}
    */
   isCurrentUser () {
-    if (this.debug) {
-      console.log('isCurrentUser - OK', this.currentUser)
-    }
     return !!this.currentUser.getId()
   }
 
@@ -304,9 +303,6 @@ class AuthGoogle {
           self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser
           self.listenCurrentUser(currentUser => {
-            if (self.debug) {
-              console.log(' _initClient.listenCurrentUser - OK', currentUser)
-            }
             self.currentUser = currentUser
           })
           resolve()
@@ -316,12 +312,8 @@ class AuthGoogle {
           alert(`gapi.client.init - Error: ${error.error}\n Details: ${error.details}`)
         })
       }
-      if (window.gapi.client === undefined) {
-        const libraries = (window.gapi.auth2 === undefined) ? 'client:auth2' : 'client'
-        window.gapi.load(libraries, initClient)
-      } else {
-        initClient()
-      }
+      const libraries = (window.gapi.auth2 === undefined) ? 'client:auth2' : 'client'
+      window.gapi.load(libraries, initClient)
     })
   }
 }

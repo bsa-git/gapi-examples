@@ -24,11 +24,16 @@ const getGapi = function (state) {
   return state.apiGoogle
 }
 
+const getGoogleData = function (state) {
+  return state.google
+}
+
 export default {
   getConfig,
   isClient,
   isStatic,
   getAuth,
   isAuth,
-  getGapi
+  getGapi,
+  getGoogleData
 }

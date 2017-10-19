@@ -22,14 +22,13 @@
     </div>
     <!-- Page content -->
     <div class="jumbotron text-center well">
-      <!--
+
       <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick(apiGoogle)">
         Sign Out
       </button>
       <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick(apiGoogle)">Authorize
       </button>
-      -->
-      <button type="button" class="btn btn-primary" @click="showPeopleMyNames">About Me</button>
+
       <div class="lead" v-if="isSignedIn">Hellow {{ google.people_my.names.givenName }}!</div>
 
     </div>
@@ -38,14 +37,14 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // import ApiGoogle from '~/plugins/gapi.class'
+  import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {
       return {
         title: 'Method: people.get',
         description: 'Provides information about a person by specifying a resource name',
-        // apiGoogle: null,
+        apiGoogle: null,
         isSignedIn: false
       }
     },
@@ -72,7 +71,6 @@
         console.log('people-get.created - OK')
       }
       if (!this.$isServer) {
-        /*
         const params = {
           debug: this.config.debug,
           apiKey: this.config.gapi.apiKey,
@@ -81,7 +79,6 @@
           scope: this.config.gapi.services.people.scopes.get
         }
         this.apiGoogle = new ApiGoogle(params)
-        */
       }
     },
     mounted: function () {
@@ -91,7 +88,6 @@
         }
         // Load/Init Google API
         if (this.isStatic) {
-          /*
           this.apiGoogle.loadGoogleAPI()
             .then(() => {
               if (this.config.debug) {
@@ -107,22 +103,19 @@
               this.apiGoogle.listenSignedIn(onSignedIn)
               this.updateSigninStatus(this.apiGoogle.isSignedIn())
             })
-            */
         } else {
-          // this.updateSigninStatus(true)
+          this.updateSigninStatus(true)
         }
       })
     },
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        isStatic: 'isStatic',
-        //apiGoogle: 'getGapi',
-        google: 'getGoogleData',
+        google: 'getGapi',
+        isStatic: 'isStatic'
       })
     },
     methods: {
-      /*
       updateSigninStatus: function (isSignedIn) {
         if (this.config.debug) {
           console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
@@ -131,11 +124,6 @@
         if (isSignedIn) {
           this.$store.dispatch('receivePeopleMyNames')
         }
-      },
-      */
-      showPeopleMyNames: function () {
-        this.isSignedIn = true
-        this.$store.dispatch('receivePeopleMyNames')
       }
     }
   }

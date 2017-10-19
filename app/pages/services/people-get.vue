@@ -22,16 +22,8 @@
     </div>
     <!-- Page content -->
     <div class="jumbotron text-center well">
-      <!--
-      <button type="button" class="btn btn-primary" v-if="isSignedIn" @click="apiGoogle.handleSignoutClick(apiGoogle)">
-        Sign Out
-      </button>
-      <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick(apiGoogle)">Authorize
-      </button>
-      -->
       <button type="button" class="btn btn-primary" @click="showPeopleMyNames">About Me</button>
       <div class="lead" v-show="isShow">Hellow {{ google.people_my.names.givenName }}!</div>
-
     </div>
   </section>
 </template>

@@ -23,14 +23,8 @@
     </div>
     <!-- Page content -->
     <div class="jumbotron well">
-      <div text-center>
-        <button type="button" class="btn btn-primary" v-if="isSignedIn"
-                @click="apiGoogle.handleSignoutClick(apiGoogle)">Sign Out
-        </button>
-        <button type="button" class="btn btn-primary" v-else @click="apiGoogle.handleAuthClick(apiGoogle)">Authorize
-        </button>
-      </div>
-      <div id="content" class="lead" v-if="isSignedIn">
+      <button type="button" class="btn btn-primary" @click="showPeopleMyConnections">Show My Connections</button>
+      <div id="content" class="lead" v-show="isShow">
         <p class="lead">Connections:</p>
         <ul>
           <li v-for="connection in google.people_my.connections">{{ connection }}</li>
@@ -42,15 +36,13 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {
       return {
         title: 'Method: people.connections.list',
         description: 'Provides a list of the authenticated user\'s contacts',
-        apiGoogle: null,
-        isSignedIn: false
+        isShow: false
       }
     },
     head () {
@@ -61,75 +53,15 @@
         ]
       }
     },
-    fetch ({isClient, isStatic, config}) {
-      if (isClient && config.debug) {
-        console.log('people-connections.fetch - OK: ', `isStatic=${isStatic};`)
-      }
-      if (isClient && isStatic) {
-        // Force reloading the current page from the server
-        // It is necessary that you can earn a downloadable Google service API
-        location.reload(true)
-      }
-    },
-    created: function () {
-      if (!this.$isServer && this.config.debug) {
-        console.log('people-connections.created - OK')
-      }
-      if (!this.$isServer) {
-        const params = {
-          debug: this.config.debug,
-          apiKey: this.config.gapi.apiKey,
-          clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.connections
-        }
-        this.apiGoogle = new ApiGoogle(params)
-      }
-    },
-    mounted: function () {
-      this.$nextTick(function () {
-        if (this.config.debug) {
-          console.log('people-connections.mounted - OK')
-        }
-
-        // Load/Init Google API
-        if (this.isStatic) {
-          this.apiGoogle.loadGoogleAPI()
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGoogleAPI - OK')
-              }
-              return this.apiGoogle.init()
-            })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('apiGoogle.init - OK')
-              }
-              let onSignedIn = this.updateSigninStatus.bind(this)
-              this.apiGoogle.listenSignedIn(onSignedIn)
-              this.updateSigninStatus(this.apiGoogle.isSignedIn())
-            })
-        } else {
-          this.updateSigninStatus(true)
-        }
-      })
-    },
     computed: {
       ...mapGetters({
-        config: 'getConfig',
-        google: 'getGapi',
-        isStatic: 'isStatic'
+        google: 'getGoogleData',
       })
     },
     methods: {
-      updateSigninStatus: function (isSignedIn) {
-        if (this.config.debug) {
-          console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
-        }
-        this.isSignedIn = isSignedIn
-        if (isSignedIn) {
-          this.$store.dispatch('receivePeopleMyConnections')
-        }
+      showPeopleMyConnections: function () {
+        this.isShow = true
+        this.$store.dispatch('receivePeopleMyConnections')
       }
     }
   }

@@ -84,11 +84,13 @@
       }
       // Load/Init Google API
       if (this.isStatic) {
+        const people = this.config.gapi.services.people
+        const scope = _.concat(people.scopes.get, people.scopes.connections).join(' ')
         const params = {
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.get.join(' ')
+          discoveryDocs: people.discoveryDocs,
+          scope: scope
         }
         // this.authGoogle.loadAuth(params)
         this.authGoogle.loadClient(params)

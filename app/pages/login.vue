@@ -90,7 +90,7 @@
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
           discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          // scope: this.config.gapi.services.people.scopes.get.join(' ')
+          scope: this.config.gapi.services.people.scopes.get.join(' ')
         }
         // this.authGoogle.loadAuth(params)
         this.authGoogle.loadClient(params)

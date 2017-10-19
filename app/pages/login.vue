@@ -70,7 +70,7 @@
       if (!this.$isServer && this.config.debug) {
         console.log('login.created - OK')
       }
-      if (!this.$isServer) {
+      if (!this.$isServer && (this.authGoogle === null)) {
         const params = {
           debug: this.config.debug,
         }

@@ -87,13 +87,13 @@
       // Load/Init Google API
       if (this.isStatic) {
         const params = {
-          apiKey: this.config.gapi.apiKey,
+          // apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.people.discoveryDocs,
-          scope: this.config.gapi.services.people.scopes.get.join(' ')
+          // discoveryDocs: this.config.gapi.services.people.discoveryDocs,
+          // scope: this.config.gapi.services.people.scopes.get.join(' ')
         }
-        // this.authGoogle.loadAuth()
-        this.authGoogle.loadClient(params)
+        this.authGoogle.loadAuth(params)
+        // this.authGoogle.loadClient(params)
           .then(() => {
             if (this.config.debug) {
               console.log('authGoogle.load - OK')

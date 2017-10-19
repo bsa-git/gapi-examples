@@ -5,7 +5,6 @@ class AuthGoogle {
    * @param {Object} An object of param settings.
    *  etc. {
    *  debug: true,
-   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
    *  ...
    *  }
    * @memberOf AuthGoogle
@@ -28,7 +27,7 @@ class AuthGoogle {
    * Google Auth load/init
    * @return {Promise}
    */
-  loadAuth () {
+  loadAuth (params) {
     const self = this
     return new Promise(function (resolve, reject) {
       if (window.gapi === undefined) {
@@ -36,7 +35,7 @@ class AuthGoogle {
           if (self.debug) {
             console.log('loadGoogleAPI - OK')
           }
-          return self._initAuth()
+          return self._initAuth(params)
         }).then(function () {
           if (self.debug) {
             console.log('googleAuth.init - OK')
@@ -44,7 +43,7 @@ class AuthGoogle {
           resolve()
         })
       } else if (window.gapi !== undefined && window.gapi.auth2 === undefined) {
-        self._initAuth().then(function () {
+        self._initAuth(params).then(function () {
           if (self.debug) {
             console.log('googleAuth.init - OK')
           }
@@ -242,12 +241,23 @@ class AuthGoogle {
     })
   }
 
-  _initAuth () {
+  /**
+   * Google auth  load/init
+   * @param params (Object)
+   * @param params (Object)
+   *  etc. {
+   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
+   *  scope: 'profile email https://www.googleapis.com/auth/plus.login'
+   *  }
+   * @return {Promise}
+   * @private
+   */
+  _initAuth (params) {
     const self = this
     return new Promise(function (resolve, reject) {
       window.gapi.load('auth2', function () {
         // Auth2 Init
-        self.auth2 = window.gapi.auth2.init(self.config)
+        self.auth2 = window.gapi.auth2.init(params)
         self.auth2.then(() => {
           // Get currentUser
           self.listenCurrentUser(currentUser => {

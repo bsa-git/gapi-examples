@@ -238,6 +238,19 @@ class AuthGoogle {
     return this.currentUser ? !!this.currentUser.getId() : false
   }
 
+  /**
+   * Get current user info
+   * @return {Object}
+   * etc. {
+   * token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmN2RjZjY2YjUwZDZiZGExMTgwYjcwNjdlYzhhZTlhNDhjYzU2YTQifQ...',
+   * id: '110341449488589699610',
+   * fullName: 'Molly King',
+   * givenName: 'Molly',
+   * familyName: 'King',
+   * imageURL: 'https://test.com/images/user.jpg',
+   * email: 'user@test.com'
+   * }
+   */
   getCurrentUserInfo () {
     let userInfo = {}
     // -------------------

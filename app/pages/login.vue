@@ -87,7 +87,11 @@
         const people = this.config.gapi.services.people
         const gmail = this.config.gapi.services.gmail
         const discoveryDocs = _.concat(people.discoveryDocs, gmail.discoveryDocs)
-        const scope = _.concat(people.scopes['get'], people.scopes['connections'], gmail.scopes['messages.list.send']).join(' ')
+        const scope = _.concat(
+          people.scopes.get,
+          people.scopes.connections,
+          gmail.scopes.list,
+          gmail.scopes.send).join(' ')
         const params = {
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
@@ -102,15 +106,11 @@
             }
             // Synchronization of the real state of signed in with Google
             // with the internal state of the signed in in store.
-            // Sometimes such synchronization may result in the issuing of an error due to the prohibition
-            // of the appearance of pop-up windows. Whatever happens, you need to allow the appearance
-            // of a pop-up window, because while the connection to Google
             if (this.authGoogle.isSignedIn() !== this.isAuth) {
               const userInfo = this.authGoogle.getCurrentUserInfo()
               // Save to vuex
               this.$store.commit('SET_TOKEN', userInfo.token)
               this.$store.commit('SET_USER', userInfo)
-              // this.signIn()
             }
           })
       } else {

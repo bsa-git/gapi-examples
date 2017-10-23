@@ -22,7 +22,7 @@ export default {
           '8YzQDzay8vMfKY-CKBbfcDnaP8IL46EWUDR-9QYsKHL-WQcynB7LAp0K-tCRI5z0VWDxIYdBXv_MvOf69f21wSTtIkXfXp' +
           '-ZH18xv8d-r0-t3BRTOWLGIknhB1HYN0FNmB58DoMaluVolMw5rqoNcP-_E5QA',
           user: {
-            id: '1234567890',
+            id: '110341449488589699610',
             fullName: 'Molly King',
             givenName: 'Molly',
             familyName: 'King',
@@ -57,8 +57,10 @@ export default {
             'https://www.googleapis.com/auth/gmail.settings.basic',
             'https://www.googleapis.com/auth/gmail.settings.sharing'
           ],
-          'messages.list.send': [
-            'https://www.googleapis.com/auth/gmail.readonly',
+          'list': [
+            'https://www.googleapis.com/auth/gmail.readonly'
+          ],
+          'send': [
             'https://www.googleapis.com/auth/gmail.send'
           ]
         }

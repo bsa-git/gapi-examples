@@ -88,7 +88,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import _ from 'lodash'
-  // import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {
@@ -115,7 +114,7 @@
         if (this.config.debug) {
           console.log('gmail-send-message.mounted - OK')
         }
-        // Send my mail message
+        // Load Gmail Api
         if (this.isStatic) {
           this.apiGoogle.loadGmailApi()
             .then(() => {
@@ -139,24 +138,6 @@
       })
     },
     methods: {
-      /*
-      updateSigninStatus: function (isSignedIn) {
-        if (this.config.debug) {
-          console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
-        }
-        this.isSignedIn = isSignedIn
-        if (isSignedIn) {
-          if (this.isStatic) {
-            this.apiGoogle.loadGmailApi()
-              .then(() => {
-                if (this.config.debug) {
-                  console.log('loadGmailApi - OK')
-                }
-              })
-          }
-        }
-      },
-      */
       sendEmail: function () {
         this.disabled = true
         this.sendMessage(

@@ -47,7 +47,7 @@
 <script>
   import _ from 'lodash'
   import { mapGetters } from 'vuex'
-  import AuthGoogle from '~/plugins/gauth.class'
+  import AuthGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {

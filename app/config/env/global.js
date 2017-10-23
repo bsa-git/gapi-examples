@@ -6,7 +6,17 @@ export default {
     clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
     services: {
       auth: {
-        testAuthorizationCode: '4/B-VjETW7nmlWtYDgP5jMLqg-OVO6VZP9LQfECJkjtyw'
+        test: {
+          token: 'B-VjETW7nmlWtYDgP5jMLqg-OVO6VZP9LQfECJkjtyw',
+          user: {
+            id: '1234567890',
+            fullName: 'Molly King',
+            givenName: 'Molly',
+            familyName: 'King',
+            imageURL: 'https://test.com/images/user.jpg',
+            email: 'user@test.com'
+          }
+        }
       },
       people: {
         discoveryDocs: [

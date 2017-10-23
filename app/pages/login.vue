@@ -45,6 +45,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import { mapGetters } from 'vuex'
   import AuthGoogle from '~/plugins/gauth.class'
 
@@ -72,7 +73,7 @@
       }
       if (!this.$isServer && (this.authGoogle === null)) {
         const params = {
-          debug: this.config.debug,
+          debug: this.config.debug
         }
         this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
       }
@@ -97,7 +98,9 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
             }
-
+            if (this.authGoogle.isSignedIn() !== this.isAuth) {
+              this.signIn()
+            }
           })
       } else {
 
@@ -121,7 +124,7 @@
           }, 1000)
         } else {
           window.setTimeout(function () {
-            self.onSignInSuccess(self.config.gapi.services.auth.testAuthorizationCode)
+            self.onSignInSuccess(self.config.gapi.services.auth.test)
           }, 1000)
         }
       },
@@ -162,35 +165,48 @@
           }, 1000)
         } else {
           window.setTimeout(function () {
-            self.onAddScopeSuccess('AddScopeSuccess')
+            self.onAddScopeSuccess(self.config.gapi.services.auth.test.user)
           }, 1000)
         }
       },
       onSignInSuccess: function (googleUser) {
+        let userInfo = {}
+        let idToken = ''
+        // -------------------
         this.toggleLoading()
         this.resetResponse()
-
-        // Get UserId
-        const user_id = googleUser.getId()
-
-        // Save to local storage as well
-        if (window.localStorage) {
-          window.localStorage.setItem('token', user_id)
+        if (this.isStatic) {
+          // Get UserId Token
+          idToken = googleUser.getAuthResponse().id_token
+          // Get UserInfo
+          const profile = googleUser.getBasicProfile()
+          userInfo.id = profile.getId()
+          userInfo.fullName = profile.getName()
+          userInfo.givenName = profile.getGivenName()
+          userInfo.familyName = profile.getFamilyName()
+          userInfo.imageURL = profile.getImageUrl()
+          userInfo.email = profile.getEmail()
+        } else {
+          idToken = googleUser.token
+          userInfo = googleUser.user
         }
 
-        // Save to vuex
-        this.$store.commit('SET_TOKEN', user_id)
+        // Save to local storage as well
+        // if (window.localStorage) {
+        // window.localStorage.setItem('token', id_token)
+        // }
 
-        // Get UserId Token and UserInfo
-        const id_token = googleUser.getAuthResponse().id_token
-        console.log('CurrentUser - Token: ' + id_token)
-        const profile = googleUser.getBasicProfile()
-        console.log('ID: ' + profile.getId())
-        console.log('Full Name: ' + profile.getName())
-        console.log('Given Name: ' + profile.getGivenName())
-        console.log('Family Name: ' + profile.getFamilyName())
-        console.log('Image URL: ' + profile.getImageUrl())
-        console.log('Email: ' + profile.getEmail())
+        // Save to vuex
+        this.$store.commit('SET_TOKEN', idToken)
+        this.$store.commit('SET_USER', userInfo)
+
+        if (this.config.debug) {
+          console.log('CurrentUser.info: ', userInfo)
+          console.log('CurrentUser.token: ' + idToken)
+        }
+
+        // redirect to the home
+        this.$router.push('/')
       },
       onSignInError: function (error) {
         this.response = 'Failed to sign-in'
@@ -201,6 +217,7 @@
         this.resetResponse()
 
         // Save to local storage as well
+        /*
         if (window.localStorage) {
           // Synchronize local storage and vuex
           if (!this.$store.state.auth.token) {
@@ -209,22 +226,28 @@
           }
           window.localStorage.setItem('token', null)
         }
+        */
 
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
+        this.$store.commit('SET_USER', null)
 
-        // redirect to the dashboard
-        // this.$router.push({ name: 'home' })
+        // redirect to the home
+        this.$router.push('/')
       },
       onSignOutError: function (error) {
         this.response = 'Failed to sign-out'
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
+
+        // redirect to the home
+        this.$router.push('/')
       },
       onDisconnect: function () {
         // this.toggleLoading()
         // this.resetResponse()
 
         // Save to local storage as well
+        /*
         if (window.localStorage) {
           // Synchronize local storage and vuex
           if (!this.$store.state.auth.token) {
@@ -233,14 +256,21 @@
           }
           window.localStorage.setItem('token', null)
         }
+        */
 
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
+        this.$store.commit('SET_USER', null)
+
+        // redirect to the home
+        this.$router.push('/')
       },
       onAddScopeSuccess: function (googleUser) {
-        // Get UserId
-        const user_id = googleUser.getId()
-        this.response = `Success to add-scope for UserId=${user_id}`
+        if (this.isStatic) {
+          this.response = `Success to add-scope for UserId=${googleUser.getId()}`
+        } else {
+          this.response = `Success to add-scope for UserId=${googleUser.id}`
+        }
       },
       onAddScopeError: function (error) {
         this.response = 'Failed to add-scope'

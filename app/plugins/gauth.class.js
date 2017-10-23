@@ -225,7 +225,7 @@ class AuthGoogle {
    * @return {boolean}
    */
   isCurrentUser () {
-    return !!this.currentUser.getId()
+    return this.currentUser ? !!this.currentUser.getId() : false
   }
 
   /**

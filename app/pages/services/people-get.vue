@@ -51,7 +51,7 @@
     },
     computed: {
       ...mapGetters({
-        google: 'getGoogleData',
+        google: 'getGoogleData'
       })
     },
     methods: {

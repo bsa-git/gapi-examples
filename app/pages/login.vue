@@ -106,7 +106,11 @@
             // of the appearance of pop-up windows. Whatever happens, you need to allow the appearance
             // of a pop-up window, because while the connection to Google
             if (this.authGoogle.isSignedIn() !== this.isAuth) {
-              this.signIn()
+              const userInfo = this.authGoogle.getCurrentUserInfo()
+              // Save to vuex
+              this.$store.commit('SET_TOKEN', userInfo.token)
+              this.$store.commit('SET_USER', userInfo)
+              // this.signIn()
             }
           })
       } else {
@@ -182,24 +186,11 @@
         // -------------------
         this.toggleLoading()
         this.resetResponse()
+        // Get UserInfo
         if (this.isStatic) {
-          /*
-          // Get UserId Token
-          idToken = googleUser.getAuthResponse().id_token
-          // Get UserInfo
-          const profile = googleUser.getBasicProfile()
-          userInfo.id = profile.getId()
-          userInfo.fullName = profile.getName()
-          userInfo.givenName = profile.getGivenName()
-          userInfo.familyName = profile.getFamilyName()
-          userInfo.imageURL = profile.getImageUrl()
-          userInfo.email = profile.getEmail()
-          */
-
-          // Get UserInfo
           userInfo = this.authGoogle.getCurrentUserInfo()
-
         } else {
+          userInfo = googleUser.user
           userInfo.token = googleUser.token
         }
 

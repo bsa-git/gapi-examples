@@ -96,6 +96,16 @@ class AuthGoogle {
   }
 
   /**
+   * Load Gmail Api
+   * @return {Promise}
+   */
+  loadGmailApi () {
+    return new Promise((resolve, reject) => {
+      window.gapi.client.load('gmail', 'v1', resolve)
+    })
+  }
+
+  /**
    * Set direct access
    * @param value (Boolean)
    */

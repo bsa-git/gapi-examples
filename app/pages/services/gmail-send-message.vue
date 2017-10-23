@@ -116,12 +116,24 @@
           console.log('gmail-send-message.mounted - OK')
         }
         // Send my mail message
-        this.isShow = true
+        if (this.isStatic) {
+          this.apiGoogle.loadGmailApi()
+            .then(() => {
+              if (this.config.debug) {
+                console.log('loadGmailApi - OK')
+              }
+              this.isShow = true
+            })
+        } else {
+          this.isShow = true
+        }
+
       })
     },
     computed: {
       ...mapGetters({
         config: 'getConfig',
+        apiGoogle: 'getGapi',
         google: 'getGoogleData',
         isStatic: 'isStatic'
       })

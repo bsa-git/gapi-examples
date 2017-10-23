@@ -238,6 +238,23 @@ class AuthGoogle {
     return this.currentUser ? !!this.currentUser.getId() : false
   }
 
+  getCurrentUserInfo () {
+    let userInfo = {}
+    // -------------------
+    if (!this.isCurrentUser()) { return userInfo }
+    // Get UserInfo
+    const profile = this.currentUser.getBasicProfile()
+    userInfo.token = this.currentUser.getAuthResponse().id_token
+    userInfo.id = profile.getId()
+    userInfo.fullName = profile.getName()
+    userInfo.givenName = profile.getGivenName()
+    userInfo.familyName = profile.getFamilyName()
+    userInfo.imageURL = profile.getImageUrl()
+    userInfo.email = profile.getEmail()
+
+    return userInfo
+  }
+
   /**
    * Load google api
    * @return {Promise}
@@ -278,6 +295,7 @@ class AuthGoogle {
         self.auth2 = window.gapi.auth2.init(params)
         self.auth2.then(() => {
           // Get currentUser
+          self.currentUser = self.auth2.currentUser.get()
           self.listenCurrentUser(currentUser => {
             self.currentUser = currentUser
           })
@@ -312,6 +330,7 @@ class AuthGoogle {
           // Get GoogleAuth
           self.auth2 = window.gapi.auth2.getAuthInstance()
           // Get currentUser
+          self.currentUser = self.auth2.currentUser.get()
           self.listenCurrentUser(currentUser => {
             self.currentUser = currentUser
           })

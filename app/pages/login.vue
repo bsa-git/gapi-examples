@@ -183,6 +183,7 @@
         this.toggleLoading()
         this.resetResponse()
         if (this.isStatic) {
+          /*
           // Get UserId Token
           idToken = googleUser.getAuthResponse().id_token
           // Get UserInfo
@@ -193,18 +194,21 @@
           userInfo.familyName = profile.getFamilyName()
           userInfo.imageURL = profile.getImageUrl()
           userInfo.email = profile.getEmail()
+          */
+
+          // Get UserInfo
+          userInfo = this.authGoogle.getCurrentUserInfo()
+
         } else {
-          idToken = googleUser.token
-          userInfo = googleUser.user
+          userInfo.token = googleUser.token
         }
 
         // Save to vuex
-        this.$store.commit('SET_TOKEN', idToken)
+        this.$store.commit('SET_TOKEN', userInfo.token)
         this.$store.commit('SET_USER', userInfo)
 
         if (this.config.debug) {
           console.log('CurrentUser.info: ', userInfo)
-          console.log('CurrentUser.token: ' + idToken)
         }
 
         // redirect to the home

@@ -38,10 +38,7 @@
         href="https://www.sitepoint.com/author/jshields/" target="_blank">Jamie Shields</a>.</p>
     </div>
     <!-- Page content -->
-    <button type="button" class="btn btn-primary" v-if="!isSignedIn" @click="apiGoogle.handleAuthClick(apiGoogle)">
-      Authorize
-    </button>
-    <div v-if="isSignedIn">
+    <div v-show="isShow">
       <h1>Gmail API Send message</h1>
       <!-- Send message button  -->
       <a href="#compose-modal" data-toggle="modal" id="compose-button"
@@ -91,19 +88,18 @@
 <script>
   import { mapGetters } from 'vuex'
   import _ from 'lodash'
-  import ApiGoogle from '~/plugins/gapi.class'
+  // import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {
       return {
         title: 'Method: Users.messages.send',
         description: 'Sends the specified message to the recipients in the To, Cc, and Bcc headers.',
-        apiGoogle: null,
-        isSignedIn: false,
         toEmail: '',
         subjectEmail: '',
         textEmail: '',
-        disabled: false
+        disabled: false,
+        isShow: false
       }
     },
     head () {
@@ -114,66 +110,24 @@
         ]
       }
     },
-    fetch ({isClient, isStatic, config}) {
-      if (isClient && config.debug) {
-        console.log('gmail-send-message.fetch - OK: ', `isStatic=${isStatic};`)
-      }
-      if (isClient && isStatic) {
-        // Force reloading the current page from the server
-        // It is necessary that you can earn a downloadable Google service API
-        location.reload(true)
-      }
-    },
-    created: function () {
-      if (!this.$isServer && this.config.debug) {
-        console.log('gmail-send-message.created - OK')
-      }
-      if (!this.$isServer) {
-        const params = {
-          debug: this.config.debug,
-          apiKey: this.config.gapi.apiKey,
-          clientId: this.config.gapi.clientId,
-          discoveryDocs: this.config.gapi.services.gmail.discoveryDocs,
-          scope: this.config.gapi.services.gmail.scopes['messages.list.send']
-        }
-        this.apiGoogle = new ApiGoogle(params)
-      }
-    },
     mounted: function () {
       this.$nextTick(function () {
         if (this.config.debug) {
           console.log('gmail-send-message.mounted - OK')
         }
-        // Load/Init Google API
-        if (this.isStatic) {
-          this.apiGoogle.loadGoogleAPI()
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGoogleAPI - OK')
-              }
-              return this.apiGoogle.init()
-            })
-            .then(() => {
-              if (this.config.debug) {
-                console.log('apiGoogle.init - OK')
-              }
-              let onSignedIn = this.updateSigninStatus.bind(this)
-              this.apiGoogle.listenSignedIn(onSignedIn)
-              this.updateSigninStatus(this.apiGoogle.isSignedIn())
-            })
-        } else {
-          this.updateSigninStatus(true)
-        }
+        // Send my mail message
+        this.isShow = true
       })
     },
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        google: 'getGapi',
+        google: 'getGoogleData',
         isStatic: 'isStatic'
       })
     },
     methods: {
+      /*
       updateSigninStatus: function (isSignedIn) {
         if (this.config.debug) {
           console.log('updateSigninStatus - OK: ', `isSignedIn=${isSignedIn}; `)
@@ -190,6 +144,7 @@
           }
         }
       },
+      */
       sendEmail: function () {
         this.disabled = true
         this.sendMessage(

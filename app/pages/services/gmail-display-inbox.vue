@@ -20,11 +20,6 @@
         href="https://www.sitepoint.com/author/jshields/" target="_blank">Jamie Shields</a>.</p>
     </div>
     <!-- Page content -->
-    <!--
-    <button type="button" class="btn btn-primary" v-if="!isSignedIn" @click="apiGoogle.handleAuthClick(apiGoogle)">
-      Authorize
-    </button>
-    -->
     <div v-show="isShow">
       <h1>Gmail API demo</h1>
       <!-- Inbox message list  -->

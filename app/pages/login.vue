@@ -85,11 +85,13 @@
       // Load/Init Google API
       if (this.isStatic) {
         const people = this.config.gapi.services.people
-        const scope = _.concat(people.scopes.get, people.scopes.connections).join(' ')
+        const gmail = this.config.gapi.services.gmail
+        const discoveryDocs = _.concat(people.discoveryDocs, gmail.discoveryDocs)
+        const scope = _.concat(people.scopes['get'], people.scopes['connections'], gmail.scopes['messages.list.send']).join(' ')
         const params = {
           apiKey: this.config.gapi.apiKey,
           clientId: this.config.gapi.clientId,
-          discoveryDocs: people.discoveryDocs,
+          discoveryDocs: discoveryDocs,
           scope: scope
         }
         // this.authGoogle.loadAuth(params)
@@ -98,6 +100,11 @@
             if (this.config.debug) {
               console.log('authGoogle.load - OK')
             }
+            // Synchronization of the real state of signed in with Google
+            // with the internal state of the signed in in store.
+            // Sometimes such synchronization may result in the issuing of an error due to the prohibition
+            // of the appearance of pop-up windows. Whatever happens, you need to allow the appearance
+            // of a pop-up window, because while the connection to Google
             if (this.authGoogle.isSignedIn() !== this.isAuth) {
               this.signIn()
             }
@@ -191,11 +198,6 @@
           userInfo = googleUser.user
         }
 
-        // Save to local storage as well
-        // if (window.localStorage) {
-        // window.localStorage.setItem('token', id_token)
-        // }
-
         // Save to vuex
         this.$store.commit('SET_TOKEN', idToken)
         this.$store.commit('SET_USER', userInfo)
@@ -209,24 +211,14 @@
         this.$router.push('/')
       },
       onSignInError: function (error) {
+        this.toggleLoading()
+
         this.response = 'Failed to sign-in'
         console.log('GOOGLE SERVER - SIGN-IN ERROR', error)
       },
       onSignOutSuccess: function () {
         this.toggleLoading()
         this.resetResponse()
-
-        // Save to local storage as well
-        /*
-        if (window.localStorage) {
-          // Synchronize local storage and vuex
-          if (!this.$store.state.auth.token) {
-            const token = window.localStorage.getItem('token')
-            this.$store.commit('SET_TOKEN', token)
-          }
-          window.localStorage.setItem('token', null)
-        }
-        */
 
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
@@ -236,6 +228,8 @@
         this.$router.push('/')
       },
       onSignOutError: function (error) {
+        this.toggleLoading()
+
         this.response = 'Failed to sign-out'
         console.log('GOOGLE SERVER - SIGN-OUT ERROR', error)
 
@@ -243,21 +237,6 @@
         this.$router.push('/')
       },
       onDisconnect: function () {
-        // this.toggleLoading()
-        // this.resetResponse()
-
-        // Save to local storage as well
-        /*
-        if (window.localStorage) {
-          // Synchronize local storage and vuex
-          if (!this.$store.state.auth.token) {
-            const token = window.localStorage.getItem('token')
-            this.$store.commit('SET_TOKEN', token)
-          }
-          window.localStorage.setItem('token', null)
-        }
-        */
-
         // Save to vuex
         this.$store.commit('SET_TOKEN', null)
         this.$store.commit('SET_USER', null)
@@ -275,18 +254,6 @@
       onAddScopeError: function (error) {
         this.response = 'Failed to add-scope'
         console.log('GOOGLE SERVER - ADD-SCOPE ERROR', error)
-      },
-      onCurrentUser: function (currentUser) {
-        if (this.config.debug) {
-          console.log('authGoogle.CurrentUser.id:', currentUser.getId())
-          if (currentUser.getId()) {
-            const profile = currentUser.getBasicProfile()
-            console.log('CurrentUser - ID: ' + profile.getId())
-            console.log('CurrentUser - Name: ' + profile.getName())
-            console.log('CurrentUser - Image URL: ' + profile.getImageUrl())
-            console.log('CurrentUser - Email: ' + profile.getEmail())
-          }
-        }
       },
 
       toggleLoading: function () {

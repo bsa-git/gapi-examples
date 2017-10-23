@@ -30,7 +30,6 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // import ApiGoogle from '~/plugins/gapi.class'
 
   export default {
     middleware: 'authenticated',

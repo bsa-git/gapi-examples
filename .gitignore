@@ -12,3 +12,6 @@ dist
 
 # Storm build
 .idea
+
+# environment variables
+env.js

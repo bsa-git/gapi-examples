@@ -21,6 +21,10 @@ For detailed explanation on how things work, checkout the [Demo](https://bsa-git
 # install dependencies
 $ npm install # Or yarn install
 
+# environment variables
+Add file "app/env.js" to your project to set user environment variables. 
+See the sample file "app/env.example.js".
+
 # serve with hot reload at localhost:3000
 $ npm run dev
 

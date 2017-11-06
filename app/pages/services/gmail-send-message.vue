@@ -87,9 +87,10 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import _ from 'lodash'
+  import GMail from '~/plugins/gmail.class'
 
   export default {
+    middleware: 'authenticated',
     data: function () {
       return {
         title: 'Method: Users.messages.send',
@@ -114,19 +115,21 @@
         if (this.config.debug) {
           console.log('gmail-send-message.mounted - OK')
         }
-        // Load Gmail Api
-        if (this.isStatic) {
-          this.apiGoogle.loadGmailApi()
-            .then(() => {
-              if (this.config.debug) {
-                console.log('loadGmailApi - OK')
-              }
-              this.isShow = true
-            })
+        if (!this.isTesting) {
+          if (window.gapi.client.gmail) {
+            this.isShow = true
+          } else { // Load Gmail Api
+            this.apiGoogle.loadGmailApi()
+              .then(() => {
+                if (this.config.debug) {
+                  console.log('loadGmailApi - OK')
+                }
+                this.isShow = true
+              })
+          }
         } else {
           this.isShow = true
         }
-
       })
     },
     computed: {
@@ -134,57 +137,41 @@
         config: 'getConfig',
         apiGoogle: 'getGapi',
         google: 'getGoogleData',
-        isStatic: 'isStatic'
+        isTesting: 'isTesting',
+        auth: 'getAuth'
       })
     },
     methods: {
       sendEmail: function () {
         this.disabled = true
-        this.sendMessage(
-          {
-            'To': this.toEmail,
-            'Subject': this.subjectEmail
-          },
-          this.textEmail,
-          this.composeTidy
-        )
-        return false
+        if (!this.isTesting) {
+          const params = {
+            to: this.toEmail,
+            subject: this.subjectEmail,
+            message: `<h4><i>Sender: ${this.auth.user.fullName}</i></h4><h3>Message:</h3><p><strong>${this.textEmail}</strong></p>`,
+            callback: this.composeTidy
+          }
+          new GMail().send(params)
+        } else {
+          window.setTimeout(() => {
+            alert(`SendEmail - OK:\n toEmail="${this.toEmail}";\n subjectEmail="${this.subjectEmail}";\n textEmail="${this.textEmail}";`)
+            this.composeTidy()
+          }, 2000)
+        }
       },
       composeTidy: function () {
+        // Hide windows
         window.$('#compose-modal').modal('hide')
 
         if (this.config.debug) {
           console.log('SendEmail - OK: ', `toEmail="${this.toEmail}"; `, `subjectEmail="${this.subjectEmail}"; `, `textEmail="${this.textEmail}";`)
         }
-
+        // Clear form fields
         this.toEmail = ''
         this.subjectEmail = ''
         this.textEmail = ''
-
+        // Set disabled = false
         this.disabled = false
-      },
-      sendMessage: function (objHeaders, message, callback) {
-        let email = ''
-
-        _.forEach(objHeaders, function (value, key) {
-          email += `${key}: ${value}` + '\r\n'
-        })
-
-        email += '\r\n' + message
-        if (this.isStatic) {
-          const sendRequest = window.gapi.client.gmail.users.messages.send({
-            'userId': 'me',
-            'resource': {
-              'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
-            }
-          })
-          sendRequest.execute(callback)
-        } else {
-          window.setTimeout(() => {
-            alert(`SendEmail - OK:\n toEmail="${this.toEmail}";\n subjectEmail="${this.subjectEmail}";\n textEmail="${this.textEmail}";`)
-            callback()
-          }, 2000)
-        }
       }
     }
   }

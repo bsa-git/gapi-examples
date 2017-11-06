@@ -75,6 +75,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    middleware: 'authenticated',
     data: function () {
       return {
         title: 'Method: Users.messages.list',
@@ -96,8 +97,24 @@
           console.log('gmail-display-inbox.mounted - OK')
         }
         // Show my mail message of input
-        this.isShow = true
-        this.$store.dispatch('receiveGmailMyMessages')
+        if (!this.isTesting) {
+          if (window.gapi.client.gmail) {
+            this.isShow = true
+            this.$store.dispatch('receiveGmailMyMessages')
+          } else { // Load Gmail Api
+            this.apiGoogle.loadGmailApi()
+              .then(() => {
+                if (this.config.debug) {
+                  console.log('loadGmailApi - OK')
+                }
+                this.isShow = true
+                this.$store.dispatch('receiveGmailMyMessages')
+              })
+          }
+        } else {
+          this.isShow = true
+          this.$store.dispatch('receiveGmailMyMessages')
+        }
       })
     },
     computed: {

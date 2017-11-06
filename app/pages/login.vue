@@ -45,9 +45,7 @@
 </template>
 
 <script>
-  import _ from 'lodash'
   import { mapGetters } from 'vuex'
-  import AuthGoogle from '~/plugins/gapi.class'
 
   export default {
     data: function () {
@@ -67,69 +65,19 @@
         link: []
       }
     },
-    created: function () {
-      if (!this.$isServer && this.config.debug) {
-        console.log('login.created - OK')
-      }
-      if (!this.$isServer && (this.authGoogle === null)) {
-        const params = {
-          debug: this.config.debug
-        }
-        this.$store.commit('SET_GOOGLE_API', new AuthGoogle(params))
-      }
-    },
-    mounted: function () {
-      if (this.config.debug) {
-        console.log('login.mounted - OK')
-      }
-      // Load/Init Google API
-      if (this.isStatic) {
-        const people = this.config.gapi.services.people
-        const gmail = this.config.gapi.services.gmail
-        const discoveryDocs = _.concat(people.discoveryDocs, gmail.discoveryDocs)
-        const scope = _.concat(
-          people.scopes.get,
-          people.scopes.connections,
-          gmail.scopes.list,
-          gmail.scopes.send).join(' ')
-        const params = {
-          apiKey: this.config.gapi.apiKey,
-          clientId: this.config.gapi.clientId,
-          discoveryDocs: discoveryDocs,
-          scope: scope
-        }
-        // this.authGoogle.loadAuth(params)
-        this.authGoogle.loadClient(params)
-          .then(() => {
-            if (this.config.debug) {
-              console.log('authGoogle.load - OK')
-            }
-            // Synchronization of the real state of signed in with Google
-            // with the internal state of the signed in in store.
-            if (this.authGoogle.isSignedIn() !== this.isAuth) {
-              const userInfo = this.authGoogle.getCurrentUserInfo()
-              // Save to vuex
-              this.$store.commit('SET_TOKEN', userInfo.token)
-              this.$store.commit('SET_USER', userInfo)
-            }
-          })
-      } else {
-
-      }
-    },
     computed: {
       ...mapGetters({
         config: 'getConfig',
         isAuth: 'isAuth',
         authGoogle: 'getGapi',
-        isStatic: 'isStatic'
+        isTesting: 'isTesting'
       })
     },
     methods: {
       signIn: function () {
         const self = this
         this.toggleLoading()
-        if (this.isStatic) {
+        if (!this.isTesting) {
           window.setTimeout(function () {
             self.authGoogle.signIn(self.onSignInSuccess, self.onSignInError)
           }, 1000)
@@ -142,7 +90,7 @@
       signOut: function () {
         const self = this
         this.toggleLoading()
-        if (this.isStatic) {
+        if (!this.isTesting) {
           window.setTimeout(function () {
             self.authGoogle.signOut(self.onSignOutSuccess, self.onSignOutError)
           }, 1000)
@@ -154,7 +102,7 @@
       },
       disconnect: function () {
         const self = this
-        if (this.isStatic) {
+        if (!this.isTesting) {
           window.setTimeout(function () {
             self.authGoogle.disconnect()
             self.onDisconnect()
@@ -167,7 +115,7 @@
       },
       addScope: function () {
         const self = this
-        if (this.isStatic) {
+        if (!this.isTesting) {
           window.setTimeout(function () {
             self.authGoogle.addScope('https://www.googleapis.com/auth/drive', self.onAddScopeSuccess, self.onAddScopeError)
               .then(function () {
@@ -182,12 +130,11 @@
       },
       onSignInSuccess: function (googleUser) {
         let userInfo = {}
-        let idToken = ''
         // -------------------
         this.toggleLoading()
         this.resetResponse()
         // Get UserInfo
-        if (this.isStatic) {
+        if (!this.isTesting) {
           userInfo = this.authGoogle.getCurrentUserInfo()
         } else {
           userInfo = googleUser.user
@@ -240,7 +187,7 @@
         this.$router.push('/')
       },
       onAddScopeSuccess: function (googleUser) {
-        if (this.isStatic) {
+        if (!this.isTesting) {
           this.response = `Success to add-scope for UserId=${googleUser.getId()}`
         } else {
           this.response = `Success to add-scope for UserId=${googleUser.id}`
@@ -260,34 +207,3 @@
     }
   }
 </script>
-
-<style>
-  .button--green {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #3b8070;
-    color: #3b8070;
-    text-decoration: none;
-    padding: 10px 30px;
-  }
-
-  .button--green:hover {
-    color: #fff;
-    background-color: #3b8070;
-  }
-
-  .button--grey {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
-  }
-
-  .button--grey:hover {
-    color: #fff;
-    background-color: #35495e;
-  }
-</style>

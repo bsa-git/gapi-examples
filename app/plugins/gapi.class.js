@@ -1,13 +1,13 @@
-class AuthGoogle {
+class ApiGoogle {
   /**
    * Constructor
-   * Creates an instance of AuthGoogle.
+   * Creates an instance of ApiGoogle.
    * @param {Object} An object of param settings.
    *  etc. {
    *  debug: true,
    *  ...
    *  }
-   * @memberOf AuthGoogle
+   * @memberOf ApiGoogle
    */
   constructor (params) {
     this.directAccess = true
@@ -24,7 +24,7 @@ class AuthGoogle {
     this.currentUser = null
 
     if (this.debug) {
-      console.log('AuthGoogle.constructor - OK: ', params)
+      console.log('ApiGoogle.constructor - OK: ', params)
     }
   }
 
@@ -54,6 +54,8 @@ class AuthGoogle {
           }
           resolve()
         })
+      } else {
+        resolve()
       }
     })
   }
@@ -91,6 +93,8 @@ class AuthGoogle {
           }
           resolve()
         })
+      } else {
+        resolve()
       }
     })
   }
@@ -101,7 +105,11 @@ class AuthGoogle {
    */
   loadGmailApi () {
     return new Promise((resolve, reject) => {
-      window.gapi.client.load('gmail', 'v1', resolve)
+      if (window.gapi.client.gmail === undefined) {
+        window.gapi.client.load('gmail', 'v1', resolve)
+      } else {
+        resolve()
+      }
     })
   }
 
@@ -254,7 +262,9 @@ class AuthGoogle {
   getCurrentUserInfo () {
     let userInfo = {}
     // -------------------
-    if (!this.isCurrentUser()) { return userInfo }
+    if (!this.isCurrentUser()) {
+      return userInfo
+    }
     // Get UserInfo
     const profile = this.currentUser.getBasicProfile()
     userInfo.token = this.currentUser.getAuthResponse().id_token
@@ -358,6 +368,38 @@ class AuthGoogle {
       window.gapi.load(libraries, initClient)
     })
   }
+
+  /**
+   *  Static load google API
+   * @param params
+   *  etc. {
+   *  apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *  clientId: 'xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com',
+   *  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+   *  scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send'
+   *  }
+   * @return {Promise}
+   */
+  static staticLoadGoogleAPI (params) {
+    const apiGoogle = new ApiGoogle({debug: params.debug})
+
+    return new Promise(function (resolve, reject) {
+      // Load/Init Google API
+      const _params = {
+        apiKey: params.apiKey,
+        clientId: params.clientId,
+        discoveryDocs: params.discoveryDocs,
+        scope: params.scope
+      }
+      apiGoogle.loadClient(_params)
+        .then(() => {
+          if (params.debug) {
+            console.log('apiGoogle.load - OK')
+          }
+          resolve(apiGoogle)
+        })
+    })
+  }
 }
 
-export default AuthGoogle
+export default ApiGoogle

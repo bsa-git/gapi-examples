@@ -6,7 +6,7 @@ const store = () => new Vuex.Store({
   state: {
     config: null,
     isClient: false,
-    isStatic: false,
+    isTesting: false,
     apiGoogle: null,
     auth: {
       token: null,
@@ -36,8 +36,8 @@ const store = () => new Vuex.Store({
     SET_IS_CLIENT (state, isClient) {
       state.isClient = isClient
     },
-    SET_IS_STATIC (state, isStatic) {
-      state.isStatic = isStatic
+    SET_IS_TESTING (state, isTesting) {
+      state.isTesting = isTesting
     },
     SET_GOOGLE_API (state, apiGoogle) {
       state.apiGoogle = apiGoogle
@@ -47,9 +47,6 @@ const store = () => new Vuex.Store({
     },
     SET_TOKEN (state, token) {
       state.auth.token = token
-      if (window.localStorage) {
-        window.localStorage.setItem('token', token)
-      }
     },
     SET_PEOPLE_MY_NAMES (state, names) {
       state.google.people_my.names = names

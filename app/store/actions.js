@@ -7,7 +7,7 @@ import dataGmail from '~/store/data/gmail'
 
 const receivePeopleMyNames = function ({commit, state}) {
   let names = null
-  if (state.isStatic) {
+  if (!state.isTesting) {
     apiPeople.getMyNames()
       .then((names) => {
         commit('SET_PEOPLE_MY_NAMES', names)
@@ -26,7 +26,7 @@ const receivePeopleMyNames = function ({commit, state}) {
 
 const receivePeopleMyConnections = function ({commit, state}) {
   let connections = null
-  if (state.isStatic) {
+  if (!state.isTesting) {
     apiPeople.getMyConnections()
       .then((connections) => {
         commit('SET_PEOPLE_MY_CONNECTIONS', connections)
@@ -42,10 +42,10 @@ const receivePeopleMyConnections = function ({commit, state}) {
     }
   }
 }
-
+/*
 const receiveGmailMyMessages = function ({commit, state}) {
   let messages = null
-  if (state.isStatic) {
+  if (!state.isTesting) {
     apiGmail.getMyMessages()
       .then((messages) => {
         commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
@@ -60,6 +60,29 @@ const receiveGmailMyMessages = function ({commit, state}) {
       console.log('data.gmail.messages.list - OK.')
     }
   }
+}
+*/
+const receiveGmailMyMessages = function ({commit, state}) {
+  let messages = null
+  return new Promise((resolve, reject) => {
+    if (!state.isTesting) {
+      apiGmail.getMyMessages()
+        .then((messages) => {
+          commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
+          if (state.config.debug) {
+            console.log('api.gmail.messages.list - OK.')
+          }
+          resolve(messages)
+        })
+    } else {
+      messages = dataGmail.messages
+      commit('SET_GMAIL_MY_MESSAGES_LIST', messages)
+      if (state.config.debug) {
+        console.log('data.gmail.messages.list - OK.')
+      }
+      resolve(messages)
+    }
+  })
 }
 
 export default {

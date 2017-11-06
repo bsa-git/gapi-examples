@@ -6,8 +6,8 @@ const isClient = function (state) {
   return state.isClient
 }
 
-const isStatic = function (state) {
-  return state.isStatic
+const isTesting = function (state) {
+  return (state.config.app_env === 'testing')
 }
 
 const getAuth = function (state) {
@@ -15,11 +15,6 @@ const getAuth = function (state) {
 }
 
 const isAuth = function (state) {
-  /*
-  const stateAuthToken = !!state.auth.token
-  const localStorageToken = (state.isClient && window.localStorage) ? !(window.localStorage.getItem('token') === 'null') : false
-  return stateAuthToken || localStorageToken
-  */
   return !!state.auth.token
 }
 
@@ -34,7 +29,7 @@ const getGoogleData = function (state) {
 export default {
   getConfig,
   isClient,
-  isStatic,
+  isTesting,
   getAuth,
   isAuth,
   getGapi,

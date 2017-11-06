@@ -11,7 +11,6 @@ This application demonstrates the work of the following Google services:
 - Display My Inbox
 - Send Message
 
-<i>In this demonstration, work with Google services is possible only in the mode of generating a <b>static project</b>.</i>
 
 For detailed explanation on how things work, checkout the [Demo](https://bsa-git.github.io/gapi-examples/).
 

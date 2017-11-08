@@ -146,6 +146,7 @@
         this.disabled = true
         if (!this.isTesting) {
           const params = {
+            userId: 'me',
             to: this.toEmail,
             subject: this.subjectEmail,
             message: `<h4><i>Sender: ${this.auth.user.fullName}</i></h4><h3>Message:</h3><p><strong>${this.textEmail}</strong></p>`,

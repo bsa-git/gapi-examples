@@ -15,6 +15,7 @@ class GMail {
    * Send email
    * @param params
    * etc.{
+      userId: 'me',
       to: my@test.com,
       subject: Request for my resume from the employer,
       message: 'My Message!',
@@ -39,7 +40,7 @@ class GMail {
       email += '\r\n' + params.message
       const base64EncodedEmail = Coder.b64UrlEncodeUnicode(email)
       const sendRequest = window.gapi.client.gmail.users.messages.send({
-        'userId': 'me',
+        'userId': params.userId,
         'resource': {
           'raw': base64EncodedEmail
         }

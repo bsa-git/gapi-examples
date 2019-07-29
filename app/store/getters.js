@@ -7,7 +7,7 @@ const isClient = function (state) {
 }
 
 const isTesting = function (state) {
-  return (state.config.app_env === 'testing')
+  return (state.config ? state.config.app_env === 'testing' : false)
 }
 
 const getAuth = function (state) {

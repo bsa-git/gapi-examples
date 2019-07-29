@@ -120,7 +120,8 @@
     computed: {
       ...mapGetters({
         config: 'getConfig',
-        google: 'getGoogleData'
+        google: 'getGoogleData',
+        isTesting: 'isTesting'
       })
     }
   }
